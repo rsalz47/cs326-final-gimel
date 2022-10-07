@@ -1,0 +1,18 @@
+extends: eslint:recommended
+rules:
+  indent:
+    - error
+    - 4
+  linebreak-style:
+    - error
+    - unix
+  comma-dangle:
+    - error
+    - always
+  quotes:
+    - error
+    - double
+  no-empty: warn
+  semi:
+    - error
+    - always
