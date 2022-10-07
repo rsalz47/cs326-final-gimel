@@ -1,0 +1,22 @@
+{
+  "name": "fizzy",
+  "version": "1.0.0",
+  "description": "visualization tool",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rsalz47/cs326-final-gimel.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rsalz47/cs326-final-gimel/issues"
+  },
+  "homepage": "https://github.com/rsalz47/cs326-final-gimel#readme"
+}
