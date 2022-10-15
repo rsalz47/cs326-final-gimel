@@ -1,4 +1,4 @@
-fetch('nav.html')
+fetch('src/frontend/nav.html')
 .then(res => res.text())
 .then(text => {
     let oldelem = document.querySelector("script#navbar");
