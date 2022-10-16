@@ -1,61 +1,32 @@
-function formatAMPM(date) {
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
-    return strTime;
+/// Insert a note into the notes listing
+function insert_note(text){
+    var ts = new Date();
+
+    const notes = document.getElementById("notes");
+    const li = document.createElement("li");
+
+    li.classList.add('note');
+
+    li.appendChild(document.createTextNode(ts.toLocaleDateString() + " : "));
+    li.appendChild(document.createTextNode(ts.toLocaleTimeString()));
+    li.appendChild(document.createElement("br"));
+    li.appendChild(document.createTextNode(text));
+    li.appendChild(document.createElement("br"));
+    li.appendChild(document.createTextNode("- sample_user"));
+    notes.appendChild(li);
 }
 
-function insertChat(who, text, time = 0){
-    var control = "";
-    var date = formatAMPM(new Date());
-
-    if (who == "me"){
-
-        control = '<li style="width:100%">' +
-                        '<div class="msj macro">' +
-                            '<div class="text text-l">' +
-                                '<p>'+ text +'</p>' +
-                                '<p><small>'+date+'</small></p>' +
-                            '</div>' +
-                        '</div>' +
-                    '</li>';
-    }else{
-        control = '<li style="width:100%;">' +
-                        '<div class="msj-rta macro">' +
-                            '<div class="text text-r">' +
-                                '<p>'+text+'</p>' +
-                                '<p><small>'+date+'</small></p>' +
-                            '</div>' +
-                        '<div class="avatar" style="padding:0px 0px 0px 10px !important"></div>' +
-                  '</li>';
-    }
-    setTimeout(
-        function(){
-            $("ul").append(control);
-
-        }, time);
-}
-
+/// Read the cur_note field and save the note to the database-notes listing before clearing the 
+/// field
 function send_note() {
     const msg = document.getElementById('cur_note').value;
-    insertChat("user1", msg, 0);
+    insert_note("user1", msg, 0);
     document.getElementById('cur_note').value = "";
 }
 
-//-- Clear Chat
-//resetChat();
-//
-////-- Print Messages
-//insertChat("me", "Hello Tom...", 0);
-//insertChat("you", "Hi, Pablo", 1500);
-//insertChat("me", "What would you like to talk about today?", 3500);
-//insertChat("you", "Tell me a joke",7000);
-//insertChat("me", "Spaceman: Computer! Computer! Do we bring battery?!", 9500);
-//insertChat("you", "LOL", 12000);
-
-
-//-- NOTE: No use time on insertChat.
+/// Register event listener to send the note when the enter key is pressed
+document.getElementById('cur_note').addEventListener('keydown', (event) => {
+    if (event.keyCode == 13) {
+        send_note();
+    }
+});

@@ -11,7 +11,8 @@
     
 	<body>
         <script id="navbar" src="src/frontend/nav.js"></script>
-        <div class="row" style="height: 600px;">
+
+        <div class="row">
 
             <!-- users, project name, 
 
@@ -22,22 +23,17 @@
                     various stats
             -->
 
-            <script id="notes" src="src/frontend/notes.js"></script>
             <link rel="stylesheet" href="src/frontend/notes.css">
 
             <div class="col-md-3" id="view1" style="border-right: thin solid black">
-                <div class="frame">
-                    <ul></ul>
-                    <div>
-                        <div class="msj-rta macro" style="margin:auto">                        
-                            <div class="text text-r" style="background:whitesmoke !important">
-                                <input class="mytext" id="cur_note" placeholder="Type a message!"/>
-                                <input type='button' onClick="send_note()" value="Send">
-                            </div> 
-                        </div>
-                    </div>
+                <div class="notes-listing">
+                    <ul id='notes'></ul>
                 </div>
+                <input class="mytext" id="cur_note" placeholder="Type a message!"/>
+                <input type='button' onClick="send_note()" value="Send">
             </div>
+
+            <script id="notes_script" src="src/frontend/notes.js"></script>
 
             <div class="col-md-6" id="view2">
                 <table class="table">
