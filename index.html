@@ -6,7 +6,6 @@
         <title>MAIN PAGE</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
 	</head>
     
 	<body>
@@ -36,37 +35,63 @@
             <script id="notes_script" src="src/frontend/notes.js"></script>
 
             <div class="col-md-6" id="view2">
-                <table class="table">
-                    <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Larry</td>
-                      <td>the Bird</td>
-                      <td>@twitter</td>
-                    </tr>
-                  </tbody>
-                </table> 
+              <table class="table table-hover">
+                  <thead>
+                  <tr>
+                    <th scope="col">Role</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Handle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-info">
+                    <th scope="row"><b>A</b></th>
+                    <td>Ronan</td>
+                    <td>@rsalz47</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">U</th>
+                    <td>Dung</td>
+                    <td>@dungwinux</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">U</th>
+                    <td>Gilbert</td>
+                    <td>@seal9055</td>
+                  </tr>
+                  <tr class="table-info">
+                    <th scope="row"><b>A</b></th>
+                    <td>Emery Berger</td>
+                    <td>@emeryberger</td>
+                  </tr>
+                </tbody>
+              </table> 
 
+              <br>
+              <br>
+
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Project</th>
+                    <th scope="col">Fuzzer</th>
+                    <th scope="col">Binary abs path</th>
+                    <th scope="col">Input Dir</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <td>UMassCTF</td>
+                  <td>American Fuzzy Lop</td>
+                  <td>dev/null/a.out</td>
+                  <td>~/fuzzy_bunny/inputs/</td>
+                </tbody>
+                <tbody>
+                  <td>Illegal Gov Ops</td>
+                  <td>sfuzz</td>
+                  <td>umass/elnux7/my_first_project</td>
+                  <td>umass/fuzzer_inputs/</td>
+                </tbody>
+              </table>  
             </div>
         </div>
 	</body>
