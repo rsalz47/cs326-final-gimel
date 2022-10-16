@@ -11,30 +11,11 @@
     <title>Bootstrap Tutorial Sample Page</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      /* Flex column layout, with the editor taking up all available screen space */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        overflow: hidden;
-      }
-
-      body {
-        display: flex;
-        flex-direction: column;
-      }
-
-      #editor {
-        flex-grow: 1;
-        border: solid 1px gray;
-        overflow: hidden;
-      }
-    </style>
+    <link rel="stylesheet" href="editor.css" />
   </head>
 
   <body>
-    <script id="navbar" src="nav.js"></script>
+    <script id="navbar" src="src/frontend/nav.js"></script>
     <div id="editor"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/loader.min.js"></script>
@@ -51,12 +32,17 @@
             importScripts("https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/base/worker/workerMain.min.js");`)}`;
         },
       };
-      require(["vs/editor/editor.main"], function () {
+      require(["vs/editor/editor.main"], async function () {
         // Create the editor with some sample JavaScript code
         var editor = monaco.editor.create(document.getElementById("editor"), {
-          value:
-            '#include <iostream>\nint main() {\n\tstd::cout << "Hello, World!\\n";\n}\n',
+          value: await fetch(
+            "https://raw.githubusercontent.com/llvm/llvm-project/main/llvm/lib/CodeGen/Analysis.cpp"
+          ).then((s) => s.text()),
           language: "cpp",
+          inlayHints: {
+            enabled: true,
+          },
+          theme: "vs-dark",
         });
 
         // Resize the editor when the window size changes
@@ -67,6 +53,45 @@
             height: editorElement.offsetHeight,
           })
         );
+        // TODO: Seperate this part to automatically parse
+        const model = monaco.editor.getModels()[0];
+        model.deltaDecorations(model.getAllDecorations(), [
+          {
+            range: new monaco.Range(89, 0, 99, 0),
+            options: {
+              isWholeLine: true,
+              marginClassName: "markup-1",
+              className: "markup-1",
+              hoverMessage: {
+                supportHtml: true,
+                value:
+                  "<img src='https://avatars.githubusercontent.com/u/23451424?v=4'" +
+                  " width='50' align='right'/>\n\n" +
+                  Date() +
+                  "\n\n" +
+                  "By [_dungwinux_](https://github.com/dungwinux/):\n\n" +
+                  "We should fuzz this part and check coverage.",
+              },
+            },
+          },
+          {
+            range: new monaco.Range(102, 0, 109, 0),
+            options: {
+              isWholeLine: true,
+              marginClassName: "markup-2",
+              className: "markup-2",
+              hoverMessage: {
+                supportHtml: true,
+                value:
+                  "" +
+                  Date() +
+                  "\n\n" +
+                  "By [_seal9055_](https://github.com/seal9055/):\n\n" +
+                  "This one too",
+              },
+            },
+          },
+        ]);
       });
     </script>
   </body>
