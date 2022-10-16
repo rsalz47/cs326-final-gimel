@@ -1,7 +1,6 @@
 /// Insert a note into the notes listing
 function insert_note(text){
-    var ts = new Date();
-
+    const ts = new Date();
     const notes = document.getElementById("notes");
     const li = document.createElement("li");
 
@@ -26,7 +25,7 @@ function send_note() {
 
 /// Register event listener to send the note when the enter key is pressed
 document.getElementById('cur_note').addEventListener('keydown', (event) => {
-    if (event.keyCode == 13) {
+    if (event.keyCode === 13) {
         send_note();
     }
 });
