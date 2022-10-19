@@ -1,6 +1,15 @@
 ## Milestone 1
 
 #### Data Interactions
+1. Configuration data stored in the sql database, it can be viewed and edited through the
+   application
+2. Comments - Users are able to add comments to the project. These are also stored in an sql
+   database
+3. Source-code and binary of the target application so we can parse out our source-code and cfg
+   views
+4. Information sent to us by the fuzzer is also stored in the database and updated in realtime as
+   more data comes in. This includes things like coverage data, runtime, crashes, etc.
+
 #### Wireframes
 The below picture represents the basic layout of our site. We intend to have multiple tabs to
 showcase different views. Each of these tabs then has 2-3 different views for the user to interact
@@ -37,5 +46,16 @@ simple user management.
 '/login.html' and is the view that a user will use to log into the application.
 ![login](../imgs/login.png)
 
-#### Work Breakdown
+- LINE-GRAPHS
+![line-graphs](../imgs/line.png)
 
+- SOURCE-VIEW
+![source-code](../imgs/source.png)
+
+#### Work Breakdown
+We did almost all of the work on this project together in one room, so we all spent approximately
+the same amount of time on this project. We were able to split the project up fairly well during
+this time with everyone working on different tabs. Everyone worked together on the dashboard and
+navigation bar to get the initial project/idea started. Afterwards we branched out with Ronan
+focusing on the line graph views, Dung on the code editor & assembly views, and Gilbert on the cfg
+and configs.
