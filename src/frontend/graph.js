@@ -1,35 +1,82 @@
-const chartData = {
-    labels: ["S", "M", "T", "W", "T", "F", "S"],
-    datasets: [{
-        data: [589, 445, 483, 503, 689, 692, 634],
-    },
-    {
-        data: [639, 465, 493, 478, 589, 632, 674],
+// eslint warning disablers
+/* eslint-disable prefer-arrow-callback */
+
+// Various variables
+// First checkbox on LHS of graph page, used to show/hide graph1
+const toggle1 = document.getElementById("toggle1");
+
+// Second checkbox on LHS of graph page, used to un/set logarithmic scale
+const toggle2 = document.getElementById("toggle2");
+
+// Left pane of webpage
+// eslint-disable-next-line no-unused-vars
+const leftPane = document.getElementById("view1");
+
+// Logarithmic scale for graph drawing
+const logarithmicScale = {myScale: {
+    type: "logarithmic",
+    position: "right"
+}};
+// Default scale for graph drawing
+const defaultScale = {
+    yAxes: [{
+        ticks: {
+            beginAtZero: false
+        }
     }]
 };
 
-const covg = document.getElementById("coverage-graph");
-console.log("covg parent element width is: ", covg.parentElement.clientWidth);
-if (covg) {
-    // eslint-disable-next-line no-new, no-undef
-    new Chart(covg, {
-        type: "line",
-        data: chartData,
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: false
-                    }
-                }]
-            },
-            legend: {
-                display: false
-            }
-        }
-    });
-}
+// Globals used in graph drawing
+let chart1 = null;
+let currScale = defaultScale;
 
-// <canvas id="coverage-graph"></canvas>
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-// <script id="graph" src="src/frontend/graph.js" defer></script>
+// Dummy data to draw graph 1, later on this will be made dynamic with database queries
+const lineData = {
+    labels: [0, 10, 20, 30, 40, 50],
+    datasets: [{
+        label: "My First Dataset",
+        data: [0, 59, 80, 5000, 100, 150, 1000000],
+        fill: false,
+        borderColor: "rgb(75, 192, 192)",
+        tension: 0.5
+    }]
+};
+
+// EventListeners()
+// draw or delete graph1
+toggle1.addEventListener("change", function () {
+    const covg = document.getElementById("coverage-graph");
+
+    // Draw a new graph
+    if (toggle1.checked) {
+        document.getElementById("toggle2").type = "checkbox";
+        document.getElementById("label-toggle2").hidden = false;
+        // eslint-disable-next-line no-undef
+        chart1 = new Chart(covg, {
+            type: "line",
+            data: lineData,
+            options: {
+                scales: currScale,
+                legend: {
+                    display: false
+                }
+            }
+        });
+    } else {
+        // This is so incredibly sloppy :)
+        document.getElementById("toggle2").type = "hidden"; // Sub-checkbox
+        document.getElementById("label-toggle2").hidden = true; // Sub-checkbox label
+
+        if (chart1 !== null) {
+            console.log("destroying chart");
+            chart1.destroy();
+            chart1 = null;
+        }
+    }
+});
+
+// Un/set scale to logarithmic
+toggle2.addEventListener("change", function () {
+    currScale = (toggle2.checked ? logarithmicScale : defaultScale);
+    console.log(currScale);
+});
