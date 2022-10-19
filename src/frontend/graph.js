@@ -35,7 +35,7 @@ const lineData = {
     labels: [0, 10, 20, 30, 40, 50],
     datasets: [{
         label: "My First Dataset",
-        data: [0, 59, 80, 81, 100, 150, 156],
+        data: [0, 59, 80, 5000, 100, 150, 1000000],
         fill: false,
         borderColor: "rgb(75, 192, 192)",
         tension: 0.5
@@ -47,22 +47,31 @@ const lineData = {
 toggle1.addEventListener("change", function () {
     const covg = document.getElementById("coverage-graph");
 
+    // Draw a new graph
     if (toggle1.checked) {
+        document.getElementById("toggle2").type = "checkbox";
+        document.getElementById("label-toggle2").hidden = false;
         // eslint-disable-next-line no-undef
         chart1 = new Chart(covg, {
             type: "line",
             data: lineData,
             options: {
-                scales: defaultScale,
+                scales: currScale,
                 legend: {
                     display: false
                 }
             }
         });
-    } else if (chart1 !== null) {
-        console.log("destroying chart");
-        chart1.destroy();
-        chart1 = null;
+    } else {
+        // This is so incredibly sloppy :)
+        document.getElementById("toggle2").type = "hidden"; // Sub-checkbox
+        document.getElementById("label-toggle2").hidden = true; // Sub-checkbox label
+
+        if (chart1 !== null) {
+            console.log("destroying chart");
+            chart1.destroy();
+            chart1 = null;
+        }
     }
 });
 
