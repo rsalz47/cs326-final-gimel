@@ -189,4 +189,3 @@ digraph {
         d3.select("#graph").graphviz().renderDot(dotSrc);
     }
 }
-
