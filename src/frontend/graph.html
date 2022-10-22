@@ -15,7 +15,7 @@
 
   <body>
     <script id="navbar" src="js/nav.js"></script>
-    <script type = "text/javascript">insert_nav("");</script>
+    <script>insert_nav("");</script>
 
     <div class="row">
         <div class="col-md-3 solid-black-border-right" id="view1"> <!-- ? -->
@@ -23,8 +23,8 @@
           <label for="toggle1" id="label-toggle1"><b>Show Graph 1</b></label>
           <ul class="list-style-none"> <!-- ? -->
             <li>
-              <input type="hidden" id="toggle2">
-              <label for="toggle2" id="label-toggle2" hidden="true"><b>Logarithmic Scale</b></label>
+              <input type="checkbox" id="toggle2">
+              <label for="toggle2" id="label-toggle2" hidden><b>Logarithmic Scale</b></label>
             </li>
           </ul>
         </div>

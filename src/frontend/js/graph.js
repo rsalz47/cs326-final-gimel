@@ -35,7 +35,7 @@ const lineData = {
     labels: [0, 10, 20, 30, 40, 50],
     datasets: [{
         label: "My First Dataset",
-        data: [0, 59, 80, 5000, 100, 150, 1000000],
+        data: [0, 59, 80, 100, 169, 250],
         fill: false,
         borderColor: "rgb(75, 192, 192)",
         tension: 0.5
@@ -49,8 +49,8 @@ toggle1.addEventListener("change", function () {
 
     // Draw a new graph
     if (toggle1.checked) {
-        document.getElementById("toggle2").type = "checkbox";
-        document.getElementById("label-toggle2").hidden = false;
+        document.getElementById("toggle2").removeAttribute("hidden");
+        document.getElementById("label-toggle2").removeAttribute("hidden");
         // eslint-disable-next-line no-undef
         chart1 = new Chart(covg, {
             type: "line",
@@ -64,8 +64,8 @@ toggle1.addEventListener("change", function () {
         });
     } else {
         // This is so incredibly sloppy :)
-        document.getElementById("toggle2").type = "hidden"; // Sub-checkbox
-        document.getElementById("label-toggle2").hidden = true; // Sub-checkbox label
+        document.getElementById("toggle2").setAttribute("hidden"); // Sub-checkbox
+        document.getElementById("label-toggle2").setAttribute("hidden"); // Sub-checkbox label
 
         if (chart1 !== null) {
             console.log("destroying chart");
