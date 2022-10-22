@@ -32,6 +32,9 @@ open the graph for that function. The back button can then be used to return to 
 function.
 ![cfg](../imgs/cfg.png)
 
+- The Line Graph tab offers users further means of visualization of fuzzer output data. It is divided into two views: the left hand side presents a list of checkable options to modify the manner in which the graphs are drawn. Besides making a graph visible or hidden, each graph also has an individual checklist of options to change things such as the scales of axes and further relevant metrics.
+![line-graphs](../imgs/line.png)
+
 - The config tab once again has multiple views. The left view is used to chose an option window
 while the right view displays this view. This first screenshot demonstrates the 'fuzzer options'
 view which lets a user chose a fuzzer and define a parse structure that will be used to parse inputs

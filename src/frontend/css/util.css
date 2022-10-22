@@ -13,3 +13,11 @@ html, body {
 .growth {
     flex-grow: 1;
 }
+
+.small-border {
+  border: black 1px;
+}
+
+.lightgray-background {
+  background: lightgray;
+}

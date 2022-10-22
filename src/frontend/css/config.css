@@ -15,3 +15,10 @@
    color:white;
 }
 
+.lightgray-background {
+   background: lightgray;
+}
+
+.solid-black-border-right {
+   border-right: thin solid black;
+}
