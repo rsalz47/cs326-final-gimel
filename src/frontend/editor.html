@@ -64,13 +64,15 @@
             importScripts("https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/base/worker/workerMain.min.js");`)}`;
         },
       };
+      // Remove hardcoded path and dynamically create new models
+      // ... for each files
       require(["vs/editor/editor.main"], async function () {
         // Create the editor with some sample JavaScript code
         var editor = monaco.editor.create(document.getElementById("editor"), {
           value: await fetch(
             "https://raw.githubusercontent.com/llvm/llvm-project/main/llvm/lib/CodeGen/Analysis.cpp"
           ).then((s) => s.text()),
-          language: "cpp",
+          language: "cpp", // Add supports to x86 ASM
           inlayHints: {
             enabled: true,
           },
@@ -85,7 +87,7 @@
             height: editorElement.offsetHeight,
           })
         );
-        // TODO: Seperate this part to automatically parse
+        // Register commenting functions
         const model = monaco.editor.getModels()[0];
         model.deltaDecorations(model.getAllDecorations(), [
           {
