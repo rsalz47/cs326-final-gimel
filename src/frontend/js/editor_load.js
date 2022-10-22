@@ -23,6 +23,7 @@ require(["vs/editor/editor.main"], async function () {
             enabled: true,
         },
         theme: "vs-dark",
+        readOnly: true,
     });
 
     // Resize the editor when the window size changes
