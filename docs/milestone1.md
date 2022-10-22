@@ -50,7 +50,7 @@ simple user management.
 ![login](../imgs/login.png)
 
 - LINE-GRAPHS
-![line-graphs](../imgs/line.png)
+![line-graphs](../imgs/line-graph-1.png)
 
 - The source code and assembly tabs share the same structure and view.
 On the left side is a sidebar listing all files related to the project.
