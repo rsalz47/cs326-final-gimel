@@ -1,3 +1,4 @@
+// Solution to import monaco-editor based on https://stackoverflow.com/a/63179814
 require.config({
     paths: {
         vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/",
@@ -48,7 +49,7 @@ require(["vs/editor/editor.main"], async function () {
                     value:
                         "<img src='https://avatars.githubusercontent.com/u/23451424?v=4'" +
                         " width='50' align='right'/>\n\n" +
-                        Date() +
+                        Date() + // Temporary date
                         "\n\n" +
                         "By [_dungwinux_](https://github.com/dungwinux/):\n\n" +
                         "We should fuzz this part and check coverage.",
@@ -65,7 +66,7 @@ require(["vs/editor/editor.main"], async function () {
                     supportHtml: true,
                     value:
                         "" +
-                        Date() +
+                        Date() + // Temporary date
                         "\n\n" +
                         "By [_seal9055_](https://github.com/seal9055/):\n\n" +
                         "This one too",
