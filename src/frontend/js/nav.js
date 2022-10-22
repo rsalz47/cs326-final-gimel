@@ -1,3 +1,4 @@
+/// Inserts navbat into html file when called
 function insert_nav(path) {
     fetch(path + 'nav.html')
     .then(res => res.text())

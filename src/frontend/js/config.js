@@ -1,7 +1,9 @@
+/// Clear a div
 function clear_div(element) {
     element.textContent = '';
 }
 
+/// Set up the config view for fuzzer options
 function display_fuzzer() {
     const view = document.getElementById("view2");
     clear_div(view);
@@ -75,11 +77,13 @@ source-cov {
     }
 }
 
+/// Add the table used to manage users to the page
 function manage_users() {
     const view = document.getElementById("view2");
     clear_div(view);
 
-    function generateTableHead(table) {
+    /// Generate the head-row of this table
+    function generate_table_head(table) {
         const headers = ["Name", "Role", "Action"];
         const thead = table.createTHead();
         const row = thead.insertRow();
@@ -92,7 +96,8 @@ function manage_users() {
         }
     }
 
-    function generateTable(table, data) {
+    /// Generate a table using provided data and add button to remove users
+    function generate_table(table, data) {
         const tbody = table.createTBody();
         for (element of data) {
             const row = tbody.insertRow();
@@ -126,8 +131,8 @@ function manage_users() {
         { name: "Emery", role: "Admin" },
     ];
 
-    generateTableHead(table);
-    generateTable(table, data);
+    generate_table_head(table);
+    generate_table(table, data);
 
     view.appendChild(table);
 }
