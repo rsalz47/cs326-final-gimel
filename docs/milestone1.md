@@ -49,15 +49,12 @@ simple user management.
 '/login.html' and is the view that a user will use to log into the application.
 ![login](../imgs/login.png)
 
-- LINE-GRAPHS
-![line-graphs](../imgs/line.png)
-
 - The source code and assembly tabs share the same structure and view.
 On the left side is a sidebar listing all files related to the project.
-On the right side is the text display screen, showing the content of the
-selected file. In case of source code, the viewer supports syntax highlighting
-and searching inside the window. The viewer also supports highlighting comments
-submitted by users working on the project.
+On the right side is the text view screen, displaying all the content of the
+selected file. In it is source code in the text file, the viewer supports
+syntax highlighting and searching inside the window. The viewer also allows
+marking comments submitted by users collaborating on the project.
 ![source_code](../imgs/source_code.png)
 
 #### Work Breakdown
