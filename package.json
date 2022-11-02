@@ -19,7 +19,10 @@
     "url": "https://github.com/rsalz47/cs326-final-gimel/issues"
   },
   "homepage": "https://github.com/rsalz47/cs326-final-gimel#readme",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.18.2",
+    "helmet": "^6.0.0"
+  },
   "devDependencies": {
     "eslint": "^8.25.0",
     "eslint-config-xo": "^0.42.0"
