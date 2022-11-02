@@ -1,3 +1,7 @@
+/* eslint-disable camelcase */
+
+import {addComment} from './client.js'
+
 /// Insert a note into the notes listing
 function insert_note(user, text) {
     const ts = new Date();
@@ -20,8 +24,11 @@ function insert_note(user, text) {
 function send_note() {
     const msg = document.getElementById("cur_note").value;
     insert_note("sample_user", msg);
+    addComment(msg, "sample_user");
     document.getElementById("cur_note").value = "";
 }
+
+window.send_note = send_note;
 
 /// Register event listener to send the note when the enter key is pressed
 document.getElementById("cur_note").addEventListener("keydown", event => {
