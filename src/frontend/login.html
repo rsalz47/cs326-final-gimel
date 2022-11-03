@@ -11,6 +11,7 @@
 	</head>
     
 	<body>
+        <script id="client" type="module" src="js/login.js"></script>
         <script id="navbar" src="js/nav.js"></script>
         <script>insert_nav("");</script>
         <link rel="stylesheet" href="css/util.css">
@@ -28,10 +29,9 @@
 
             <br>
             
-            <!-- these need to be stitched together with an eventlistener -->
             <a href="/index.html"></a>
-            <button class="btn btn-lg small-border">Submit</button> 
-
+            <button class="btn btn-lg small-border" onClick="user_login()">Login</button> 
+            <button class="btn btn-lg small-border" onClick="user_register()">Register</button> 
         </div>
 	</body>
 </html>
