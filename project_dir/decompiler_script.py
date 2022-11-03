@@ -1,3 +1,5 @@
+# Script used to generate the cfg.json file that is used to parse out the control flow graph for our tool
+
 import json
 
 funcs = {}
