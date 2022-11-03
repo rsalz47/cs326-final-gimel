@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 
-import {addComment} from './client.js'
+import {addComment} from "./client.js";
 
 /// Insert a note into the notes listing
-function insert_note(user, text) {
+export function insert_note(user, text) {
     const ts = new Date();
     const notes = document.getElementById("notes");
     const li = document.createElement("li");
