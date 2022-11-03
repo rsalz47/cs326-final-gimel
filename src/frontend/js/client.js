@@ -32,3 +32,16 @@ function loadHomepage() {
 }
 
 window.onload = loadHomepage(); // NOTE: VERY HACKY :)
+
+
+export async function verify_user(username, password) {
+    console.log(username);
+    console.log(password);
+    console.log("verify user called");
+}
+
+export async function create_user(username, password) {
+    console.log(username);
+    console.log(password);
+    console.log("create user called");
+}
