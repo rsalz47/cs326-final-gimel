@@ -39,7 +39,10 @@ export async function userVerify(username, {password}) {
 }
 
 export async function userAdd(username, {password}) {
-    if (userlist.filter(({handle}) => handle === username).length === 0) {
+    if (
+        username
+        && userlist.filter(({handle}) => handle === username).length === 0
+    ) {
         userlist.push({
             first: "John Doe",
             role: "U",

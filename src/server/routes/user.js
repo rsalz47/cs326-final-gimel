@@ -29,6 +29,13 @@ router.get("/:id", checkToken, async (req, res) => {
     });
 });
 
+router.delete("/:id", async (req, res) => {
+    res.sendStatus(501);
+});
+router.put("/:id", async (req, res) => {
+    res.sendStatus(501);
+});
+
 router.post("/verify", async (req, res) => {
     const {username, password} = req.body;
     if (await userVerify(username, {password})) {
