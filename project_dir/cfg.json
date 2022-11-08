@@ -1,0 +1,302 @@
+{
+    "_init": {
+        "blocks": [
+            [
+                "if (__gmon_start__ == 0) then 1 @ 0x40101a else 2 @ 0x401014"
+            ],
+            [
+                "return "
+            ],
+            [
+                "rax = __gmon_start__()",
+                "goto 1 @ 0x40101a"
+            ]
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                1
+            ]
+        ]
+    },
+    "sub_401030": {
+        "blocks": [
+            [
+                "var_8 = 0",
+                "goto 2 @ 0x401020"
+            ],
+            [
+                "var_10 = [data_404008].q",
+                "\u2753jump([data_404010].q)"
+            ]
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ]
+        ]
+    },
+    "read": {
+        "blocks": [
+            [
+                "return read(fd, buf, nbytes) __tailcall"
+            ]
+        ],
+        "edges": []
+    },
+    "open": {
+        "blocks": [
+            [
+                "return open() __tailcall"
+            ]
+        ],
+        "edges": []
+    },
+    "_start": {
+        "blocks": [
+            [
+                "rbp = 0",
+                "r9 = arg3",
+                "rsi = __return_addr:0.d",
+                "rdx = &arg_8",
+                "var_8 = rax",
+                "var_10 = &var_8",
+                "__libc_start_main(main, rsi, rdx, nullptr, nullptr, r9, var_10)",
+                "noreturn"
+            ]
+        ],
+        "edges": []
+    },
+    "_dl_relocate_static_pie": {
+        "blocks": [
+            [
+                "return "
+            ]
+        ],
+        "edges": []
+    },
+    "deregister_tm_clones": {
+        "blocks": [
+            [
+                "if (true) then 1 @ 0x4010d0 else 2 @ 0x4010c5"
+            ],
+            [
+                "return "
+            ],
+            [
+                "if (true) then 1 @ 0x4010d0 else 3 @ 0x4010c7"
+            ],
+            [
+                "rdi = 0x404038",
+                "\u2753jump(0)"
+            ]
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                2,
+                3
+            ]
+        ]
+    },
+    "register_tm_clones": {
+        "blocks": [
+            [
+                "if (true) then 1 @ 0x401110 else 2 @ 0x401107"
+            ],
+            [
+                "return "
+            ],
+            [
+                "if (true) then 1 @ 0x401110 else 3 @ 0x401109"
+            ],
+            [
+                "rdi = 0x404038",
+                "\u2753jump(0)"
+            ]
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                2,
+                3
+            ]
+        ]
+    },
+    "__do_global_dtors_aux": {
+        "blocks": [
+            [
+                "if ([__TMC_END__].b != 0) then 1 @ 0x401140 else 2 @ 0x401131"
+            ],
+            [
+                "return "
+            ],
+            [
+                "rax = deregister_tm_clones()",
+                "[__TMC_END__].b = 1",
+                "return "
+            ]
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ]
+        ]
+    },
+    "frame_dummy": {
+        "blocks": [
+            [
+                "return register_tm_clones() __tailcall"
+            ]
+        ],
+        "edges": []
+    },
+    "main": {
+        "blocks": [
+            [
+                "var_7c = argc",
+                "var_88 = argv",
+                "rax = var_88",
+                "rax_1 = rax + 8",
+                "rax_2 = [rax_1].q",
+                "rdi = rax_2",
+                "rax_3 = 0",
+                "rax_4 = open(rdi, 0)",
+                "var_c = rax_4",
+                "rax_5 = var_c",
+                "rsi = &var_78",
+                "rdi_1 = rax_5",
+                "rax_6 = 0",
+                "read(rdi_1, rsi, 0x64)",
+                "rax_7 = var_78",
+                "if (rax_7 != 0x41) then 16 @ 0x4011e5 else 18 @ 0x4011ac"
+            ],
+            [
+                "rax_13 = 0",
+                "return 0"
+            ],
+            [
+                "rax_8 = var_77",
+                "if (rax_8 != 0x42) then 16 @ 0x4011e5 else 20 @ 0x4011b4"
+            ],
+            [
+                "rax_9 = var_76",
+                "if (rax_9 != 0x43) then 16 @ 0x4011e5 else 22 @ 0x4011bc"
+            ],
+            [
+                "rax_10 = var_75",
+                "if (rax_10 != 0x44) then 16 @ 0x4011e5 else 24 @ 0x4011c4"
+            ],
+            [
+                "rax_11 = var_74",
+                "if (rax_11 != 0x45) then 16 @ 0x4011e5 else 26 @ 0x4011cc"
+            ],
+            [
+                "rax_12 = var_73",
+                "if (rax_12 != 0x46) then 16 @ 0x4011e5 else 28 @ 0x4011de"
+            ],
+            [
+                "[0x4141414141414141].q = 0",
+                "goto 16 @ 0x4011e5"
+            ]
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                3,
+                4
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                4,
+                5
+            ],
+            [
+                5,
+                1
+            ],
+            [
+                5,
+                6
+            ],
+            [
+                6,
+                1
+            ],
+            [
+                6,
+                7
+            ],
+            [
+                7,
+                1
+            ]
+        ]
+    },
+    "_fini": {
+        "blocks": [
+            [
+                "return "
+            ]
+        ],
+        "edges": []
+    }
+}

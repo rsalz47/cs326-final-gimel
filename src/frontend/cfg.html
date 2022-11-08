@@ -15,7 +15,7 @@
         <script id="navbar" src="js/nav.js"></script>
         <script>insert_nav("");</script>
 
-        <script id="cfg" src="js/cfg.js"></script>
+        <script type="module" id="cfg" src="js/cfg.js"></script>
         <link rel="stylesheet" href="/src/frontend/css/config.css">
         <link rel="stylesheet" href="/src/frontend/css/cfg.css">
 
@@ -28,10 +28,7 @@
                 <div class="header">
                     <Strong>Functions</Strong><br><br>
                 </div>
-                <input type='button' class="option" onClick="main()" value="main">
-                <input type='button' class="option" onClick="func_1()" value="func_1">
-                <input type='button' class="option" onClick="func_2()" value="func_2">
-                <input type='button' class="option" onClick="func_3()" value="func_3">
+                <div id = "function_buttons"></div>
             </div>
             <div class="col-md-6" id="view2"></div>
         </div>

@@ -1,3 +1,5 @@
+import {get_cfg_functions, get_cfg_for_func} from './client.js'
+
 /// Clear a div
 function clear_div(element) {
     element.textContent = '';
@@ -12,13 +14,14 @@ function add_func(name) {
     function_buffer.push(name);
 }
 
-/// Handle initial setup required to draw graphs onto the scrren
+/// Handle initial setup required to draw graphs onto the screen
 function setup_screen(view) {
     clear_div(view);
     const func_div = document.getElementById("func_selection");
     if (func_div != null) {
         func_div.remove();
     }
+
 
     // Initial setup to create div that holds to arrow-buttons to navigate back and forth through 
     // the graphs
@@ -44,43 +47,16 @@ function setup_screen(view) {
     view.appendChild(graph_div);
 }
 
-/// Draw the cfg for a hardcoded function called "main". Once we add database support this will 
-/// change to instead draw the nodes based on information made available through the db.
-function main() {
-    setup_screen(document.getElementById("view2"));
-    add_func("main");
-
-    // Use the d3-graphviz library to render nodes for the cfg onto the screen
-    {
-        var dotSrc = `
-digraph {
-    graph [label="<main>" labelloc="t", fontsize="20.0" tooltip=" "]
-    node  [style="filled"]
-    n1 [id="n1" label="int x = 5;\nint ret;\nif (x > 4)" fillcolor="#78e3aa", shape="box"]
-    n2 [id="n2" label="ret  = func_1();\nret += func_2();" fillcolor="#78e3aa", shape="box"]
-    n3 [id="n3" label="ret = func_3()" fillcolor="#ffffff", shape="box"]
-    n4 [id="n4" label="return ret;" fillcolor="#78e3aa", shape="box"]
-
-    n1 -> n2 [label="T"]
-    n1 -> n3 [label="F"]
-    n2 -> n4 
-    n3 -> n4 
-}`;
-        const graphviz = d3.select("#graph").graphviz();
-        graphviz.renderDot(dotSrc).on("end", function_parse_callback);
-    }
-}
-
 /// This function is a callback that is hit when a node on the cfg is clicked. It uses a regex to
 /// search the node for all possible function calls, verifies that the function call is legit by 
 /// making sure it exists in our data-base, and if so it creates a drop-down that lets the user 
 /// select which of the functions in this node he meant to click. Once selected, the user can hit 
 /// the 'go' button to open up the cfg of the function.
 function function_parse_callback() {
-    const available_funcs = ["main", "func_1", "func_2", "func_3"];
+    const available_funcs = get_cfg_functions();
     const view = document.getElementById("view2");
 
-    nodes = d3.selectAll('.node,.edge');
+    let nodes = d3.selectAll('.node,.edge');
     nodes.on("click", function () {
             // Regex for parsing function names (source below):
             // https://stackoverflow.com/questions/47663648/javascript-regex-getting-function-name-from-string
@@ -133,59 +109,48 @@ function function_parse_callback() {
             view.appendChild(div);
         });
 }
-/// Draw the cfg for a hardcoded function called "func_1". Once we add database support this will 
-/// change to instead draw the nodes based on information made available through the db.
-function func_1() {
+
+async function draw_function_cfg(func_name) {
+    const function_cfg = await get_cfg_for_func(func_name);
+
     setup_screen(document.getElementById("view2"));
-    add_func("func_1");
+    add_func(func_name);
 
-    // Use the d3-graphviz library to render nodes for the cfg onto the screen
-    {
-        var dotSrc = `
+    let dotSrc = `
 digraph {
-    graph [label="<func_1>" labelloc="t", fontsize="20.0" tooltip=" "]
+    graph [label="<${func_name}>" labelloc="t", fontsize="20.0" tooltip=" "]
     node  [style="filled"]
-    n1 [id="n1" label="// This function is hit" fillcolor="#78e3aa", shape="box"]
-}
-`;
-        d3.select("#graph").graphviz().renderDot(dotSrc);
+`
+    for (let i = 0; i < function_cfg.blocks.length; i++) {
+        const color = "#ffffff"
+        const block_text = function_cfg.blocks[i].join('\n');
+
+        dotSrc += `    n${i} [id="n${i}" label="${block_text}" fillcolor="${color}", shape="box"]\n`
     }
-}
 
-/// Draw the cfg for a hardcoded function called "func_2". Once we add database support this will 
-/// change to instead draw the nodes based on information made available through the db.
-function func_2() {
-    setup_screen(document.getElementById("view2"));
-    add_func("func_2");
+    dotSrc += '\n';
 
-    // Use the d3-graphviz library to render nodes for the cfg onto the screen
-    {
-        var dotSrc = `
-digraph {
-    graph [label="<func_2>" labelloc="t", fontsize="20.0" tooltip=" "]
-    node  [style="filled"]
-    n1 [id="n1" label="// This function is hit" fillcolor="#78e3aa", shape="box"]
-}
-`;
-        d3.select("#graph").graphviz().renderDot(dotSrc);
+    for (let i = 0; i < function_cfg.edges.length; i++) {
+        const edge = function_cfg.edges[i];
+        dotSrc += `    n${edge[0]} -> n${edge[1]}\n`
     }
+
+    dotSrc += '}';
+
+    const graphviz = d3.select("#graph").graphviz();
+    graphviz.renderDot(dotSrc).on("end", function_parse_callback);
 }
 
-/// Draw the cfg for a hardcoded function called "func_3". Once we add database support this will 
-/// change to instead draw the nodes based on information made available through the db.
-function func_3() {
-    setup_screen(document.getElementById("view2"));
-    add_func("func_3");
+// Create function name-callbacks for the left view
+const function_buttons = document.getElementById("function_buttons");
+const functions = await get_cfg_functions();
+for (let i = 0; i < functions.length; i++) {
+    const btn = document.createElement('button');
+    btn.innerHTML = functions[i];
+    btn.classList.add("option");
+    btn.onclick = function() {
+        draw_function_cfg(functions[i]);
+    };
+    function_buttons.appendChild(btn);
+}
 
-    // Use the d3-graphviz library to render nodes for the cfg onto the screen
-    {
-        var dotSrc = `
-digraph {
-    graph [label="<func_3>" labelloc="t", fontsize="20.0" tooltip=" "]
-    node  [style="filled"]
-    n1 [id="n1" label="// This function is not hit" fillcolor="#ffffff", shape="box"]
-}
-`;
-        d3.select("#graph").graphviz().renderDot(dotSrc);
-    }
-}
