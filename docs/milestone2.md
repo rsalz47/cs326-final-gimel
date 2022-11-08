@@ -72,7 +72,8 @@ This screenshot showcases how the update api can be used to update a comment on 
 
 > Delete
 This screenshot showcases how the delete api can be used to delete a comment on the site
-![notes_delete](../imgs/notes_delete.png)
+![notes_delete](../imgs/notes_delete1.png)
+![notes_delete](../imgs/notes_delete2.png)
 
 
 #### 3. Deployment
