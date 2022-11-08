@@ -10,25 +10,12 @@ app.use(express.static("."));
 
 let funcs = null;
 // This will be the database, eventually
-const comments = [{user: "sample_user", msg: "I would love a hug", id: 0}];
+const comments = [{user: "sample_user", msg: "I would love a hug", id: 0, timestamp: "47"}];
 
 app.use("/users/", user);
 app.use("/stats/", stat);
 
 const json_file = "./project_dir/cfg.json";
-
-app.post("/comments/create", (req, res) => {
-    const temp = new Date();
-    const data = req.body;
-    comments.push({
-        timestamp: temp.toLocaleDateString() + " : " + temp.toLocaleTimeString(),
-        user: data.user,
-        msg: data.msg,
-        id: data.id
-    });
-
-    res.json({ret: "comment successfully created :)"});
-});
 
 app.get("/cfg/function_list", (req, res) => {
     // Parse cfg file if it hasn't been previously parsed
@@ -48,6 +35,20 @@ app.post("/cfg/cfg_for_func", (req, res) => {
     }
 
     res.send(JSON.stringify(funcs[func_name]));
+});
+
+app.post("/comments/create", (req, res) => {
+    const temp = new Date();
+    const data = req.body;
+    comments.push({
+        timestamp: data.timestamp,
+        user: data.user,
+        msg: data.msg,
+        id: data.id
+    });
+    console.log(comments.at(-1));
+
+    res.json({ret: "comment successfully created :)"});
 });
 
 app.post("/comments/read", (req, res) => {
