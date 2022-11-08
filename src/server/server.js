@@ -67,4 +67,4 @@ app.post("/comments/delete", (req, res) => {
     res.json({ret: `comment ${index} successfully deleted >:)`});
 });
 
-app.listen(3001);
+app.listen(process.env.PORT || 3001);
