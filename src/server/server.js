@@ -2,11 +2,11 @@
 import express from "express";
 import user from "./routes/user.js";
 import stat from "./routes/stat.js";
+import fs from "node:fs";
 
 const app = express();
 app.use(express.json());
 app.use(express.static("."));
-const fs = require("fs");
 
 let funcs = null;
 // This will be the database, eventually
