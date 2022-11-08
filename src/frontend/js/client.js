@@ -92,6 +92,19 @@ export async function getUsers() {
     };
 }
 
+export async function getStats() {
+    const res = await fetch("/stats", {
+        method: "GET",
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        }
+    });
+    return {
+        ok: res.ok,
+        ...await res.json()
+    };
+}
+
 export async function emit_cfg(cfg) {
     console.log("Emitting: " + cfg);
 }

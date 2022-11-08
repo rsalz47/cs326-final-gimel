@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import express from "express";
 import user from "./routes/user.js";
+import stat from "./routes/stat.js";
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,7 @@ let funcs = null;
 const comments = [{user: "sample_user", msg: "I would love a hug", id: 0}];
 
 app.use("/users/", user);
+app.use("/stats/", stat);
 
 const json_file = "./project_dir/cfg.json";
 
