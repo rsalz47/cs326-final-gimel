@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
-const express = require("express");
+import express from "express";
+import user from "./routes/user.js";
+
 const app = express();
 app.use(express.json());
 app.use(express.static("."));
@@ -8,6 +10,8 @@ const fs = require("fs");
 let funcs = null;
 // This will be the database, eventually
 const comments = [{user: "sample_user", msg: "I would love a hug", id: 0}];
+
+app.use("/users/", user);
 
 const json_file = "./project_dir/cfg.json";
 
