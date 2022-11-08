@@ -2,6 +2,18 @@
 
 import {addComment} from "./client.js";
 
+async function deleteEventListener(parentID) {
+    console.log(`delete button of ${parentID}`);
+    const resp = await fetch("/comments/delete", {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({idToDelete: parentID})
+    });
+}
+
 /// Insert a note into the notes listing
 export function insert_note(user, text, timestamp, id) {
     const notes = document.getElementById("notes");
@@ -21,12 +33,14 @@ export function insert_note(user, text, timestamp, id) {
     const deleteButton = document.createElement("button");
     deleteButton.appendChild(document.createTextNode("X"));
     // Add eventListener
-    deleteButton.addEventListener("click", () => console.log(`delete button of ${deleteButton.parentElement.id}`));
+    deleteButton.addEventListener("click",
+        () => deleteEventListener(deleteButton.parentElement.id));
     li.appendChild(deleteButton);
 
     const editButton = document.createElement("button");
     editButton.appendChild(document.createTextNode("Edit"));
-    editButton.addEventListener("click", () => console.log(`edit button of ${editButton.parentElement.id}`));
+    editButton.addEventListener("click",
+        () => console.log(`edit button of ${editButton.parentElement.id}`));
     li.appendChild(editButton);
 
     notes.appendChild(li);

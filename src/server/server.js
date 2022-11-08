@@ -63,9 +63,10 @@ app.post("/comments/update", (req, res) => {
 });
 
 app.post("/comments/delete", (req, res) => {
-    const index = req.body.id;
+    const index = req.body.idToDelete.slice(4);
     comments.splice(index, 1);
-    res.json({ret: `comment ${index} successfully deleted >:)`});
+    console.log(comments);
+    console.log(`comment ${index} successfully deleted >:)`);
 });
 
 app.listen(3001);
