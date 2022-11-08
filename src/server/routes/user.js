@@ -1,73 +1,40 @@
 import {Router} from "express";
+import {tokenGet, userAdd, userGetById, userVerify, userGetAll} from "../database.js";
+import checkToken from "../logic/checkToken.js";
+
 const router = Router();
 
-const userlist = [
-    {
-        first: "Ronan",
-        role: "A",
-        handle: "rsalz47",
-    },
-    {
-        first: "Dung",
-        role: "U",
-        handle: "dungwinux",
-    },
-    {
-        first: "Gilbert",
-        role: "U",
-        handle: "seal9055",
-    },
-    {
-        first: "Emery Berger",
-        role: "A",
-        handle: "emeryberger",
-    },
-];
-
-const authToken = "UMASS EXPRESS_BAD";
-
-/**
- *
- * @param {Request} req
- * @param {Response} res
- * @param {} next
- */
-function checkToken(req, res, next) {
-    if (req.headers.authorization === authToken) {
-        next();
-    } else {
-        res.status(401).send({
-            ok: false,
-            msg: "Invalid token",
-        });
-    }
-}
-
-router.get("/", checkToken, (req, res) => {
+router.get("/", checkToken, async (req, res) => {
+    const data = await userGetAll();
     res.send({
         msg: "Success",
-        data: userlist,
+        data,
     });
 });
 
-router.get("/:id", checkToken, (req, res) => {
+router.get("/:id", checkToken, async (req, res) => {
     const {id} = req.params;
-    if (id >= userlist.length) {
-        res.status(404).send("Error: No user found");
+    if (!id) {
+        res.status(400).send("Invalid ID");
+    }
+
+    const data = await userGetById(id);
+    if (!data) {
+        res.status(404).send("No user found");
     }
 
     res.send({
         msg: "Success",
-        data: userlist[id],
+        data,
     });
 });
 
-router.post("/verify", (req, res) => {
+router.post("/verify", async (req, res) => {
     const {username, password} = req.body;
-    if (username && userlist.filter(({handle}) => handle === username).length === 1) {
+    if (await userVerify(username, {password})) {
         res.send({
             msg: "Valid credential",
-            data: authToken,
+            data: await tokenGet(username),
         });
     } else {
         res.status(400).send({
@@ -76,14 +43,9 @@ router.post("/verify", (req, res) => {
     }
 });
 
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
     const {username, password} = req.body;
-    if (userlist.filter(({handle}) => handle === username).length === 0) {
-        userlist.push({
-            first: "John Doe",
-            role: "U",
-            handle: username,
-        });
+    if (await userAdd(username, {password})) {
         res.send({
             msg: "New user registered",
         });
