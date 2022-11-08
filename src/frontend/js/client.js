@@ -3,7 +3,7 @@
 import {insert_note} from "./notes.js";
 
 export async function addComment(text, user) {
-    await fetch("http://localhost:3001/comments/create", {
+    await fetch("/comments/create", {
         method: "POST",
         headers: {
             "Accept": "application/json",
@@ -55,10 +55,9 @@ export async function verify_user(username, password) {
         },
         body: JSON.stringify({username, password})
     });
-    const token = res.ok ? await res.text() : null;
     return {
         ok: res.ok,
-        token,
+        ...await res.json(),
     };
 }
 
@@ -74,7 +73,10 @@ export async function create_user(username, password) {
         body: JSON.stringify({username, password})
     });
 
-    console.log(await res.text());
+    return {
+        ok: res.ok,
+        ...await res.json(),
+    };
 }
 
 export async function getUsers() {
