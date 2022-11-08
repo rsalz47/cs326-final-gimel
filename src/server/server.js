@@ -57,9 +57,8 @@ app.post("/comments/read", (req, res) => {
 
 app.post("/comments/update", (req, res) => {
     const data = req.body;
-    const temp = new Date();
-    comments[data.id].msg = data.msg;
-    comments[data.id].timestamp = temp.toLocaleDateString + " : " + temp.toLocaleTimeString();
+    console.log(data);
+    comments[req.body.idToUpdate.slice(4)].msg = req.body.newText;
 });
 
 app.post("/comments/delete", (req, res) => {

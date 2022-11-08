@@ -3,7 +3,7 @@
 import {addComment} from "./client.js";
 
 async function deleteEventListener(parentID) {
-    console.log(`delete button of ${parentID}`);
+    console.log(`deleting message ${parentID}`);
     const resp = await fetch("/comments/delete", {
         method: "POST",
         headers: {
@@ -12,6 +12,20 @@ async function deleteEventListener(parentID) {
         },
         body: JSON.stringify({idToDelete: parentID})
     });
+}
+
+async function editEventListener(parentID) {
+    const inp = document.getElementById("cur_note");
+    console.log(`editing message ${parentID}`);
+    const resp = await fetch("/comments/update", {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({idToUpdate: parentID, newText: inp.value})
+    });
+    inp.value = "";
 }
 
 /// Insert a note into the notes listing
@@ -40,7 +54,7 @@ export function insert_note(user, text, timestamp, id) {
     const editButton = document.createElement("button");
     editButton.appendChild(document.createTextNode("Edit"));
     editButton.addEventListener("click",
-        () => console.log(`edit button of ${editButton.parentElement.id}`));
+        () => editEventListener(editButton.parentElement.id));
     li.appendChild(editButton);
 
     notes.appendChild(li);
