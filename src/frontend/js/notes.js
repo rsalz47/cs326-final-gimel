@@ -27,6 +27,7 @@ function send_note() {
     addComment(msg, "sample_user");
     document.getElementById("cur_note").value = "";
 }
+
 window.send_note = send_note;
 
 /// Register event listener to send the note when the enter key is pressed
