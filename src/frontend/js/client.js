@@ -13,6 +13,24 @@ export async function addComment(text, user) {
     });
 }
 
+export async function get_cfg_functions() {
+    const result = await fetch("http://localhost:3001/cfg/function_list");
+    return result.json();
+}
+
+export async function get_cfg_for_func(func_name) {
+    const result = await fetch("http://localhost:3001/cfg/cfg_for_func", {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({func_name}),
+    });
+
+    return result.json();
+}
+
 export async function getAllComments() {
     const resp = await fetch("http://localhost:3001/comments/read", {
         method: "POST",
@@ -26,14 +44,6 @@ export async function getAllComments() {
     messages.forEach(msg => insert_note(msg.user, msg.msg));
 }
 
-function loadHomepage() {
-    console.log("loading");
-    getAllComments();
-}
-
-window.onload = loadHomepage(); // NOTE: VERY HACKY :)
-
-
 export async function verify_user(username, password) {
     console.log(username);
     console.log(password);
@@ -44,4 +54,8 @@ export async function create_user(username, password) {
     console.log(username);
     console.log(password);
     console.log("create user called");
+}
+
+export async function emit_cfg(cfg) {
+    console.log("Emitting: " + cfg);
 }

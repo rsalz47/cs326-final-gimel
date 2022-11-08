@@ -1,10 +1,15 @@
+/* eslint-disable camelcase */
 const express = require("express");
 const app = express();
 app.use(express.json());
 app.use(express.static("."));
+const fs = require("fs");
 
+let funcs = null;
 // This will be the database, eventually
 const comments = [{user: "sample_user", msg: "I would love a hug", id: 0}];
+
+const json_file = "./project_dir/cfg.json";
 
 app.post("/comments/create", (req, res) => {
     const temp = new Date();
@@ -17,6 +22,26 @@ app.post("/comments/create", (req, res) => {
     });
 
     res.json({ret: "comment successfully created :)"});
+});
+
+app.get("/cfg/function_list", (req, res) => {
+    // Parse cfg file if it hasn't been previously parsed
+    if (funcs === null) {
+        funcs = JSON.parse(fs.readFileSync(json_file, "utf-8"));
+    }
+
+    res.send(Object.keys(funcs));
+});
+
+app.post("/cfg/cfg_for_func", (req, res) => {
+    const {func_name} = req.body;
+
+    // Parse cfg file if it hasn't been previously parsed
+    if (funcs === null) {
+        funcs = JSON.parse(fs.readFileSync(json_file, "utf-8"));
+    }
+
+    res.send(JSON.stringify(funcs[func_name]));
 });
 
 app.post("/comments/read", (req, res) => {
