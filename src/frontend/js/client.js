@@ -47,13 +47,47 @@ export async function getAllComments() {
 export async function verify_user(username, password) {
     console.log(username);
     console.log(password);
-    console.log("verify user called");
+    const res = await fetch("/users/verify", {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({username, password})
+    });
+    const token = res.ok ? await res.text() : null;
+    return {
+        ok: res.ok,
+        token,
+    };
 }
 
 export async function create_user(username, password) {
     console.log(username);
     console.log(password);
-    console.log("create user called");
+    const res = await fetch("/users/register", {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({username, password})
+    });
+
+    console.log(await res.text());
+}
+
+export async function getUsers() {
+    const res = await fetch("/users", {
+        method: "GET",
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        }
+    });
+    return {
+        ok: res.ok,
+        ...await res.json()
+    };
 }
 
 export async function emit_cfg(cfg) {

@@ -1,12 +1,15 @@
-import {create_user, verify_user} from './client.js'
+import { create_user, verify_user } from "./client.js";
 
-function user_login() {
+async function user_login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    verify_user(username, password);
+    const {ok, token} = await verify_user(username, password);
+    if (ok) {
+        localStorage.setItem("token", token);
+        window.location.href = "/";
+    }
 }
-window.user_login = user_login;
 
 function user_register() {
     const username = document.getElementById("username").value;
@@ -14,4 +17,8 @@ function user_register() {
 
     create_user(username, password);
 }
-window.user_register = user_register;
+
+document.getElementById("user_login").addEventListener("click", user_login);
+document
+    .getElementById("user_register")
+    .addEventListener("click", user_register);
