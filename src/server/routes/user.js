@@ -64,10 +64,15 @@ router.get("/:id", checkToken, (req, res) => {
 
 router.post("/verify", (req, res) => {
     const {username, password} = req.body;
-    if (userlist.filter(({handle}) => handle === username).length === 1) {
-        res.send(authToken);
+    if (username && userlist.filter(({handle}) => handle === username).length === 1) {
+        res.send({
+            msg: "Valid credential",
+            data: authToken,
+        });
     } else {
-        res.status(400).send("Invalid credential");
+        res.status(400).send({
+            msg: "Invalid credential",
+        });
     }
 });
 
@@ -79,9 +84,13 @@ router.post("/register", (req, res) => {
             role: "U",
             handle: username,
         });
-        res.send("Success");
+        res.send({
+            msg: "New user registered",
+        });
     } else {
-        res.status(400).send("Username has been taken");
+        res.status(400).send({
+            msg: "Username has been taken",
+        });
     }
 });
 
