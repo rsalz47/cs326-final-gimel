@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import express from "express";
 import user from "./routes/user.js";
@@ -38,7 +39,6 @@ app.post("/cfg/cfg_for_func", (req, res) => {
 });
 
 app.post("/comments/create", (req, res) => {
-    const temp = new Date();
     const data = req.body;
     comments.push({
         timestamp: data.timestamp,

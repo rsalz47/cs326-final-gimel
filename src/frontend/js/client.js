@@ -1,15 +1,16 @@
+/* eslint-disable prefer-arrow-callback */
 /* eslint-disable camelcase */
 /* eslint-disable quote-props */
 import {insert_note} from "./notes.js";
 
-export async function addComment(text, user, timestamp) {
+export async function addComment(text, user, timestamp, id) {
     await fetch("/comments/create", {
         method: "POST",
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({msg: text, user, timestamp})
+        body: JSON.stringify({msg: text, user, timestamp, id})
     });
 }
 
@@ -41,7 +42,11 @@ export async function getAllComments() {
         body: ""
     });
     const messages = await resp.json();
-    messages.forEach(msg => insert_note(msg.user, msg.msg, msg.timestamp));
+    window.numMsg = 0;
+    messages.forEach(function (msg) {
+        insert_note(msg.user, msg.msg, msg.timestamp, window.numMsg);
+        window.numMsg++;
+    });
 }
 
 export async function verify_user(username, password) {
