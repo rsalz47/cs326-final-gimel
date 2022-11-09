@@ -109,3 +109,31 @@ export async function getStats() {
         ...await res.json()
     };
 }
+
+export async function getFileList() {
+    const res = await fetch("/sources/list", {
+        method: "GET",
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        }
+    });
+    return {
+        ok: res.ok,
+        ...await res.json()
+    };
+}
+
+export async function getFile(path) {
+    const endpoint = "/sources/file";
+    const params = {path};
+    const res = await fetch(endpoint + "?" + new URLSearchParams(params).toString(), {
+        method: "GET",
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        },
+    });
+    return {
+        ok: res.ok,
+        ...await res.json()
+    };
+}
