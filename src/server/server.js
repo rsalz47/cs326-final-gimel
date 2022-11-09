@@ -3,6 +3,7 @@
 import express from "express";
 import user from "./routes/user.js";
 import stat from "./routes/stat.js";
+import source from "./routes/source.js";
 import fs from "node:fs";
 
 const app = express();
@@ -15,6 +16,7 @@ const comments = [{user: "sample_user", msg: "I would love a hug", id: 0, timest
 
 app.use("/users/", user);
 app.use("/stats/", stat);
+app.use("/sources/", source);
 
 const json_file = "./project_dir/cfg.json";
 
