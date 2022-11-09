@@ -14,12 +14,12 @@ export async function addComment(text, user) {
 }
 
 export async function get_cfg_functions() {
-    const result = await fetch("http://localhost:3001/cfg/function_list");
+    const result = await fetch("/cfg/function_list");
     return result.json();
 }
 
 export async function get_cfg_for_func(func_name) {
-    const result = await fetch("http://localhost:3001/cfg/cfg_for_func", {
+    const result = await fetch("/cfg/cfg_for_func", {
         method: "POST",
         headers: {
             "Accept": "application/json",
@@ -32,7 +32,7 @@ export async function get_cfg_for_func(func_name) {
 }
 
 export async function getAllComments() {
-    const resp = await fetch("http://localhost:3001/comments/read", {
+    const resp = await fetch("/comments/read", {
         method: "POST",
         headers: {
             "Accept": "application/json",
@@ -103,8 +103,4 @@ export async function getStats() {
         ok: res.ok,
         ...await res.json()
     };
-}
-
-export async function emit_cfg(cfg) {
-    console.log("Emitting: " + cfg);
 }
