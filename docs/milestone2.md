@@ -50,6 +50,14 @@ user to the server-side db.
 > `/stats`  
 This api simply returns an object that contains all the relevant high-level statistics information.
 
+##### server/routes/source.js
+
+> `GET /sources/list`
+This API acquires available files listed in `project_dir/` in the server.
+
+> `GET /sources/file?path={p}`
+This API acquires file with path `p` in `project_dir/`. If the file does not
+exist, 404 returned.
 
 #### 2. Front-end Implementation
 
