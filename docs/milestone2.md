@@ -10,8 +10,9 @@ This api is used to insert a new comment into the server-side db. The web-app us
 notes using the message-field in the leftmost view of index.html.
 
 > `/comments/read`  
-This api is used to read all the currently existing notes from the server-side db. It is used to eg.
-display the notes in the leftmost view of index.html.
+This api is used to read all the currently existing notes from the server-side db. It is used to
+display the notes in the leftmost view of index.html, as well as continuously refresh the comments
+on the user-facing display.
 
 > `/comments/update`  
 This api is used to update existing comments. It reads out a comment from the database, and changes
@@ -19,7 +20,7 @@ its data field based on the changes requested by the user.
 
 > `/comments/delete`  
 This api is used to delete an existing comment. It takes in a note id and uses it to delete a note 
-from the server-side db. It is used for 
+from the server-side db.
 
 > `/cfg/function_list`  
 This api is used to return a list of function names for the target. This api's usecase basically
@@ -59,28 +60,27 @@ showcase 4 screenshots for the create/read/update/delete operations for the note
 > Create
 This screenshot showcases the comments window, and how new comments can be added to it using the
 text-field and the 'send' button.
-![notes_create](../imgs/notes_create.png)
+
+![](../imgs/notes_create.PNG)
 
 > Read
 This screenshot just showcases the comments window. The read api is used to read out comments from
 the server-side db and lists them on the user interface.
-![notes_read](../imgs/notes_read.png)
+![](../imgs/notes_read.PNG)
 
 > Update
 This screenshot showcases how the update api can be used to update a comment on the site
-![notes_update](../imgs/notes_update.png)
+![](../imgs/notes_edit1.PNG)
+![](../imgs/notes_edit2.PNG)
 
 > Delete
 This screenshot showcases how the delete api can be used to delete a comment on the site
-![notes_delete](../imgs/notes_delete1.png)
-![notes_delete](../imgs/notes_delete2.png)
+![notes_delete](../imgs/notes_delete1.PNG)
+![notes_delete](../imgs/notes_delete2.PNG)
 
 
 #### 3. Deployment
-
-TODO:
-1. TODO: Screenshots for the apis in part 2
-2. Hosting + setup.md + Finish deploymnet part
+Our website is currently deployed at boiling-forest-11621.herokuapp.com
 
 #### Work Breakdown
 We did almost all of the work on this project together in one room, so we all spent approximately
