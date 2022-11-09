@@ -1,5 +1,6 @@
 // Temporary data entries
-const authTokens = ["UMASS EXPRESS_BAD"];
+// Express.js could have been better to handle these
+const authTokens = ["SAMPLE_TOKEN"];
 const userlist = [
     {
         first: "Ronan",
