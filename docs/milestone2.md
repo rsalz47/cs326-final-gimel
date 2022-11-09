@@ -5,49 +5,49 @@
 Usage examples for all of these api's are in `src/frontend/js/client.js`
 
 ##### server/server.js
-> `/comments/create`  
+> `POST comments/create`  
 This api is used to insert a new comment into the server-side db. The web-app uses it to insert 
 notes using the message-field in the leftmost view of index.html.
 
-> `/comments/read`  
+> `POST /comments/read`  
 This api is used to read all the currently existing notes from the server-side db. It is used to
 display the notes in the leftmost view of index.html, as well as continuously refresh the comments
 on the user-facing display.
 
-> `/comments/update`  
+> `POST /comments/update`  
 This api is used to update existing comments. It reads out a comment from the database, and changes
 its data field based on the changes requested by the user.
 
-> `/comments/delete`  
+> `POST /comments/delete`  
 This api is used to delete an existing comment. It takes in a note id and uses it to delete a note 
 from the server-side db.
 
-> `/cfg/function_list`  
+> `GET /cfg/function_list`  
 This api is used to return a list of function names for the target. This api's usecase basically
 mirrors just running objdump on the target binary with the option to just look for function nanmes.
 
-> `/cfg/cfg_for_func`  
+> `POST /cfg/cfg_for_func`  
 This api takes in a function name and queries the targets cfg-object to return the control flow
 graph for the function corresponding to the name.
 
 ##### server/routes/user.js  
-> `/users`  
+> `GET /users`  
 This api returns information about all users
 
-> `users/:id`  
+> `GET /users/:id`  
 This api takes in a user id from the get request to it and uses it to return the data about a
-user-account. 
+user-account.
 
-> `/users/verify`  
+> `POST /users/verify`  
 This api validates a username/password from the data of a post request and communicates if this is 
 a valid combination for an existing user.
 
-> `/users/register`  
+> `POST /users/register`  
 This api takes in a username/password from the data of a post request and uses it to register a new
 user to the server-side db.
 
 ##### server/routes/stat.js  
-> `/stats`  
+> `GET /stats`  
 This api simply returns an object that contains all the relevant high-level statistics information.
 
 ##### server/routes/source.js
