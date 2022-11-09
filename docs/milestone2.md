@@ -130,7 +130,7 @@ This screenshot showcases how the delete API can be used to delete a comment on 
 
 
 #### 3. Deployment
-Our website is currently deployed at https://boiling-forest-11621.herokuapp.com
+Our website is currently deployed at https://boiling-forest-11261.herokuapp.com/
 
 Automatic deployment is enabled on `main` branch.
 
