@@ -11,6 +11,7 @@ export default function validateBody(validator) {
      * @param {} next
      */
     return (req, res, next) => {
+        console.log(req);
         if (validator.validate(req.body)) {
             next();
         } else {

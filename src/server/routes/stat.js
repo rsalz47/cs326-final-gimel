@@ -52,7 +52,7 @@ const sfuzz_map = {
     exec_time: "run_time",
 };
 
-router.post("/", validateBody(sfuzz_schema), (req, res) => {
+router.post("/", (req, res) => {
     Object.entries(sfuzz_map).forEach(([recv, target]) => {
         fuzzerStatus[target] = req.body[recv];
     });

@@ -1,4 +1,5 @@
-import {readdir, readFile} from "fs/promises";
+import fs from "fs";
+const {readdir, readFile} = fs.promises;
 
 const baseFolder = "project_dir";
 
