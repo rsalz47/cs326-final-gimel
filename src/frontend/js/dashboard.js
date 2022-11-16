@@ -76,7 +76,7 @@ async function populateStat() {
 
         const titleA = document.createElement("td");
         const titleDec = document.createElement("b");
-        titleDec.textContent = string[key];
+        titleDec.textContent = string[key] || key;
         titleA.appendChild(titleDec);
         node.appendChild(titleA);
 
