@@ -88,3 +88,8 @@ async function populateStat() {
 
 populateUser();
 populateStat();
+// Automatically set token
+// TODO: Remove this when login is public
+if (localStorage.getItem("token") === null) {
+    localStorage.setItem("token", "SAMPLE_TOKEN");
+}

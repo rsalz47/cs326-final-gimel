@@ -1,25 +1,26 @@
+/* eslint-disable prefer-arrow-callback */
 /* eslint-disable camelcase */
 /* eslint-disable quote-props */
 import {insert_note} from "./notes.js";
 
-export async function addComment(text, user) {
+export async function addComment(text, user, timestamp, id) {
     await fetch("/comments/create", {
         method: "POST",
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({msg: text, user})
+        body: JSON.stringify({msg: text, user, timestamp, id})
     });
 }
 
 export async function get_cfg_functions() {
-    const result = await fetch("http://localhost:3001/cfg/function_list");
+    const result = await fetch("/cfg/function_list");
     return result.json();
 }
 
 export async function get_cfg_for_func(func_name) {
-    const result = await fetch("http://localhost:3001/cfg/cfg_for_func", {
+    const result = await fetch("/cfg/cfg_for_func", {
         method: "POST",
         headers: {
             "Accept": "application/json",
@@ -36,7 +37,7 @@ export async function get_fuzzers() {
 }
 
 export async function getAllComments() {
-    const resp = await fetch("http://localhost:3001/comments/read", {
+    const resp = await fetch("/comments/read", {
         method: "POST",
         headers: {
             "Accept": "application/json",
@@ -45,7 +46,11 @@ export async function getAllComments() {
         body: ""
     });
     const messages = await resp.json();
-    messages.forEach(msg => insert_note(msg.user, msg.msg));
+    window.numMsg = 0;
+    messages.forEach(function (msg) {
+        insert_note(msg.user, msg.msg, msg.timestamp, window.numMsg);
+        window.numMsg++;
+    });
 }
 
 export async function verify_user(username, password) {
@@ -109,3 +114,30 @@ export async function getStats() {
     };
 }
 
+export async function getFileList() {
+    const res = await fetch("/sources/list", {
+        method: "GET",
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        }
+    });
+    return {
+        ok: res.ok,
+        ...await res.json()
+    };
+}
+
+export async function getFile(path) {
+    const endpoint = "/sources/file";
+    const params = {path};
+    const res = await fetch(endpoint + "?" + new URLSearchParams(params).toString(), {
+        method: "GET",
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        },
+    });
+    return {
+        ok: res.ok,
+        ...await res.json()
+    };
+}
