@@ -10,11 +10,13 @@ const startTime = new Date();
 
 const fuzzerStatus = {
     cases_total: 0,
-    run_time: 0,
     crash_total: 0,
     crash_uniq: 0,
+    run_time: 0,
     coverage: 0,
     cmp_cov: 0,
+    instr_count: 0,
+    timeouts: 0
 };
 
 router.get("/", (req, res) => {
@@ -37,7 +39,6 @@ const sfuzz_schema = kip
         coverage: kip.number(),
         cmpcov: kip.number(),
         exec_time: kip.number(),
-        // Unused
         instr_count: kip.number(),
         timeouts: kip.number(),
     })
