@@ -1,3 +1,4 @@
+
 /// Clear a div
 function clear_div(element) {
     element.textContent = '';

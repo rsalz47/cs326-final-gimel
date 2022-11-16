@@ -3,6 +3,14 @@ import express from "express";
 import user from "./routes/user.js";
 import stat from "./routes/stat.js";
 import fs from "node:fs";
+import KaitaiStream from 'kaitai-struct/KaitaiStream.js';
+import {Sfuzz} from "../../fuzzer_config/Sfuzz.js";
+
+const fuzzer = 
+    fs.readFileSync("/home/seal/github/cs326-final-gimel/fuzzer_config/line_graph_data.bin");
+//const parsedElf = new Sfuzz(new KaitaiStream(fileContent));
+//console.log(parsedElf);
+console.log(fuzzer);
 
 const app = express();
 app.use(express.json());
@@ -48,6 +56,10 @@ app.post("/cfg/cfg_for_func", (req, res) => {
     }
 
     res.send(JSON.stringify(funcs[func_name]));
+});
+
+app.get("/config/fuzzers", (req, res) => {
+    res.send(Object.keys(funcs));
 });
 
 app.post("/comments/read", (req, res) => {

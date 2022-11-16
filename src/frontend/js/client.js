@@ -31,6 +31,10 @@ export async function get_cfg_for_func(func_name) {
     return result.json();
 }
 
+/// Return all the currently existing fuzzer configs
+export async function get_fuzzers() {
+}
+
 export async function getAllComments() {
     const resp = await fetch("http://localhost:3001/comments/read", {
         method: "POST",
@@ -105,6 +109,3 @@ export async function getStats() {
     };
 }
 
-export async function emit_cfg(cfg) {
-    console.log("Emitting: " + cfg);
-}
