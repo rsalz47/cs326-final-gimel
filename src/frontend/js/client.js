@@ -32,6 +32,10 @@ export async function get_cfg_for_func(func_name) {
     return result.json();
 }
 
+/// Return all the currently existing fuzzer configs
+export async function get_fuzzers() {
+}
+
 export async function getAllComments() {
     const resp = await fetch("/comments/read", {
         method: "POST",
