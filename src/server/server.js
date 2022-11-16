@@ -13,11 +13,7 @@ app.use(express.static("."));
 import pkg from "pg";
 const {Pool} = pkg;
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
-    // {
-    //     rejectUnauthorized: false
-    // }
+    connectionString: process.env.DATABASE_URL
 });
 
 console.log(process.env.DATABASE_URL);
