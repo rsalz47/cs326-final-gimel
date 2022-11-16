@@ -1,4 +1,5 @@
 import {getStats, getUsers} from "./client.js";
+import timefmt from "./logic/timefmt.js";
 
 async function populateUser() {
     const {ok, data: userData} = await getUsers();
@@ -63,6 +64,7 @@ async function populateStat() {
         run_time: "Runtime",
         crash_total: "Total Crashes",
         crash_uniq: "Unique Crashes",
+        server_run_time: "Server Runtime",
     };
 
     Object.entries(statData).forEach(([key, value]) => {
@@ -79,7 +81,19 @@ async function populateStat() {
         node.appendChild(titleA);
 
         const valueA = document.createElement("td");
-        valueA.textContent = value;
+        switch (key) {
+        case "cases_per_sec":
+            valueA.textContent = Number(value).toFixed(6);
+            break;
+        case "run_time":
+        case "server_run_time":
+            valueA.textContent = timefmt(value);
+            break;
+        default:
+            valueA.textContent = value;
+            break;
+        }
+
         node.appendChild(valueA);
 
         ele.appendChild(node);
@@ -88,6 +102,8 @@ async function populateStat() {
 
 populateUser();
 populateStat();
+
+setInterval(populateStat, 1000);
 // Automatically set token
 // TODO: Remove this when login is public
 if (localStorage.getItem("token") === null) {
