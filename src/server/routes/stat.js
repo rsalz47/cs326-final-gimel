@@ -14,7 +14,7 @@ const fuzzerStatus = {
     crash_total: 0,
     crash_uniq: 0,
     coverage: 0,
-    total_coverage: 0,
+    cmp_cov: 0,
 };
 
 router.get("/", (req, res) => {
@@ -48,8 +48,10 @@ const sfuzz_map = {
     crashes: "crash_total",
     ucrashes: "crash_uniq",
     coverage: "coverage",
-    cmpcov: "total_coverage",
+    cmpcov: "cmp_cov",
     exec_time: "run_time",
+    instr_count: "instr_count",
+    timeouts: "timeouts",
 };
 
 router.post("/", (req, res) => {
