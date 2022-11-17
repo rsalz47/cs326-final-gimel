@@ -82,7 +82,7 @@ app.post("/comments/delete", (req, res) => {
 app.get("/db", async (req, res) => {
     const client = await pool.connect();
     const result = await client.query("SELECT * FROM users");
-    console.log(result);
+    res.send(result);
 });
 
 app.listen(process.env.PORT || 3001);
