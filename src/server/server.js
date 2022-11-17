@@ -81,7 +81,7 @@ app.post("/comments/delete", (req, res) => {
 
 app.get("/db", async (req, res) => {
     const client = await pool.connect();
-    const result = await client.query("SELECT * FROM users").rows;
+    const result = await client.query("SELECT * FROM users");
     res.send(result);
 });
 
