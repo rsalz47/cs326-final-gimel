@@ -5,10 +5,19 @@ import user from "./routes/user.js";
 import stat from "./routes/stat.js";
 import source from "./routes/source.js";
 import fs from "node:fs";
+import "dotenv/config";
 
 const app = express();
 app.use(express.json());
 app.use(express.static("."));
+
+import pkg from "pg";
+const {Pool} = pkg;
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL
+});
+
+console.log(process.env.DATABASE_URL);
 
 let funcs = null;
 // This will be the database, eventually
@@ -68,6 +77,12 @@ app.post("/comments/delete", (req, res) => {
     comments.splice(index, 1);
     console.log(comments);
     console.log(`comment ${index} successfully deleted >:)`);
+});
+
+app.get("/db", async (req, res) => {
+    const client = await pool.connect();
+    const result = await client.query("SELECT * FROM users");
+    console.log(result);
 });
 
 app.listen(process.env.PORT || 3001);
