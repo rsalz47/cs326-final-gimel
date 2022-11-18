@@ -55,10 +55,19 @@ const sfuzz_map = {
     timeouts: "timeouts",
 };
 
+export const hit_blocks = [];
+
 router.post("/", (req, res) => {
     Object.entries(sfuzz_map).forEach(([recv, target]) => {
         fuzzerStatus[target] = req.body[recv];
     });
+    res.sendStatus(200);
+});
+
+router.post("/cov/", (req, res) => {
+    const data = req.body;
+    data.forEach(e => hit_blocks.push(e));
+    hit_blocks.forEach(e => console.log(e.toString(16)));
     res.sendStatus(200);
 });
 

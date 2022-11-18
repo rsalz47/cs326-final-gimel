@@ -1,16 +1,34 @@
 {
-    "_init": {
+    "exit": {
         "blocks": [
-            [
-                "if (__gmon_start__ == 0) then 1 @ 0x40101a else 2 @ 0x401014"
-            ],
-            [
-                "return "
-            ],
-            [
-                "rax = __gmon_start__()",
-                "goto 1 @ 0x40101a"
-            ]
+            {
+                "addr": 65768,
+                "instrs": [
+                    "addi    sp sp -0x10",
+                    "mv      a1 zero  {0x0}",
+                    "sd      s0 sp {var_10}",
+                    "sd      ra sp 0x8 {var_8}",
+                    "mv      s0 a0",
+                    "jal     __call_exitprocs  {0x10100}",
+                    "ld      a0 gp 0x750  {data_12fe8}",
+                    "ld      a5 a0 0x58",
+                    "beqz    a5 data_10110"
+                ]
+            },
+            {
+                "addr": 65808,
+                "instrs": [
+                    "mv      a0 s0",
+                    "jal     _exit  {register_fini}",
+                    "{ Does not return }"
+                ]
+            },
+            {
+                "addr": 65804,
+                "instrs": [
+                    "jalr    a5  {data_10110}"
+                ]
+            }
         ],
         "edges": [
             [
@@ -20,120 +38,82 @@
             [
                 0,
                 2
-            ],
-            [
-                2,
-                1
             ]
         ]
     },
-    "sub_401030": {
+    "register_fini": {
         "blocks": [
-            [
-                "var_8 = 0",
-                "goto 2 @ 0x401020"
-            ],
-            [
-                "var_10 = [data_404008].q",
-                "\u2753jump([data_404010].q)"
-            ]
+            {
+                "addr": 65816,
+                "instrs": [
+                    "mv      a5 zero",
+                    "beqz    a5 data_1012c  {0x1}"
+                ]
+            },
+            {
+                "addr": 65836,
+                "instrs": [
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 65824,
+                "instrs": [
+                    "lui     a0 0x10",
+                    "addi    a0 a0 0x5c0  {0x5d0}",
+                    "j       atexit"
+                ]
+            }
         ],
         "edges": [
             [
                 0,
                 1
+            ],
+            [
+                0,
+                2
             ]
         ]
-    },
-    "read": {
-        "blocks": [
-            [
-                "return read(fd, buf, nbytes) __tailcall"
-            ]
-        ],
-        "edges": []
-    },
-    "open": {
-        "blocks": [
-            [
-                "return open() __tailcall"
-            ]
-        ],
-        "edges": []
     },
     "_start": {
         "blocks": [
-            [
-                "rbp = 0",
-                "r9 = arg3",
-                "rsi = __return_addr:0.d",
-                "rdx = &arg_8",
-                "var_8 = rax",
-                "var_10 = &var_8",
-                "__libc_start_main(main, rsi, rdx, nullptr, nullptr, r9, var_10)",
-                "noreturn"
-            ]
-        ],
-        "edges": []
-    },
-    "_dl_relocate_static_pie": {
-        "blocks": [
-            [
-                "return "
-            ]
-        ],
-        "edges": []
-    },
-    "deregister_tm_clones": {
-        "blocks": [
-            [
-                "if (true) then 1 @ 0x4010d0 else 2 @ 0x4010c5"
-            ],
-            [
-                "return "
-            ],
-            [
-                "if (true) then 1 @ 0x4010d0 else 3 @ 0x4010c7"
-            ],
-            [
-                "rdi = 0x404038",
-                "\u2753jump(0)"
-            ]
-        ],
-        "edges": [
-            [
-                0,
-                1
-            ],
-            [
-                0,
-                2
-            ],
-            [
-                2,
-                1
-            ],
-            [
-                2,
-                3
-            ]
-        ]
-    },
-    "register_tm_clones": {
-        "blocks": [
-            [
-                "if (true) then 1 @ 0x401110 else 2 @ 0x401107"
-            ],
-            [
-                "return "
-            ],
-            [
-                "if (true) then 1 @ 0x401110 else 3 @ 0x401109"
-            ],
-            [
-                "rdi = 0x404038",
-                "\u2753jump(0)"
-            ]
+            {
+                "addr": 65840,
+                "instrs": [
+                    "auipc   gp 0x3",
+                    "addi    gp gp -0x198",
+                    "addi    a0 gp 0x778",
+                    "auipc   a2 0x3",
+                    "addi    a2 a2 0x65c",
+                    "sub     a2 a2 a0  {0x88}",
+                    "mv      a1 zero  {0x0}",
+                    "jal     memset  {0x10150}",
+                    "auipc   a0 0x0",
+                    "addi    a0 a0 0x74c",
+                    "beqz    a0 data_10168  {0x0}"
+                ]
+            },
+            {
+                "addr": 65896,
+                "instrs": [
+                    "jal     __libc_init_array  {0x1016c}",
+                    "lw      a0 sp {__return_addr}",
+                    "addi    a1 sp 0x8 {arg_8}",
+                    "mv      a2 zero  {0x0}",
+                    "jal     main  {0x1017c}",
+                    "j       exit",
+                    "{ Does not return }"
+                ]
+            },
+            {
+                "addr": 65884,
+                "instrs": [
+                    "auipc   a0 0x0",
+                    "addi    a0 a0 0x464  {__libc_fini_array}",
+                    "jal     atexit  {data_10168}"
+                ]
+            }
         ],
         "edges": [
             [
@@ -147,26 +127,102 @@
             [
                 2,
                 1
-            ],
-            [
-                2,
-                3
             ]
         ]
     },
     "__do_global_dtors_aux": {
         "blocks": [
+            {
+                "addr": 65920,
+                "instrs": [
+                    "addi    sp sp -0x10",
+                    "sd      s0 sp {__saved_s0}",
+                    "lbu     a5 gp 0x7a0  {0x22f38}",
+                    "sd      ra sp 0x8 {var_8}",
+                    "bnez    a5 data_101b4"
+                ]
+            },
+            {
+                "addr": 65972,
+                "instrs": [
+                    "ld      ra sp 0x8",
+                    "ld      s0 sp {__saved_s0}",
+                    "addi    sp sp 0x10",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 65940,
+                "instrs": [
+                    "mv      a5 zero",
+                    "beqz    a5 data_101ac  {0x1}"
+                ]
+            },
+            {
+                "addr": 65964,
+                "instrs": [
+                    "addi    a5 zero 0x1",
+                    "sb      a5 gp 0x7a0  {0x1}  {completed.1}"
+                ]
+            },
+            {
+                "addr": 65948,
+                "instrs": [
+                    "lui     a0 0x12",
+                    "addi    a0 a0 0x770  {0x782}",
+                    "auipc   ra 0x0  {0x101a4}",
+                    "??"
+                ]
+            }
+        ],
+        "edges": [
             [
-                "if ([__TMC_END__].b != 0) then 1 @ 0x401140 else 2 @ 0x401131"
+                0,
+                1
             ],
             [
-                "return "
+                0,
+                2
             ],
             [
-                "rax = deregister_tm_clones()",
-                "[__TMC_END__].b = 1",
-                "return "
+                2,
+                3
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                3,
+                1
             ]
+        ]
+    },
+    "frame_dummy": {
+        "blocks": [
+            {
+                "addr": 65988,
+                "instrs": [
+                    "mv      a5 zero",
+                    "beqz    a5 data_101e0  {0x1}"
+                ]
+            },
+            {
+                "addr": 66016,
+                "instrs": [
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 65996,
+                "instrs": [
+                    "lui     a0 0x12",
+                    "addi    a1 gp 0x7a8  {object.0}",
+                    "addi    a0 a0 0x770  {0x782}",
+                    "auipc   t1 0x0  {0x101d8}",
+                    "\u2753jr      zero"
+                ]
+            }
         ],
         "edges": [
             [
@@ -179,62 +235,102 @@
             ]
         ]
     },
-    "frame_dummy": {
-        "blocks": [
-            [
-                "return register_tm_clones() __tailcall"
-            ]
-        ],
-        "edges": []
-    },
     "main": {
         "blocks": [
-            [
-                "var_7c = argc",
-                "var_88 = argv",
-                "rax = var_88",
-                "rax_1 = rax + 8",
-                "rax_2 = [rax_1].q",
-                "rdi = rax_2",
-                "rax_3 = 0",
-                "rax_4 = open(rdi, 0)",
-                "var_c = rax_4",
-                "rax_5 = var_c",
-                "rsi = &var_78",
-                "rdi_1 = rax_5",
-                "rax_6 = 0",
-                "read(rdi_1, rsi, 0x64)",
-                "rax_7 = var_78",
-                "if (rax_7 != 0x41) then 16 @ 0x4011e5 else 18 @ 0x4011ac"
-            ],
-            [
-                "rax_13 = 0",
-                "return 0"
-            ],
-            [
-                "rax_8 = var_77",
-                "if (rax_8 != 0x42) then 16 @ 0x4011e5 else 20 @ 0x4011b4"
-            ],
-            [
-                "rax_9 = var_76",
-                "if (rax_9 != 0x43) then 16 @ 0x4011e5 else 22 @ 0x4011bc"
-            ],
-            [
-                "rax_10 = var_75",
-                "if (rax_10 != 0x44) then 16 @ 0x4011e5 else 24 @ 0x4011c4"
-            ],
-            [
-                "rax_11 = var_74",
-                "if (rax_11 != 0x45) then 16 @ 0x4011e5 else 26 @ 0x4011cc"
-            ],
-            [
-                "rax_12 = var_73",
-                "if (rax_12 != 0x46) then 16 @ 0x4011e5 else 28 @ 0x4011de"
-            ],
-            [
-                "[0x4141414141414141].q = 0",
-                "goto 16 @ 0x4011e5"
-            ]
+            {
+                "addr": 66020,
+                "instrs": [
+                    "addi    sp sp -0x90",
+                    "sd      ra sp 0x88 {var_8}",
+                    "sd      s0 sp 0x80 {var_10}",
+                    "addi    s0 sp 0x90 {__return_addr}",
+                    "mv      a5 a0",
+                    "sd      a1 s0 -0x90 {var_90}",
+                    "sw      a5 s0 -0x84 {var_84}",
+                    "ld      a5 s0 -0x90 {arg8}",
+                    "addi    a5 a5 0x8",
+                    "ld      a5 a5",
+                    "mv      a1 zero  {0x0}",
+                    "mv      a0 a5",
+                    "jal     open  {0x10218}",
+                    "mv      a5 a0",
+                    "sw      a5 s0 -0x14 {var_14}",
+                    "addi    a4 s0 -0x78 {var_78}",
+                    "lw      a5 s0 -0x14 {arg16}",
+                    "addi    a2 zero 0x64",
+                    "mv      a1 a4 {var_78}",
+                    "mv      a0 a5",
+                    "jal     read  {0x10238}",
+                    "lbu     a5 s0 -0x78 {arg10}",
+                    "mv      a4 a5",
+                    "addi    a5 zero 0x41",
+                    "bne     a4 a5 data_102a4"
+                ]
+            },
+            {
+                "addr": 66212,
+                "instrs": [
+                    "mv      a5 zero  {0x0}",
+                    "mv      a0 a5  {0x0}",
+                    "ld      ra sp 0x88 {arg_fef8}",
+                    "ld      s0 sp 0x80 {arg9}",
+                    "addi    sp sp 0x90",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 66120,
+                "instrs": [
+                    "lbu     a5 s0 -0x77 {arg11}",
+                    "mv      a4 a5",
+                    "addi    a5 zero 0x42",
+                    "bne     a4 a5 data_102a4"
+                ]
+            },
+            {
+                "addr": 66136,
+                "instrs": [
+                    "lbu     a5 s0 -0x76 {arg12}",
+                    "mv      a4 a5",
+                    "addi    a5 zero 0x43",
+                    "bne     a4 a5 data_102a4"
+                ]
+            },
+            {
+                "addr": 66152,
+                "instrs": [
+                    "lbu     a5 s0 -0x75 {arg13}",
+                    "mv      a4 a5",
+                    "addi    a5 zero 0x44",
+                    "bne     a4 a5 data_102a4"
+                ]
+            },
+            {
+                "addr": 66168,
+                "instrs": [
+                    "lbu     a5 s0 -0x74 {arg14}",
+                    "mv      a4 a5",
+                    "addi    a5 zero 0x45",
+                    "bne     a4 a5 data_102a4"
+                ]
+            },
+            {
+                "addr": 66184,
+                "instrs": [
+                    "lbu     a5 s0 -0x73 {arg15}",
+                    "mv      a4 a5",
+                    "addi    a5 zero 0x46",
+                    "bne     a4 a5 data_102a4"
+                ]
+            },
+            {
+                "addr": 66200,
+                "instrs": [
+                    "lui     a5 0x11",
+                    "ld      a5 a5 0x768  {0x79}",
+                    "sd      zero a5  {0x0}"
+                ]
+            }
         ],
         "edges": [
             [
@@ -291,11 +387,4482 @@
             ]
         ]
     },
-    "_fini": {
+    "__libc_init_array": {
         "blocks": [
+            {
+                "addr": 66236,
+                "instrs": [
+                    "addi    sp sp -0x20",
+                    "sd      s0 sp 0x10 {__saved_s0}",
+                    "sd      s2 sp {__saved_s2}",
+                    "lui     s0 0x12",
+                    "lui     s2 0x12",
+                    "addi    a5 s0 0x774",
+                    "addi    s2 s2 0x774",
+                    "sub     s2 s2 a5",
+                    "sd      ra sp 0x18 {var_8}",
+                    "sd      s1 sp 0x8 {__saved_s1}",
+                    "srai    s2 s2 0x3",
+                    "beqz    s2 data_10308  {0x1}"
+                ]
+            },
+            {
+                "addr": 66312,
+                "instrs": [
+                    "lui     s0 0x12",
+                    "lui     s2 0x12",
+                    "addi    a5 s0 0x778",
+                    "addi    s2 s2 0x788",
+                    "sub     s2 s2 a5",
+                    "srai    s2 s2 0x3",
+                    "beqz    s2 data_10340  {0x0}"
+                ]
+            },
+            {
+                "addr": 66284,
+                "instrs": [
+                    "addi    s0 s0 0x774  {0x786}",
+                    "mv      s1 zero  {0x0}"
+                ]
+            },
+            {
+                "addr": 66368,
+                "instrs": [
+                    "ld      ra sp 0x18",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "ld      s2 sp {__saved_s2}",
+                    "addi    sp sp 0x20",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 66340,
+                "instrs": [
+                    "addi    s0 s0 0x778  {0x78a}",
+                    "mv      s1 zero  {0x0}"
+                ]
+            },
+            {
+                "addr": 66308,
+                "instrs": [
+                    "bne     s2 s1 data_102f4"
+                ]
+            },
+            {
+                "addr": 66364,
+                "instrs": [
+                    "bne     s2 s1 data_1032c"
+                ]
+            },
+            {
+                "addr": 66292,
+                "instrs": [
+                    "ld      a5 s0",
+                    "addi    s1 s1 0x1",
+                    "addi    s0 s0 0x8",
+                    "jalr    a5  {data_10304}"
+                ]
+            },
+            {
+                "addr": 66348,
+                "instrs": [
+                    "ld      a5 s0",
+                    "addi    s1 s1 0x1",
+                    "addi    s0 s0 0x8",
+                    "jalr    a5  {data_1033c}"
+                ]
+            }
+        ],
+        "edges": [
             [
-                "return "
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                3
+            ],
+            [
+                1,
+                4
+            ],
+            [
+                2,
+                7
+            ],
+            [
+                4,
+                8
+            ],
+            [
+                5,
+                7
+            ],
+            [
+                5,
+                1
+            ],
+            [
+                6,
+                8
+            ],
+            [
+                6,
+                3
+            ],
+            [
+                7,
+                5
+            ],
+            [
+                8,
+                6
             ]
+        ]
+    },
+    "memset": {
+        "blocks": [
+            {
+                "addr": 66392,
+                "instrs": [
+                    "addi    t1 zero 0xf",
+                    "mv      a4 a0",
+                    "bgeu    t1 a2 data_10394  {0x1}"
+                ]
+            },
+            {
+                "addr": 66452,
+                "instrs": [
+                    "sub     a3 t1 a2",
+                    "slli    a3 a3 0x2",
+                    "auipc   t0 0x0",
+                    "add     a3 a3 t0",
+                    "\u2753jalr    zero a3 0x103b0"
+                ]
+            },
+            {
+                "addr": 66404,
+                "instrs": [
+                    "andi    a5 a4 0xf",
+                    "bnez    a5 data_10408"
+                ]
+            },
+            {
+                "addr": 66568,
+                "instrs": [
+                    "slli    a3 a5 0x2",
+                    "auipc   t0 0x0",
+                    "add     a3 a3 t0",
+                    "mv      t0 ra",
+                    "jalr    ra a3 0x103b0  {data_1041c}"
+                ]
+            },
+            {
+                "addr": 66412,
+                "instrs": [
+                    "bnez    a1 data_103e8"
+                ]
+            },
+            {
+                "addr": 66588,
+                "instrs": [
+                    "mv      ra t0",
+                    "addi    a5 a5 -0x10",
+                    "sub     a4 a4 a5",
+                    "add     a2 a2 a5",
+                    "bgeu    t1 a2 data_10394"
+                ]
+            },
+            {
+                "addr": 66536,
+                "instrs": [
+                    "andi    a1 a1 0xff",
+                    "slli    a3 a1 0x8",
+                    "or      a1 a1 a3",
+                    "slli    a3 a1 0x10",
+                    "or      a1 a1 a3",
+                    "slli    a3 a1 0x20",
+                    "or      a1 a1 a3",
+                    "j       data_10370"
+                ]
+            },
+            {
+                "addr": 66416,
+                "instrs": [
+                    "andi    a3 a2 -0x10",
+                    "andi    a2 a2 0xf",
+                    "add     a3 a3 a4"
+                ]
+            },
+            {
+                "addr": 66608,
+                "instrs": [
+                    "j       data_1036c"
+                ]
+            },
+            {
+                "addr": 66428,
+                "instrs": [
+                    "sd      a1 a4",
+                    "sd      a1 a4 0x8",
+                    "addi    a4 a4 0x10",
+                    "bltu    a4 a3 data_1037c"
+                ]
+            },
+            {
+                "addr": 66444,
+                "instrs": [
+                    "bnez    a2 data_10394"
+                ]
+            },
+            {
+                "addr": 66448,
+                "instrs": [
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                3,
+                5
+            ],
+            [
+                4,
+                6
+            ],
+            [
+                4,
+                7
+            ],
+            [
+                5,
+                1
+            ],
+            [
+                5,
+                8
+            ],
+            [
+                6,
+                7
+            ],
+            [
+                7,
+                9
+            ],
+            [
+                8,
+                4
+            ],
+            [
+                9,
+                9
+            ],
+            [
+                9,
+                10
+            ],
+            [
+                10,
+                1
+            ],
+            [
+                10,
+                11
+            ]
+        ]
+    },
+    "open": {
+        "blocks": [
+            {
+                "addr": 66612,
+                "instrs": [
+                    "mv      t1 a0",
+                    "ld      a0 gp 0x760  {data_12ff8}",
+                    "addi    sp sp -0x50",
+                    "sd      a2 sp 0x20 {var_30}",
+                    "sd      a3 sp 0x28 {var_28}",
+                    "sd      a5 sp 0x38 {var_18}",
+                    "sext.w  a3 a2",
+                    "addi    a5 sp 0x20 {var_30}",
+                    "mv      a2 a1",
+                    "mv      a1 t1",
+                    "sd      ra sp 0x18 {var_38}",
+                    "sd      a4 sp 0x30 {var_20}",
+                    "sd      a6 sp 0x40 {var_10}",
+                    "sd      a7 sp 0x48 {var_8}",
+                    "sd      a5 sp 0x8 {var_48} {var_30}",
+                    "jal     _open_r  {0x10474}",
+                    "ld      ra sp 0x18",
+                    "addi    sp sp 0x50",
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": []
+    },
+    "read": {
+        "blocks": [
+            {
+                "addr": 66688,
+                "instrs": [
+                    "mv      a5 a0",
+                    "ld      a0 gp 0x760  {data_12ff8}",
+                    "mv      a3 a2",
+                    "mv      a2 a1",
+                    "mv      a1 a5",
+                    "j       _read_r"
+                ]
+            }
+        ],
+        "edges": []
+    },
+    "__call_exitprocs": {
+        "blocks": [
+            {
+                "addr": 66712,
+                "instrs": [
+                    "addi    sp sp -0x50",
+                    "sd      s4 sp 0x20 {__saved_s4}",
+                    "ld      s4 gp 0x750  {data_12fe8}",
+                    "sd      s2 sp 0x30 {__saved_s2}",
+                    "sd      ra sp 0x48 {var_8}",
+                    "ld      s2 s4 0x1f8",
+                    "sd      s0 sp 0x40 {__saved_s0}",
+                    "sd      s1 sp 0x38 {__saved_s1}",
+                    "sd      s3 sp 0x28 {__saved_s3}",
+                    "sd      s5 sp 0x18 {__saved_s5}",
+                    "sd      s6 sp 0x10 {__saved_s6}",
+                    "sd      s7 sp 0x8 {__saved_s7}",
+                    "sd      s8 sp {__saved_s8}",
+                    "beqz    s2 data_1050c"
+                ]
+            },
+            {
+                "addr": 66828,
+                "instrs": [
+                    "ld      ra sp 0x48",
+                    "ld      s0 sp 0x40 {__saved_s0}",
+                    "ld      s1 sp 0x38 {__saved_s1}",
+                    "ld      s2 sp 0x30 {__saved_s2}",
+                    "ld      s3 sp 0x28 {__saved_s3}",
+                    "ld      s4 sp 0x20 {__saved_s4}",
+                    "ld      s5 sp 0x18 {__saved_s5}",
+                    "ld      s6 sp 0x10 {__saved_s6}",
+                    "ld      s7 sp 0x8 {__saved_s7}",
+                    "ld      s8 sp {__saved_s8}",
+                    "addi    sp sp 0x50",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 66768,
+                "instrs": [
+                    "mv      s6 a0",
+                    "mv      s7 a1",
+                    "addi    s5 zero 0x1",
+                    "addi    s3 zero -0x1"
+                ]
+            },
+            {
+                "addr": 66796,
+                "instrs": [
+                    "slli    s1 s1 0x3",
+                    "add     s1 s2 s1"
+                ]
+            },
+            {
+                "addr": 66876,
+                "instrs": [
+                    "lw      a5 s2 0x8",
+                    "ld      a4 s1 0x8",
+                    "addiw   a5 a5 -0x1",
+                    "beq     a5 s0 data_105ac"
+                ]
+            },
+            {
+                "addr": 66808,
+                "instrs": [
+                    "ld      a5 s1 0x208",
+                    "beq     a5 s7 data_1053c"
+                ]
+            },
+            {
+                "addr": 66988,
+                "instrs": [
+                    "sw      s0 s2 0x8",
+                    "j       data_10550"
+                ]
+            },
+            {
+                "addr": 66892,
+                "instrs": [
+                    "sd      zero s1 0x8  {0x0}"
+                ]
+            },
+            {
+                "addr": 66816,
+                "instrs": [
+                    "addiw   s0 s0 -0x1",
+                    "addi    s1 s1 -0x8",
+                    "bne     s0 s3 data_104f4"
+                ]
+            },
+            {
+                "addr": 66896,
+                "instrs": [
+                    "beqz    a4 data_10500"
+                ]
+            },
+            {
+                "addr": 66900,
+                "instrs": [
+                    "lw      a5 s2 0x310",
+                    "sllw    a3 s5 s0",
+                    "lw      s8 s2 0x8",
+                    "and     a5 a5 a3",
+                    "sext.w  a5 a5",
+                    "bnez    a5 data_1058c"
+                ]
+            },
+            {
+                "addr": 66804,
+                "instrs": [
+                    "beqz    s7 data_1053c"
+                ]
+            },
+            {
+                "addr": 66956,
+                "instrs": [
+                    "lw      a5 s2 0x314",
+                    "ld      a1 s1 0x108",
+                    "and     a5 a5 a3",
+                    "sext.w  a5 a5",
+                    "bnez    a5 data_105b4"
+                ]
+            },
+            {
+                "addr": 66924,
+                "instrs": [
+                    "jalr    a4  {data_10570}"
+                ]
+            },
+            {
+                "addr": 66996,
+                "instrs": [
+                    "mv      a0 a1",
+                    "jalr    a4  {data_105bc}"
+                ]
+            },
+            {
+                "addr": 66976,
+                "instrs": [
+                    "mv      a0 s6",
+                    "jalr    a4  {data_105a8}"
+                ]
+            },
+            {
+                "addr": 66928,
+                "instrs": [
+                    "lw      a4 s2 0x8",
+                    "ld      a5 s4 0x1f8",
+                    "bne     a4 s8 data_10580"
+                ]
+            },
+            {
+                "addr": 67004,
+                "instrs": [
+                    "j       data_10570"
+                ]
+            },
+            {
+                "addr": 66984,
+                "instrs": [
+                    "j       data_10570"
+                ]
+            },
+            {
+                "addr": 66944,
+                "instrs": [
+                    "beqz    a5 data_1050c"
+                ]
+            },
+            {
+                "addr": 66940,
+                "instrs": [
+                    "beq     a5 s2 data_10500"
+                ]
+            },
+            {
+                "addr": 66948,
+                "instrs": [
+                    "mv      s2 a5",
+                    "j       data_104e0"
+                ]
+            },
+            {
+                "addr": 66784,
+                "instrs": [
+                    "lw      s1 s2 0x8",
+                    "addiw   s0 s1 -0x1",
+                    "bltz    s0 data_1050c"
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                22
+            ],
+            [
+                3,
+                11
+            ],
+            [
+                4,
+                6
+            ],
+            [
+                4,
+                7
+            ],
+            [
+                5,
+                4
+            ],
+            [
+                5,
+                8
+            ],
+            [
+                6,
+                9
+            ],
+            [
+                7,
+                9
+            ],
+            [
+                8,
+                11
+            ],
+            [
+                8,
+                1
+            ],
+            [
+                9,
+                8
+            ],
+            [
+                9,
+                10
+            ],
+            [
+                10,
+                12
+            ],
+            [
+                10,
+                13
+            ],
+            [
+                11,
+                4
+            ],
+            [
+                11,
+                5
+            ],
+            [
+                12,
+                14
+            ],
+            [
+                12,
+                15
+            ],
+            [
+                13,
+                16
+            ],
+            [
+                14,
+                17
+            ],
+            [
+                15,
+                18
+            ],
+            [
+                16,
+                19
+            ],
+            [
+                16,
+                20
+            ],
+            [
+                17,
+                16
+            ],
+            [
+                18,
+                16
+            ],
+            [
+                19,
+                1
+            ],
+            [
+                19,
+                21
+            ],
+            [
+                20,
+                8
+            ],
+            [
+                20,
+                19
+            ],
+            [
+                21,
+                22
+            ],
+            [
+                22,
+                1
+            ],
+            [
+                22,
+                3
+            ]
+        ]
+    },
+    "__libc_fini_array": {
+        "blocks": [
+            {
+                "addr": 67008,
+                "instrs": [
+                    "addi    sp sp -0x20",
+                    "sd      s0 sp 0x10 {__saved_s0}",
+                    "lui     a5 0x12",
+                    "lui     s0 0x12",
+                    "addi    a5 a5 0x788",
+                    "addi    s0 s0 0x790",
+                    "sub     s0 s0 a5",
+                    "sd      s1 sp 0x8 {__saved_s1}",
+                    "sd      ra sp 0x18 {var_8}",
+                    "srai    s1 s0 0x3",
+                    "beqz    s1 data_10608  {0x0}"
+                ]
+            },
+            {
+                "addr": 67080,
+                "instrs": [
+                    "ld      ra sp 0x18",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "addi    sp sp 0x20",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 67052,
+                "instrs": [
+                    "addi    s0 s0 -0x8",
+                    "add     s0 s0 a5  {0x79a}"
+                ]
+            },
+            {
+                "addr": 67076,
+                "instrs": [
+                    "bnez    s1 data_105f4"
+                ]
+            },
+            {
+                "addr": 67060,
+                "instrs": [
+                    "ld      a5 s0",
+                    "addi    s1 s1 -0x1",
+                    "addi    s0 s0 -0x8",
+                    "jalr    a5  {data_10604}"
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                3,
+                4
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                4,
+                3
+            ]
+        ]
+    },
+    "_open_r": {
+        "blocks": [
+            {
+                "addr": 67100,
+                "instrs": [
+                    "addi    sp sp -0x20",
+                    "mv      a4 a1",
+                    "sd      s0 sp 0x10 {__saved_s0}",
+                    "sd      s1 sp 0x8 {__saved_s1}",
+                    "mv      a1 a2",
+                    "mv      s0 a0",
+                    "mv      a2 a3",
+                    "mv      a0 a4",
+                    "sd      ra sp 0x18 {var_8}",
+                    "sw      zero gp 0x778  {0x0}  {_edata}",
+                    "jal     _open  {0x10648}",
+                    "addi    a5 zero -0x1",
+                    "beq     a0 a5 data_10664"
+                ]
+            },
+            {
+                "addr": 67172,
+                "instrs": [
+                    "lw      a5 gp 0x778  {data_13010}",
+                    "beqz    a5 data_10650"
+                ]
+            },
+            {
+                "addr": 67152,
+                "instrs": [
+                    "ld      ra sp 0x18",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "addi    sp sp 0x20",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 67180,
+                "instrs": [
+                    "ld      ra sp 0x18",
+                    "sw      a5 s0",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "addi    sp sp 0x20",
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                1,
+                3
+            ]
+        ]
+    },
+    "_read_r": {
+        "blocks": [
+            {
+                "addr": 67204,
+                "instrs": [
+                    "addi    sp sp -0x20",
+                    "mv      a4 a1",
+                    "sd      s0 sp 0x10 {__saved_s0}",
+                    "sd      s1 sp 0x8 {__saved_s1}",
+                    "mv      a1 a2",
+                    "mv      s0 a0",
+                    "mv      a2 a3",
+                    "mv      a0 a4",
+                    "sd      ra sp 0x18 {var_8}",
+                    "sw      zero gp 0x778  {0x0}  {_edata}",
+                    "jal     _read  {0x106b0}",
+                    "addi    a5 zero -0x1",
+                    "beq     a0 a5 data_106cc"
+                ]
+            },
+            {
+                "addr": 67276,
+                "instrs": [
+                    "lw      a5 gp 0x778  {data_13010}",
+                    "beqz    a5 data_106b8"
+                ]
+            },
+            {
+                "addr": 67256,
+                "instrs": [
+                    "ld      ra sp 0x18",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "addi    sp sp 0x20",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 67284,
+                "instrs": [
+                    "ld      ra sp 0x18",
+                    "sw      a5 s0",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "addi    sp sp 0x20",
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                1,
+                3
+            ]
+        ]
+    },
+    "cleanup_glue": {
+        "blocks": [
+            {
+                "addr": 67308,
+                "instrs": [
+                    "addi    sp sp -0x30",
+                    "sd      s2 sp 0x10 {__saved_s2}",
+                    "ld      s2 a1",
+                    "sd      s0 sp 0x20 {__saved_s0}",
+                    "sd      s1 sp 0x18 {__saved_s1}",
+                    "sd      ra sp 0x28 {__saved_ra}",
+                    "sd      s3 sp 0x8 {__saved_s3}",
+                    "sd      s4 sp {__saved_s4}",
+                    "mv      s0 a1",
+                    "mv      s1 a0",
+                    "beqz    s2 data_10758"
+                ]
+            },
+            {
+                "addr": 67416,
+                "instrs": [
+                    "mv      a1 s0",
+                    "ld      s0 sp 0x20 {__saved_s0}",
+                    "ld      ra sp 0x28 {__saved_ra}",
+                    "ld      s2 sp 0x10 {__saved_s2}",
+                    "ld      s3 sp 0x8 {__saved_s3}",
+                    "ld      s4 sp {__saved_s4}",
+                    "mv      a0 s1",
+                    "ld      s1 sp 0x18 {__saved_s1}",
+                    "addi    sp sp 0x30",
+                    "j       _free_r"
+                ]
+            },
+            {
+                "addr": 67352,
+                "instrs": [
+                    "ld      s3 s2",
+                    "beqz    s3 data_1074c"
+                ]
+            },
+            {
+                "addr": 67404,
+                "instrs": [
+                    "mv      a1 s2",
+                    "mv      a0 s1",
+                    "jal     _free_r  {data_10758}"
+                ]
+            },
+            {
+                "addr": 67360,
+                "instrs": [
+                    "ld      s4 s3",
+                    "beqz    s4 data_10740"
+                ]
+            },
+            {
+                "addr": 67392,
+                "instrs": [
+                    "mv      a1 s3",
+                    "mv      a0 s1",
+                    "jal     _free_r  {data_1074c}"
+                ]
+            },
+            {
+                "addr": 67368,
+                "instrs": [
+                    "ld      a1 s4",
+                    "beqz    a1 data_10734"
+                ]
+            },
+            {
+                "addr": 67380,
+                "instrs": [
+                    "mv      a1 s4",
+                    "mv      a0 s1",
+                    "jal     _free_r  {data_10740}"
+                ]
+            },
+            {
+                "addr": 67376,
+                "instrs": [
+                    "jal     cleanup_glue  {data_10734}"
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                4,
+                5
+            ],
+            [
+                4,
+                6
+            ],
+            [
+                5,
+                3
+            ],
+            [
+                6,
+                7
+            ],
+            [
+                6,
+                8
+            ],
+            [
+                7,
+                5
+            ],
+            [
+                8,
+                7
+            ]
+        ]
+    },
+    "_reclaim_reent": {
+        "blocks": [
+            {
+                "addr": 67456,
+                "instrs": [
+                    "ld      a5 gp 0x760  {data_12ff8}",
+                    "beq     a5 a0 data_10898"
+                ]
+            },
+            {
+                "addr": 67736,
+                "instrs": [
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 67464,
+                "instrs": [
+                    "ld      a1 a0 0x78",
+                    "addi    sp sp -0x30",
+                    "sd      s1 sp 0x18 {__saved_s1}",
+                    "sd      ra sp 0x28 {var_8}",
+                    "sd      s0 sp 0x20 {__saved_s0}",
+                    "sd      s2 sp 0x10 {__saved_s2}",
+                    "sd      s3 sp 0x8 {__saved_s3}",
+                    "mv      s1 a0",
+                    "beqz    a1 data_107e8"
+                ]
+            },
+            {
+                "addr": 67560,
+                "instrs": [
+                    "ld      a1 s1 0x60",
+                    "beqz    a1 data_107f8"
+                ]
+            },
+            {
+                "addr": 67500,
+                "instrs": [
+                    "mv      s2 zero  {0x0}",
+                    "addi    s3 zero 0x200"
+                ]
+            },
+            {
+                "addr": 67576,
+                "instrs": [
+                    "ld      s0 s1 0x1f8",
+                    "beqz    s0 data_1081c"
+                ]
+            },
+            {
+                "addr": 67568,
+                "instrs": [
+                    "mv      a0 s1",
+                    "jal     _free_r  {data_107f8}"
+                ]
+            },
+            {
+                "addr": 67544,
+                "instrs": [
+                    "addi    s2 s2 0x8",
+                    "bne     s2 s3 data_107b4"
+                ]
+            },
+            {
+                "addr": 67520,
+                "instrs": [
+                    "mv      a1 s0",
+                    "ld      s0 s0",
+                    "mv      a0 s1",
+                    "jal     _free_r  {0x107d0}",
+                    "bnez    s0 data_107c0"
+                ]
+            },
+            {
+                "addr": 67612,
+                "instrs": [
+                    "ld      a1 s1 0x88",
+                    "beqz    a1 data_1082c"
+                ]
+            },
+            {
+                "addr": 67584,
+                "instrs": [
+                    "addi    s2 s1 0x200",
+                    "beq     s0 s2 data_1081c"
+                ]
+            },
+            {
+                "addr": 67508,
+                "instrs": [
+                    "add     a5 a1 s2",
+                    "ld      s0 a5",
+                    "beqz    s0 data_107d8"
+                ]
+            },
+            {
+                "addr": 67552,
+                "instrs": [
+                    "mv      a0 s1",
+                    "jal     _free_r  {data_107e8}"
+                ]
+            },
+            {
+                "addr": 67540,
+                "instrs": [
+                    "ld      a1 s1 0x78"
+                ]
+            },
+            {
+                "addr": 67628,
+                "instrs": [
+                    "lw      a5 s1 0x50",
+                    "beqz    a5 data_1087c"
+                ]
+            },
+            {
+                "addr": 67620,
+                "instrs": [
+                    "mv      a0 s1",
+                    "jal     _free_r  {data_1082c}"
+                ]
+            },
+            {
+                "addr": 67592,
+                "instrs": [
+                    "mv      a1 s0",
+                    "ld      s0 s0",
+                    "mv      a0 s1",
+                    "jal     _free_r  {0x10818}",
+                    "bne     s2 s0 data_10808"
+                ]
+            },
+            {
+                "addr": 67708,
+                "instrs": [
+                    "ld      ra sp 0x28",
+                    "ld      s0 sp 0x20 {__saved_s0}",
+                    "ld      s1 sp 0x18 {__saved_s1}",
+                    "ld      s2 sp 0x10 {__saved_s2}",
+                    "ld      s3 sp 0x8 {__saved_s3}",
+                    "addi    sp sp 0x30",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 67636,
+                "instrs": [
+                    "ld      a5 s1 0x58",
+                    "mv      a0 s1",
+                    "jalr    a5  {data_10840}"
+                ]
+            },
+            {
+                "addr": 67648,
+                "instrs": [
+                    "ld      s0 s1 0x520",
+                    "beqz    s0 data_1087c"
+                ]
+            },
+            {
+                "addr": 67656,
+                "instrs": [
+                    "ld      a1 s0",
+                    "beqz    a1 data_10858"
+                ]
+            },
+            {
+                "addr": 67672,
+                "instrs": [
+                    "mv      a1 s0",
+                    "ld      s0 sp 0x20 {__saved_s0}",
+                    "ld      ra sp 0x28 {var_8}",
+                    "ld      s2 sp 0x10 {__saved_s2}",
+                    "ld      s3 sp 0x8 {__saved_s3}",
+                    "mv      a0 s1",
+                    "ld      s1 sp 0x18 {__saved_s1}",
+                    "addi    sp sp 0x30",
+                    "j       _free_r"
+                ]
+            },
+            {
+                "addr": 67664,
+                "instrs": [
+                    "mv      a0 s1",
+                    "jal     cleanup_glue  {data_10858}"
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                3,
+                5
+            ],
+            [
+                3,
+                6
+            ],
+            [
+                4,
+                11
+            ],
+            [
+                5,
+                9
+            ],
+            [
+                5,
+                10
+            ],
+            [
+                6,
+                5
+            ],
+            [
+                7,
+                11
+            ],
+            [
+                7,
+                12
+            ],
+            [
+                8,
+                8
+            ],
+            [
+                8,
+                13
+            ],
+            [
+                9,
+                14
+            ],
+            [
+                9,
+                15
+            ],
+            [
+                10,
+                9
+            ],
+            [
+                10,
+                16
+            ],
+            [
+                11,
+                7
+            ],
+            [
+                11,
+                8
+            ],
+            [
+                12,
+                3
+            ],
+            [
+                13,
+                7
+            ],
+            [
+                14,
+                17
+            ],
+            [
+                14,
+                18
+            ],
+            [
+                15,
+                14
+            ],
+            [
+                16,
+                16
+            ],
+            [
+                16,
+                9
+            ],
+            [
+                18,
+                19
+            ],
+            [
+                19,
+                17
+            ],
+            [
+                19,
+                20
+            ],
+            [
+                20,
+                21
+            ],
+            [
+                20,
+                22
+            ],
+            [
+                22,
+                21
+            ]
+        ]
+    },
+    "atexit": {
+        "blocks": [
+            {
+                "addr": 67740,
+                "instrs": [
+                    "mv      a1 a0",
+                    "mv      a3 zero  {0x0}",
+                    "mv      a2 zero  {0x0}",
+                    "mv      a0 zero  {0x0}",
+                    "j       __register_exitproc"
+                ]
+            }
+        ],
+        "edges": []
+    },
+    "_malloc_trim_r": {
+        "blocks": [
+            {
+                "addr": 67760,
+                "instrs": [
+                    "addi    sp sp -0x30",
+                    "sd      s3 sp 0x8 {__saved_s3}",
+                    "lui     s3 0x13",
+                    "sd      s0 sp 0x20 {__saved_s0}",
+                    "sd      s1 sp 0x18 {__saved_s1}",
+                    "sd      s2 sp 0x10 {__saved_s2}",
+                    "sd      s4 sp {__saved_s4}",
+                    "sd      ra sp 0x28 {var_8}",
+                    "mv      s4 a1",
+                    "mv      s2 a0",
+                    "addi    s3 s3 -0x128",
+                    "jal     __malloc_lock  {0x108e0}",
+                    "ld      a4 s3 0x10  {0xfffffffffffffefb}",
+                    "lui     a5 0x1",
+                    "addi    s0 a5 -0x21",
+                    "ld      s1 a4 0x8",
+                    "sub     s0 s0 s4",
+                    "andi    s1 s1 -0x4",
+                    "add     s0 s0 s1",
+                    "srli    s0 s0 0xc",
+                    "addi    s0 s0 -0x1",
+                    "slli    s0 s0 0xc",
+                    "blt     s0 a5 data_10924"
+                ]
+            },
+            {
+                "addr": 67876,
+                "instrs": [
+                    "mv      a0 s2",
+                    "jal     __malloc_unlock  {0x1092c}",
+                    "ld      ra sp 0x28",
+                    "ld      s0 sp 0x20 {__saved_s0}",
+                    "ld      s1 sp 0x18 {__saved_s1}",
+                    "ld      s2 sp 0x10 {__saved_s2}",
+                    "ld      s3 sp 0x8 {__saved_s3}",
+                    "ld      s4 sp {__saved_s4}",
+                    "mv      a0 zero  {0x0}",
+                    "addi    sp sp 0x30",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 67852,
+                "instrs": [
+                    "mv      a1 zero  {0x0}",
+                    "mv      a0 s2",
+                    "jal     _sbrk_r  {0x10918}",
+                    "ld      a5 s3 0x10  {0xfffffffffffffefb}",
+                    "add     a5 a5 s1",
+                    "beq     a0 a5 data_10950"
+                ]
+            },
+            {
+                "addr": 67920,
+                "instrs": [
+                    "neg     a1 s0",
+                    "mv      a0 s2",
+                    "jal     _sbrk_r  {0x1095c}",
+                    "addi    a5 zero -0x1",
+                    "beq     a0 a5 data_109b4"
+                ]
+            },
+            {
+                "addr": 68020,
+                "instrs": [
+                    "mv      a1 zero  {0x0}",
+                    "mv      a0 s2",
+                    "jal     _sbrk_r  {0x109c0}",
+                    "ld      a4 s3 0x10  {0xfffffffffffffefb}",
+                    "addi    a3 zero 0x1f",
+                    "sub     a5 a0 a4",
+                    "bge     a3 a5 data_10924"
+                ]
+            },
+            {
+                "addr": 67940,
+                "instrs": [
+                    "lui     a5 0x13",
+                    "addi    a5 a5 0x770",
+                    "lw      a4 a5  {0x783}",
+                    "ld      a3 s3 0x10  {0xfffffffffffffefb}",
+                    "sub     s1 s1 s0",
+                    "ori     s1 s1 0x1",
+                    "subw    a4 a4 s0",
+                    "mv      a0 s2",
+                    "sd      s1 a3 0x8",
+                    "sw      a4 a5  {0x783}",
+                    "jal     __malloc_unlock  {0x10990}",
+                    "ld      ra sp 0x28",
+                    "ld      s0 sp 0x20 {__saved_s0}",
+                    "ld      s1 sp 0x18 {__saved_s1}",
+                    "ld      s2 sp 0x10 {__saved_s2}",
+                    "ld      s3 sp 0x8 {__saved_s3}",
+                    "ld      s4 sp {__saved_s4}",
+                    "addi    a0 zero 0x1",
+                    "addi    sp sp 0x30",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 68048,
+                "instrs": [
+                    "ld      a3 gp 0x768  {data_13000}",
+                    "ori     a5 a5 0x1",
+                    "sd      a5 a4 0x8",
+                    "sub     a0 a0 a3",
+                    "lui     a3 0x13",
+                    "sw      a0 a3 0x770  {0x783}",
+                    "j       data_10924"
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                3,
+                4
+            ],
+            [
+                3,
+                5
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                4,
+                6
+            ],
+            [
+                6,
+                1
+            ]
+        ]
+    },
+    "_free_r": {
+        "blocks": [
+            {
+                "addr": 68076,
+                "instrs": [
+                    "beqz    a1 data_10b28"
+                ]
+            },
+            {
+                "addr": 68392,
+                "instrs": [
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 68080,
+                "instrs": [
+                    "addi    sp sp -0x20",
+                    "sd      s0 sp 0x10 {__saved_s0}",
+                    "sd      s1 sp 0x8 {__saved_s1}",
+                    "mv      s0 a1",
+                    "mv      s1 a0",
+                    "sd      ra sp 0x18 {var_8}",
+                    "jal     __malloc_lock  {0x10a0c}",
+                    "ld      a0 s0 -0x8",
+                    "addi    a4 s0 -0x10",
+                    "lui     a1 0x13",
+                    "andi    a5 a0 -0x2",
+                    "add     a2 a4 a5",
+                    "addi    a1 a1 -0x128",
+                    "ld      a3 a2 0x8",
+                    "ld      a6 a1 0x10  {0xfffffffffffffefb}",
+                    "andi    a3 a3 -0x4",
+                    "beq     a6 a2 data_10bf0"
+                ]
+            },
+            {
+                "addr": 68592,
+                "instrs": [
+                    "andi    a0 a0 0x1",
+                    "add     a3 a5 a3",
+                    "bnez    a0 data_10c18"
+                ]
+            },
+            {
+                "addr": 68148,
+                "instrs": [
+                    "sd      a3 a2 0x8",
+                    "andi    a0 a0 0x1",
+                    "add     a6 a2 a3",
+                    "bnez    a0 data_10ae8"
+                ]
+            },
+            {
+                "addr": 68632,
+                "instrs": [
+                    "ori     a2 a3 0x1",
+                    "ld      a5 gp 0x770  {data_13008}",
+                    "sd      a2 a4 0x8",
+                    "sd      a4 a1 0x10  {0xfffffffffffffefb}",
+                    "bltu    a3 a5 data_10ad0"
+                ]
+            },
+            {
+                "addr": 68604,
+                "instrs": [
+                    "ld      a0 s0 -0x10",
+                    "sub     a4 a4 a0",
+                    "ld      a5 a4 0x18",
+                    "ld      a2 a4 0x10",
+                    "add     a3 a3 a0",
+                    "sd      a5 a2 0x18",
+                    "sd      a2 a5 0x10"
+                ]
+            },
+            {
+                "addr": 68328,
+                "instrs": [
+                    "ld      a0 a6 0x8",
+                    "andi    a0 a0 0x1",
+                    "bnez    a0 data_10b2c"
+                ]
+            },
+            {
+                "addr": 68164,
+                "instrs": [
+                    "ld      t1 s0 -0x10",
+                    "ld      a6 a6 0x8",
+                    "lui     a0 0x13",
+                    "sub     a4 a4 t1",
+                    "ld      a7 a4 0x10",
+                    "addi    a0 a0 -0x118",
+                    "add     a5 a5 t1",
+                    "andi    a6 a6 0x1",
+                    "beq     a7 a0 data_10bb0"
+                ]
+            },
+            {
+                "addr": 68304,
+                "instrs": [
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "ld      ra sp 0x18 {var_8}",
+                    "mv      a0 s1",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "addi    sp sp 0x20",
+                    "j       __malloc_unlock"
+                ]
+            },
+            {
+                "addr": 68652,
+                "instrs": [
+                    "ld      a1 gp 0x790  {0x22f28}",
+                    "mv      a0 s1",
+                    "jal     _malloc_trim_r  {0x10c38}",
+                    "j       data_10ad0"
+                ]
+            },
+            {
+                "addr": 68396,
+                "instrs": [
+                    "ori     a3 a5 0x1",
+                    "sd      a3 s0 -0x8",
+                    "sd      a5 a2",
+                    "addi    a3 zero 0x1ff",
+                    "bgeu    a3 a5 data_10a8c  {0x1}"
+                ]
+            },
+            {
+                "addr": 68340,
+                "instrs": [
+                    "lui     a0 0x13",
+                    "add     a5 a5 a3",
+                    "addi    a0 a0 -0x118  {0xfffffffffffffefb}"
+                ]
+            },
+            {
+                "addr": 68528,
+                "instrs": [
+                    "bnez    a6 data_10d04"
+                ]
+            },
+            {
+                "addr": 68200,
+                "instrs": [
+                    "ld      t1 a4 0x18",
+                    "sd      t1 a7 0x18",
+                    "sd      a7 t1 0x10",
+                    "beqz    a6 data_10c64"
+                ]
+            },
+            {
+                "addr": 68236,
+                "instrs": [
+                    "srli    a5 a5 0x3",
+                    "addiw   a3 a5 0x1",
+                    "slliw   a3 a3 0x1",
+                    "slli    a3 a3 0x3",
+                    "ld      a6 a1 0x8  {0xfffffffffffffef3}",
+                    "add     a3 a1 a3",
+                    "ld      a0 a3",
+                    "sraiw   a2 a5 0x2",
+                    "addi    a5 zero 0x1",
+                    "sll     a5 a5 a2",
+                    "or      a5 a5 a6",
+                    "addi    a2 a3 -0x10",
+                    "sd      a2 a4 0x18",
+                    "sd      a0 a4 0x10",
+                    "sd      a5 a1 0x8  {0xfffffffffffffef3}",
+                    "sd      a4 a3",
+                    "sd      a4 a0 0x18"
+                ]
+            },
+            {
+                "addr": 68416,
+                "instrs": [
+                    "srli    a3 a5 0x9",
+                    "addi    a2 zero 0x4",
+                    "bltu    a2 a3 data_10c3c"
+                ]
+            },
+            {
+                "addr": 68736,
+                "instrs": [
+                    "sd      a4 a1 0x28  {0xffffffffffffff13}",
+                    "sd      a4 a1 0x20  {0xffffffffffffff0b}",
+                    "sd      a0 a4 0x18  {0xfffffffffffffefb}",
+                    "sd      a0 a4 0x10  {0xfffffffffffffefb}",
+                    "sd      a7 a4 0x8",
+                    "sd      a5 a6",
+                    "j       data_10ad0"
+                ]
+            },
+            {
+                "addr": 68368,
+                "instrs": [
+                    "ld      a2 a2 0x18",
+                    "sd      a2 a3 0x18",
+                    "sd      a3 a2 0x10",
+                    "sd      a7 a4 0x8",
+                    "sd      a5 a6",
+                    "j       data_10a84"
+                ]
+            },
+            {
+                "addr": 68868,
+                "instrs": [
+                    "ori     a3 a5 0x1",
+                    "sd      a3 a4 0x8",
+                    "sd      a5 a2",
+                    "j       data_10ad0"
+                ]
+            },
+            {
+                "addr": 68532,
+                "instrs": [
+                    "ld      a1 a2 0x18",
+                    "ld      a2 a2 0x10",
+                    "add     a3 a3 a5",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "sd      a1 a2 0x18",
+                    "sd      a2 a1 0x10",
+                    "ori     a5 a3 0x1",
+                    "ld      ra sp 0x18 {var_8}",
+                    "sd      a5 a4 0x8",
+                    "mv      a0 s1",
+                    "add     a4 a4 a3",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "sd      a3 a4",
+                    "addi    sp sp 0x20",
+                    "j       __malloc_unlock"
+                ]
+            },
+            {
+                "addr": 68708,
+                "instrs": [
+                    "add     a5 a5 a3",
+                    "j       data_10b00"
+                ]
+            },
+            {
+                "addr": 68216,
+                "instrs": [
+                    "ori     a3 a5 0x1",
+                    "sd      a3 a4 0x8",
+                    "sd      a5 a2"
+                ]
+            },
+            {
+                "addr": 68668,
+                "instrs": [
+                    "addi    a2 zero 0x14",
+                    "bgeu    a2 a3 data_10c6c  {0x1}"
+                ]
+            },
+            {
+                "addr": 68428,
+                "instrs": [
+                    "srli    a3 a5 0x6",
+                    "addiw   a0 a3 0x39",
+                    "slliw   a0 a0 0x1",
+                    "addiw   a2 a3 0x38",
+                    "slli    a0 a0 0x3"
+                ]
+            },
+            {
+                "addr": 68228,
+                "instrs": [
+                    "addi    a3 zero 0x1ff",
+                    "bltu    a3 a5 data_10b40"
+                ]
+            },
+            {
+                "addr": 68352,
+                "instrs": [
+                    "ld      a3 a2 0x10",
+                    "ori     a7 a5 0x1",
+                    "add     a6 a4 a5",
+                    "beq     a3 a0 data_10c80"
+                ]
+            },
+            {
+                "addr": 68716,
+                "instrs": [
+                    "addiw   a0 a3 0x5c",
+                    "slliw   a0 a0 0x1",
+                    "addiw   a2 a3 0x5b",
+                    "slli    a0 a0 0x3",
+                    "j       data_10b60"
+                ]
+            },
+            {
+                "addr": 68676,
+                "instrs": [
+                    "addi    a2 zero 0x54",
+                    "bltu    a2 a3 data_10cb8"
+                ]
+            },
+            {
+                "addr": 68764,
+                "instrs": [
+                    "ld      a6 a1 0x8  {0xfffffffffffffef3}",
+                    "sraiw   a2 a2 0x2",
+                    "addi    a5 zero 0x1",
+                    "sll     a5 a5 a2",
+                    "or      a5 a5 a6",
+                    "sd      a5 a1 0x8  {0xfffffffffffffef3}",
+                    "j       data_10b88"
+                ]
+            },
+            {
+                "addr": 68464,
+                "instrs": [
+                    "ld      a2 a3 0x8",
+                    "andi    a2 a2 -0x4",
+                    "bgeu    a5 a2 data_10b84"
+                ]
+            },
+            {
+                "addr": 68448,
+                "instrs": [
+                    "add     a0 a1 a0",
+                    "ld      a3 a0",
+                    "addi    a0 a0 -0x10",
+                    "beq     a0 a3 data_10c9c"
+                ]
+            },
+            {
+                "addr": 68792,
+                "instrs": [
+                    "addi    a2 zero 0x154",
+                    "bltu    a2 a3 data_10cd8"
+                ]
+            },
+            {
+                "addr": 68684,
+                "instrs": [
+                    "srli    a3 a5 0xc",
+                    "addiw   a0 a3 0x6f",
+                    "slliw   a0 a0 0x1",
+                    "addiw   a2 a3 0x6e",
+                    "slli    a0 a0 0x3",
+                    "j       data_10b60"
+                ]
+            },
+            {
+                "addr": 68488,
+                "instrs": [
+                    "sd      a0 a4 0x18",
+                    "sd      a3 a4 0x10",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "sd      a4 a0 0x10",
+                    "ld      ra sp 0x18 {var_8}",
+                    "mv      a0 s1",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "sd      a4 a3 0x18",
+                    "addi    sp sp 0x20",
+                    "j       __malloc_unlock"
+                ]
+            },
+            {
+                "addr": 68484,
+                "instrs": [
+                    "ld      a0 a3 0x18"
+                ]
+            },
+            {
+                "addr": 68476,
+                "instrs": [
+                    "ld      a3 a3 0x10",
+                    "bne     a0 a3 data_10b70"
+                ]
+            },
+            {
+                "addr": 68824,
+                "instrs": [
+                    "addi    a2 zero 0x554",
+                    "bltu    a2 a3 data_10cf8"
+                ]
+            },
+            {
+                "addr": 68800,
+                "instrs": [
+                    "srli    a3 a5 0xf",
+                    "addiw   a0 a3 0x78",
+                    "slliw   a0 a0 0x1",
+                    "addiw   a2 a3 0x77",
+                    "slli    a0 a0 0x3",
+                    "j       data_10b60"
+                ]
+            },
+            {
+                "addr": 68856,
+                "instrs": [
+                    "addi    a0 zero 0x7f0",
+                    "addi    a2 zero 0x7e",
+                    "j       data_10b60"
+                ]
+            },
+            {
+                "addr": 68832,
+                "instrs": [
+                    "srli    a3 a5 0x12",
+                    "addiw   a0 a3 0x7d",
+                    "slliw   a0 a0 0x1",
+                    "addiw   a2 a3 0x7c",
+                    "slli    a0 a0 0x3",
+                    "j       data_10b60"
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                3,
+                5
+            ],
+            [
+                3,
+                6
+            ],
+            [
+                4,
+                7
+            ],
+            [
+                4,
+                8
+            ],
+            [
+                5,
+                9
+            ],
+            [
+                5,
+                10
+            ],
+            [
+                6,
+                5
+            ],
+            [
+                7,
+                11
+            ],
+            [
+                7,
+                12
+            ],
+            [
+                8,
+                13
+            ],
+            [
+                8,
+                14
+            ],
+            [
+                10,
+                9
+            ],
+            [
+                11,
+                15
+            ],
+            [
+                11,
+                16
+            ],
+            [
+                12,
+                26
+            ],
+            [
+                13,
+                19
+            ],
+            [
+                13,
+                20
+            ],
+            [
+                14,
+                21
+            ],
+            [
+                14,
+                22
+            ],
+            [
+                15,
+                9
+            ],
+            [
+                16,
+                23
+            ],
+            [
+                16,
+                24
+            ],
+            [
+                17,
+                9
+            ],
+            [
+                18,
+                25
+            ],
+            [
+                19,
+                9
+            ],
+            [
+                21,
+                26
+            ],
+            [
+                22,
+                25
+            ],
+            [
+                23,
+                27
+            ],
+            [
+                23,
+                28
+            ],
+            [
+                24,
+                31
+            ],
+            [
+                25,
+                16
+            ],
+            [
+                25,
+                15
+            ],
+            [
+                26,
+                17
+            ],
+            [
+                26,
+                18
+            ],
+            [
+                27,
+                31
+            ],
+            [
+                28,
+                32
+            ],
+            [
+                28,
+                33
+            ],
+            [
+                29,
+                34
+            ],
+            [
+                30,
+                35
+            ],
+            [
+                30,
+                36
+            ],
+            [
+                31,
+                29
+            ],
+            [
+                31,
+                30
+            ],
+            [
+                32,
+                37
+            ],
+            [
+                32,
+                38
+            ],
+            [
+                33,
+                31
+            ],
+            [
+                35,
+                34
+            ],
+            [
+                36,
+                30
+            ],
+            [
+                36,
+                35
+            ],
+            [
+                37,
+                39
+            ],
+            [
+                37,
+                40
+            ],
+            [
+                38,
+                31
+            ],
+            [
+                39,
+                31
+            ],
+            [
+                40,
+                31
+            ]
+        ]
+    },
+    "_malloc_r": {
+        "blocks": [
+            {
+                "addr": 68884,
+                "instrs": [
+                    "addi    sp sp -0x60",
+                    "sd      s1 sp 0x48 {__saved_s1}",
+                    "sd      s2 sp 0x40 {__saved_s2}",
+                    "sd      ra sp 0x58 {var_8}",
+                    "sd      s0 sp 0x50 {__saved_s0}",
+                    "sd      s3 sp 0x38 {__saved_s3}",
+                    "sd      s4 sp 0x30 {__saved_s4}",
+                    "sd      s5 sp 0x28 {__saved_s5}",
+                    "sd      s6 sp 0x20 {__saved_s6}",
+                    "sd      s7 sp 0x18 {__saved_s7}",
+                    "sd      s8 sp 0x10 {__saved_s8}",
+                    "sd      s9 sp 0x8 {__saved_s9}",
+                    "addi    s1 a1 0x17",
+                    "addi    a5 zero 0x2e",
+                    "mv      s2 a0",
+                    "bltu    a5 s1 data_10dbc"
+                ]
+            },
+            {
+                "addr": 69052,
+                "instrs": [
+                    "lui     a5 0x80000",
+                    "andi    s1 s1 -0x10",
+                    "not     a5 a5",
+                    "bltu    a5 s1 data_10fc4"
+                ]
+            },
+            {
+                "addr": 68948,
+                "instrs": [
+                    "addi    a5 zero 0x20",
+                    "bltu    a5 a1 data_10fc4"
+                ]
+            },
+            {
+                "addr": 69572,
+                "instrs": [
+                    "addi    a5 zero 0xc",
+                    "sw      a5 s2  {0xc}",
+                    "mv      a0 zero  {0x0}"
+                ]
+            },
+            {
+                "addr": 69068,
+                "instrs": [
+                    "bltu    s1 a1 data_10fc4"
+                ]
+            },
+            {
+                "addr": 68956,
+                "instrs": [
+                    "jal     __malloc_lock  {0x10d60}",
+                    "addi    s1 zero 0x20",
+                    "addi    a5 zero 0x50",
+                    "addi    a2 zero 0x4"
+                ]
+            },
+            {
+                "addr": 69072,
+                "instrs": [
+                    "jal     __malloc_lock  {0x10dd4}",
+                    "addi    a5 zero 0x1f7",
+                    "bgeu    a5 s1 data_112c4  {0x1}"
+                ]
+            },
+            {
+                "addr": 69636,
+                "instrs": [
+                    "ld      s0 a5 0x18",
+                    "addiw   a2 a2 0x2",
+                    "bne     a5 s0 data_10d84"
+                ]
+            },
+            {
+                "addr": 68996,
+                "instrs": [
+                    "ld      a5 s0 0x8",
+                    "ld      a3 s0 0x18",
+                    "ld      a2 s0 0x10",
+                    "andi    a5 a5 -0x4"
+                ]
+            },
+            {
+                "addr": 70340,
+                "instrs": [
+                    "srli    a2 s1 0x3",
+                    "addiw   a5 a2 0x1",
+                    "slliw   a5 a5 0x1",
+                    "sext.w  a2 a2",
+                    "slli    a5 a5 0x3",
+                    "j       data_10d6c"
+                ]
+            },
+            {
+                "addr": 69084,
+                "instrs": [
+                    "srli    a5 s1 0x9",
+                    "beqz    a5 data_11138"
+                ]
+            },
+            {
+                "addr": 69648,
+                "instrs": [
+                    "ld      s0 s3 0x20  {0xffffffffffffff0b}",
+                    "lui     a6 0x13",
+                    "addi    a6 a6 -0x118",
+                    "beq     s0 a6 data_10e50"
+                ]
+            },
+            {
+                "addr": 69584,
+                "instrs": [
+                    "ld      ra sp 0x58",
+                    "ld      s0 sp 0x50 {__saved_s0}",
+                    "ld      s1 sp 0x48 {__saved_s1}",
+                    "ld      s2 sp 0x40 {__saved_s2}",
+                    "ld      s3 sp 0x38 {__saved_s3}",
+                    "ld      s4 sp 0x30 {__saved_s4}",
+                    "ld      s5 sp 0x28 {__saved_s5}",
+                    "ld      s6 sp 0x20 {__saved_s6}",
+                    "ld      s7 sp 0x18 {__saved_s7}",
+                    "ld      s8 sp 0x10 {__saved_s8}",
+                    "ld      s9 sp 0x8 {__saved_s9}",
+                    "addi    sp sp 0x60",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 68972,
+                "instrs": [
+                    "lui     s3 0x13",
+                    "addi    s3 s3 -0x128",
+                    "add     a5 s3 a5",
+                    "ld      s0 a5 0x8",
+                    "addi    a4 a5 -0x10",
+                    "beq     s0 a4 data_11004"
+                ]
+            },
+            {
+                "addr": 69944,
+                "instrs": [
+                    "addi    a3 zero 0x400",
+                    "addi    a2 zero 0x40",
+                    "addi    a0 zero 0x3f",
+                    "j       data_10e00"
+                ]
+            },
+            {
+                "addr": 69092,
+                "instrs": [
+                    "addi    a4 zero 0x4",
+                    "bltu    a4 a5 data_11200"
+                ]
+            },
+            {
+                "addr": 69200,
+                "instrs": [
+                    "ld      a5 s3 0x8  {0xfffffffffffffef3}",
+                    "sraiw   a4 a2 0x2",
+                    "addi    a1 zero 0x1",
+                    "sll     a1 a1 a4",
+                    "bgeu    a5 a1 data_1109c"
+                ]
+            },
+            {
+                "addr": 69664,
+                "instrs": [
+                    "ld      a5 s0 0x8",
+                    "addi    a3 zero 0x1f",
+                    "andi    a5 a5 -0x4",
+                    "sub     a4 a5 s1",
+                    "blt     a3 a4 data_11288"
+                ]
+            },
+            {
+                "addr": 69120,
+                "instrs": [
+                    "lui     s3 0x13",
+                    "addi    s3 s3 -0x128",
+                    "add     a3 s3 a3",
+                    "ld      s0 a3 0x8",
+                    "addi    a3 a3 -0x10",
+                    "beq     a3 s0 data_11010"
+                ]
+            },
+            {
+                "addr": 70144,
+                "instrs": [
+                    "addi    a4 zero 0x14",
+                    "bgeu    a4 a5 data_11324  {0x1}"
+                ]
+            },
+            {
+                "addr": 69100,
+                "instrs": [
+                    "srli    a5 s1 0x6",
+                    "addiw   a2 a5 0x39",
+                    "slliw   a3 a2 0x1",
+                    "addiw   a0 a5 0x38",
+                    "slli    a3 a3 0x3"
+                ]
+            },
+            {
+                "addr": 69788,
+                "instrs": [
+                    "and     a4 a1 a5",
+                    "bnez    a4 data_110c8"
+                ]
+            },
+            {
+                "addr": 69220,
+                "instrs": [
+                    "ld      s0 s3 0x10  {0xfffffffffffffefb}",
+                    "ld      s5 s0 0x8",
+                    "andi    s5 s5 -0x4",
+                    "bltu    s5 s1 data_10e80"
+                ]
+            },
+            {
+                "addr": 70280,
+                "instrs": [
+                    "ori     a3 s1 0x1",
+                    "sd      a3 s0 0x8",
+                    "add     s1 s0 s1",
+                    "sd      s1 s3 0x28  {0xffffffffffffff13}",
+                    "sd      s1 s3 0x20  {0xffffffffffffff0b}",
+                    "ori     a3 a4 0x1",
+                    "sd      a6 s1 0x18  {0xfffffffffffffefb}",
+                    "sd      a6 s1 0x10  {0xfffffffffffffefb}",
+                    "sd      a3 s1 0x8",
+                    "add     a5 s0 a5",
+                    "mv      a0 s2",
+                    "sd      a4 a5",
+                    "jal     __malloc_unlock  {0x112bc}",
+                    "addi    a0 s0 0x10",
+                    "j       data_10fd0"
+                ]
+            },
+            {
+                "addr": 69684,
+                "instrs": [
+                    "sd      a6 s3 0x28  {0xfffffffffffffefb}  {0xffffffffffffff13}",
+                    "sd      a6 s3 0x20  {0xfffffffffffffefb}  {0xffffffffffffff0b}",
+                    "bgez    a4 data_11148"
+                ]
+            },
+            {
+                "addr": 69144,
+                "instrs": [
+                    "addi    a1 zero 0x1f",
+                    "j       data_10e2c"
+                ]
+            },
+            {
+                "addr": 70436,
+                "instrs": [
+                    "addiw   a2 a5 0x5c",
+                    "slliw   a3 a2 0x1",
+                    "addiw   a0 a5 0x5b",
+                    "slli    a3 a3 0x3",
+                    "j       data_10e00"
+                ]
+            },
+            {
+                "addr": 70152,
+                "instrs": [
+                    "addi    a4 zero 0x54",
+                    "bltu    a4 a5 data_113fc"
+                ]
+            },
+            {
+                "addr": 69832,
+                "instrs": [
+                    "addi    a7 zero 0x1f"
+                ]
+            },
+            {
+                "addr": 69796,
+                "instrs": [
+                    "slli    a1 a1 0x1",
+                    "andi    a2 a2 -0x4",
+                    "and     a4 a1 a5",
+                    "addiw   a2 a2 0x4",
+                    "bnez    a4 data_110c8"
+                ]
+            },
+            {
+                "addr": 69248,
+                "instrs": [
+                    "addi    s7 gp 0x768",
+                    "ld      s4 gp 0x790  {0x22f28}",
+                    "ld      a4 s7  {__malloc_sbrk_base}",
+                    "addi    a5 zero -0x1",
+                    "add     s8 s0 s5",
+                    "add     s4 s1 s4",
+                    "beq     a4 a5 data_1138c"
+                ]
+            },
+            {
+                "addr": 69236,
+                "instrs": [
+                    "sub     a5 s5 s1",
+                    "addi    a4 zero 0x1f",
+                    "blt     a4 a5 data_11168"
+                ]
+            },
+            {
+                "addr": 69960,
+                "instrs": [
+                    "add     a5 s0 a5",
+                    "ld      a4 a5 0x8",
+                    "mv      a0 s2",
+                    "ori     a4 a4 0x1",
+                    "sd      a4 a5 0x8",
+                    "jal     __malloc_unlock  {0x11160}",
+                    "addi    a0 s0 0x10",
+                    "j       data_10fd0"
+                ]
+            },
+            {
+                "addr": 69696,
+                "instrs": [
+                    "addi    a4 zero 0x1ff",
+                    "bltu    a4 a5 data_1119c"
+                ]
+            },
+            {
+                "addr": 69164,
+                "instrs": [
+                    "ld      a5 s0 0x8",
+                    "andi    a5 a5 -0x4",
+                    "sub     a4 a5 s1",
+                    "bge     a1 a4 data_10e20"
+                ]
+            },
+            {
+                "addr": 70652,
+                "instrs": [
+                    "addi    a4 zero 0x154",
+                    "bltu    a4 a5 data_11488"
+                ]
+            },
+            {
+                "addr": 70160,
+                "instrs": [
+                    "srli    a5 s1 0xc",
+                    "addiw   a2 a5 0x6f",
+                    "slliw   a3 a2 0x1",
+                    "addiw   a0 a5 0x6e",
+                    "slli    a3 a3 0x3",
+                    "j       data_10e00"
+                ]
+            },
+            {
+                "addr": 70184,
+                "instrs": [
+                    "addiw   t3 t3 0x1",
+                    "andi    a5 t3 0x3",
+                    "addi    a0 a0 0x10",
+                    "beqz    a5 data_11344"
+                ]
+            },
+            {
+                "addr": 69872,
+                "instrs": [
+                    "ld      a4 a5 0x8",
+                    "mv      s0 a5",
+                    "ld      a5 a5 0x18",
+                    "andi    a4 a4 -0x4",
+                    "sub     a3 a4 s1",
+                    "blt     a7 a3 data_11240"
+                ]
+            },
+            {
+                "addr": 69816,
+                "instrs": [
+                    "slli    a1 a1 0x1",
+                    "and     a4 a1 a5",
+                    "addiw   a2 a2 0x4",
+                    "beqz    a4 data_110b8"
+                ]
+            },
+            {
+                "addr": 70540,
+                "instrs": [
+                    "addi    s4 s4 0x20",
+                    "j       data_10eb0"
+                ]
+            },
+            {
+                "addr": 69276,
+                "instrs": [
+                    "lui     a5 0x1",
+                    "addi    a5 a5 0x1f",
+                    "add     s4 s4 a5",
+                    "lui     a5 0xfffff",
+                    "and     s4 s4 a5"
+                ]
+            },
+            {
+                "addr": 69992,
+                "instrs": [
+                    "ori     a4 s1 0x1",
+                    "sd      a4 s0 0x8",
+                    "add     s1 s0 s1",
+                    "sd      s1 s3 0x10  {0xfffffffffffffefb}",
+                    "ori     a5 a5 0x1",
+                    "mv      a0 s2",
+                    "sd      a5 s1 0x8",
+                    "jal     __malloc_unlock  {0x11188}",
+                    "addi    a0 s0 0x10",
+                    "j       data_10fd0"
+                ]
+            },
+            {
+                "addr": 70044,
+                "instrs": [
+                    "srli    a4 a5 0x9",
+                    "addi    a3 zero 0x4",
+                    "bgeu    a3 a4 data_112dc  {0x1}"
+                ]
+            },
+            {
+                "addr": 69704,
+                "instrs": [
+                    "srli    a5 a5 0x3",
+                    "addiw   a4 a5 0x1",
+                    "slliw   a4 a4 0x1",
+                    "slli    a4 a4 0x3",
+                    "ld      a0 s3 0x8  {0xfffffffffffffef3}",
+                    "add     a4 s3 a4",
+                    "ld      a1 a4",
+                    "sraiw   a3 a5 0x2",
+                    "addi    a5 zero 0x1",
+                    "sll     a5 a5 a3",
+                    "or      a5 a5 a0",
+                    "addi    a3 a4 -0x10",
+                    "sd      a3 s0 0x18",
+                    "sd      a1 s0 0x10",
+                    "sd      a5 s3 0x8  {0xfffffffffffffef3}",
+                    "sd      s0 a4",
+                    "sd      s0 a1 0x18"
+                ]
+            },
+            {
+                "addr": 69152,
+                "instrs": [
+                    "bgez    a4 data_11190"
+                ]
+            },
+            {
+                "addr": 69180,
+                "instrs": [
+                    "ld      s0 s3 0x20  {0xffffffffffffff0b}",
+                    "lui     a6 0x13",
+                    "addi    a6 a6 -0x118",
+                    "mv      a2 a0",
+                    "bne     s0 a6 data_11020"
+                ]
+            },
+            {
+                "addr": 70792,
+                "instrs": [
+                    "addi    a4 zero 0x554",
+                    "bltu    a4 a5 data_114f8"
+                ]
+            },
+            {
+                "addr": 70660,
+                "instrs": [
+                    "srli    a5 s1 0xf",
+                    "addiw   a2 a5 0x78",
+                    "slliw   a3 a2 0x1",
+                    "addiw   a0 a5 0x77",
+                    "slli    a3 a3 0x3",
+                    "j       data_10e00"
+                ]
+            },
+            {
+                "addr": 70468,
+                "instrs": [
+                    "andi    a5 a2 0x3",
+                    "addi    t1 t1 -0x10",
+                    "bnez    a5 data_11338"
+                ]
+            },
+            {
+                "addr": 70200,
+                "instrs": [
+                    "ld      a5 a0 0x18",
+                    "j       data_110ec"
+                ]
+            },
+            {
+                "addr": 70208,
+                "instrs": [
+                    "ld      a2 s0 0x10",
+                    "ori     a1 s1 0x1",
+                    "sd      a1 s0 0x8",
+                    "sd      a5 a2 0x18",
+                    "sd      a2 a5 0x10",
+                    "add     s1 s0 s1",
+                    "sd      s1 s3 0x28  {0xffffffffffffff13}",
+                    "sd      s1 s3 0x20  {0xffffffffffffff0b}",
+                    "ori     a5 a3 0x1",
+                    "sd      a6 s1 0x18  {0xfffffffffffffefb}",
+                    "sd      a6 s1 0x10  {0xfffffffffffffefb}",
+                    "sd      a5 s1 0x8",
+                    "add     a4 s0 a4",
+                    "mv      a0 s2",
+                    "sd      a3 a4",
+                    "jal     __malloc_unlock  {0x11280}",
+                    "addi    a0 s0 0x10",
+                    "j       data_10fd0"
+                ]
+            },
+            {
+                "addr": 69896,
+                "instrs": [
+                    "bltz    a3 data_110ec"
+                ]
+            },
+            {
+                "addr": 69296,
+                "instrs": [
+                    "mv      a1 s4",
+                    "mv      a0 s2",
+                    "jal     _sbrk_r  {0x10ebc}",
+                    "addi    a5 zero -0x1",
+                    "mv      s6 a0",
+                    "beq     a0 a5 data_112f8"
+                ]
+            },
+            {
+                "addr": 70392,
+                "instrs": [
+                    "ld      s0 s3 0x10  {0xfffffffffffffefb}",
+                    "ld      s4 s0 0x8"
+                ]
+            },
+            {
+                "addr": 69320,
+                "instrs": [
+                    "bltu    a0 s8 data_112f4"
+                ]
+            },
+            {
+                "addr": 70364,
+                "instrs": [
+                    "srli    a4 a5 0x6",
+                    "addiw   a1 a4 0x39",
+                    "slliw   a1 a1 0x1",
+                    "addiw   a3 a4 0x38",
+                    "slli    a1 a1 0x3",
+                    "j       data_111c0"
+                ]
+            },
+            {
+                "addr": 70056,
+                "instrs": [
+                    "addi    a3 zero 0x14",
+                    "bltu    a3 a4 data_113dc"
+                ]
+            },
+            {
+                "addr": 70032,
+                "instrs": [
+                    "ld      a3 s0 0x18",
+                    "ld      a2 s0 0x10",
+                    "j       data_10d94"
+                ]
+            },
+            {
+                "addr": 69156,
+                "instrs": [
+                    "ld      s0 s0 0x18",
+                    "beq     a3 s0 data_11010"
+                ]
+            },
+            {
+                "addr": 70904,
+                "instrs": [
+                    "addi    a3 zero 0x7f0",
+                    "addi    a2 zero 0x7f",
+                    "addi    a0 zero 0x7e",
+                    "j       data_10e00"
+                ]
+            },
+            {
+                "addr": 70800,
+                "instrs": [
+                    "srli    a5 s1 0x12",
+                    "addiw   a2 a5 0x7d",
+                    "slliw   a3 a2 0x1",
+                    "addiw   a0 a5 0x7c",
+                    "slli    a3 a3 0x3",
+                    "j       data_10e00"
+                ]
+            },
+            {
+                "addr": 70456,
+                "instrs": [
+                    "ld      a5 t1 0x10",
+                    "addiw   a2 a2 -0x1",
+                    "bne     a5 t1 data_11514"
+                ]
+            },
+            {
+                "addr": 70480,
+                "instrs": [
+                    "ld      a4 s3 0x8  {0xfffffffffffffef3}",
+                    "not     a5 a1",
+                    "and     a5 a5 a4",
+                    "sd      a5 s3 0x8  {0xfffffffffffffef3}"
+                ]
+            },
+            {
+                "addr": 69868,
+                "instrs": [
+                    "beq     a0 a5 data_11228"
+                ]
+            },
+            {
+                "addr": 69900,
+                "instrs": [
+                    "add     a4 s0 a4",
+                    "ld      a3 a4 0x8",
+                    "ld      a2 s0 0x10",
+                    "mv      a0 s2",
+                    "ori     a3 a3 0x1",
+                    "sd      a3 a4 0x8",
+                    "sd      a5 a2 0x18",
+                    "sd      a2 a5 0x10",
+                    "jal     __malloc_unlock  {0x11130}",
+                    "addi    a0 s0 0x10",
+                    "j       data_10fd0"
+                ]
+            },
+            {
+                "addr": 70420,
+                "instrs": [
+                    "mv      a0 s2",
+                    "jal     __malloc_unlock  {0x1131c}",
+                    "mv      a0 zero  {0x0}",
+                    "j       data_10fd0"
+                ]
+            },
+            {
+                "addr": 70412,
+                "instrs": [
+                    "addi    a4 zero 0x1f",
+                    "blt     a4 a5 data_11168"
+                ]
+            },
+            {
+                "addr": 70388,
+                "instrs": [
+                    "beq     s0 s3 data_1141c"
+                ]
+            },
+            {
+                "addr": 69324,
+                "instrs": [
+                    "addi    s9 gp 0x7d8",
+                    "lw      a4 s9  {__malloc_current_mallinfo}",
+                    "addw    a5 a4 s4",
+                    "sw      a5 s9  {__malloc_current_mallinfo}",
+                    "mv      a3 a5",
+                    "beq     s8 a0 data_11430"
+                ]
+            },
+            {
+                "addr": 70080,
+                "instrs": [
+                    "add     a1 s3 a1",
+                    "ld      a4 a1",
+                    "addi    a1 a1 -0x10",
+                    "beq     a1 a4 data_11394"
+                ]
+            },
+            {
+                "addr": 70620,
+                "instrs": [
+                    "addi    a3 zero 0x54",
+                    "bltu    a3 a4 data_11468"
+                ]
+            },
+            {
+                "addr": 70064,
+                "instrs": [
+                    "addiw   a1 a4 0x5c",
+                    "slliw   a1 a1 0x1",
+                    "addiw   a3 a4 0x5b",
+                    "slli    a1 a1 0x3"
+                ]
+            },
+            {
+                "addr": 69012,
+                "instrs": [
+                    "add     a5 s0 a5",
+                    "ld      a4 a5 0x8",
+                    "sd      a3 a2 0x18",
+                    "sd      a2 a3 0x10",
+                    "ori     a4 a4 0x1",
+                    "mv      a0 s2",
+                    "sd      a4 a5 0x8",
+                    "jal     __malloc_unlock  {0x10db4}",
+                    "addi    a0 s0 0x10",
+                    "j       data_10fd0"
+                ]
+            },
+            {
+                "addr": 70932,
+                "instrs": [
+                    "ld      a5 s3 0x8  {0xfffffffffffffef3}",
+                    "j       data_11360"
+                ]
+            },
+            {
+                "addr": 70504,
+                "instrs": [
+                    "beqz    a1 data_10e64"
+                ]
+            },
+            {
+                "addr": 70684,
+                "instrs": [
+                    "addi    s9 gp 0x7d8",
+                    "lw      a5 s9  {__malloc_current_mallinfo}",
+                    "addw    a3 a5 s4",
+                    "sw      a3 s9  {__malloc_current_mallinfo}",
+                    "j       data_10ee4"
+                ]
+            },
+            {
+                "addr": 70704,
+                "instrs": [
+                    "slli    a4 s8 0x34",
+                    "bnez    a4 data_10ee4"
+                ]
+            },
+            {
+                "addr": 69348,
+                "instrs": [
+                    "ld      a4 s7  {__malloc_sbrk_base}",
+                    "addi    a5 zero -0x1",
+                    "beq     a4 a5 data_1144c"
+                ]
+            },
+            {
+                "addr": 70548,
+                "instrs": [
+                    "ld      a0 s3 0x8  {0xfffffffffffffef3}",
+                    "sraiw   a3 a3 0x2",
+                    "addi    a5 zero 0x1",
+                    "sll     a5 a5 a3",
+                    "or      a5 a5 a0",
+                    "sd      a5 s3 0x8  {0xfffffffffffffef3}",
+                    "j       data_111ec"
+                ]
+            },
+            {
+                "addr": 70096,
+                "instrs": [
+                    "ld      a3 a4 0x8",
+                    "andi    a3 a3 -0x4",
+                    "bgeu    a5 a3 data_111e4"
+                ]
+            },
+            {
+                "addr": 70760,
+                "instrs": [
+                    "addi    a3 zero 0x154",
+                    "bltu    a3 a4 data_114d8"
+                ]
+            },
+            {
+                "addr": 70628,
+                "instrs": [
+                    "srli    a4 a5 0xc",
+                    "addiw   a1 a4 0x6f",
+                    "slliw   a1 a1 0x1",
+                    "addiw   a3 a4 0x6e",
+                    "slli    a1 a1 0x3",
+                    "j       data_111c0"
+                ]
+            },
+            {
+                "addr": 70496,
+                "instrs": [
+                    "slli    a1 a1 0x1",
+                    "bltu    a5 a1 data_10e64"
+                ]
+            },
+            {
+                "addr": 70508,
+                "instrs": [
+                    "and     a4 a1 a5",
+                    "bnez    a4 data_11384"
+                ]
+            },
+            {
+                "addr": 70712,
+                "instrs": [
+                    "ld      s0 s3 0x10  {0xfffffffffffffefb}",
+                    "add     s4 s5 s4",
+                    "ori     s4 s4 0x1",
+                    "sd      s4 s0 0x8",
+                    "j       data_10fa0"
+                ]
+            },
+            {
+                "addr": 70732,
+                "instrs": [
+                    "sd      s6 s7  {__malloc_sbrk_base}",
+                    "j       data_10efc"
+                ]
+            },
+            {
+                "addr": 69360,
+                "instrs": [
+                    "sub     a5 s6 s8",
+                    "addw    a5 a5 a3",
+                    "sw      a5 s9  {__malloc_current_mallinfo}"
+                ]
+            },
+            {
+                "addr": 70124,
+                "instrs": [
+                    "sd      a1 s0 0x18",
+                    "sd      a4 s0 0x10",
+                    "sd      s0 a1 0x10",
+                    "sd      s0 a4 0x18",
+                    "j       data_1108c"
+                ]
+            },
+            {
+                "addr": 70116,
+                "instrs": [
+                    "ld      a1 a4 0x18",
+                    "ld      a5 s3 0x8  {0xfffffffffffffef3}"
+                ]
+            },
+            {
+                "addr": 70108,
+                "instrs": [
+                    "ld      a4 a4 0x10",
+                    "bne     a1 a4 data_111d0"
+                ]
+            },
+            {
+                "addr": 70872,
+                "instrs": [
+                    "addi    a3 zero 0x554",
+                    "bltu    a3 a4 data_11508"
+                ]
+            },
+            {
+                "addr": 70768,
+                "instrs": [
+                    "srli    a4 a5 0xf",
+                    "addiw   a1 a4 0x78",
+                    "slliw   a1 a1 0x1",
+                    "addiw   a3 a4 0x77",
+                    "slli    a1 a1 0x3",
+                    "j       data_111c0"
+                ]
+            },
+            {
+                "addr": 70532,
+                "instrs": [
+                    "mv      a2 t3",
+                    "j       data_110cc"
+                ]
+            },
+            {
+                "addr": 70516,
+                "instrs": [
+                    "slli    a1 a1 0x1",
+                    "and     a4 a1 a5",
+                    "addiw   t3 t3 0x4",
+                    "beqz    a4 data_11374"
+                ]
+            },
+            {
+                "addr": 69536,
+                "instrs": [
+                    "addi    a4 gp 0x780",
+                    "ld      a3 a4  {__malloc_max_sbrked_mem}",
+                    "bgeu    a3 a5 data_10fb0"
+                ]
+            },
+            {
+                "addr": 69372,
+                "instrs": [
+                    "andi    s8 s6 0xf",
+                    "beqz    s8 data_113b0"
+                ]
+            },
+            {
+                "addr": 70576,
+                "instrs": [
+                    "add     s7 s6 s4",
+                    "neg     s7 s7",
+                    "slli    s7 s7 0x34",
+                    "srli    s7 s7 0x34",
+                    "mv      a1 s7",
+                    "mv      a0 s2",
+                    "jal     _sbrk_r  {0x113cc}",
+                    "addi    a5 zero -0x1",
+                    "mv      a4 zero  {0x0}",
+                    "bne     a0 a5 data_10f3c"
+                ]
+            },
+            {
+                "addr": 69380,
+                "instrs": [
+                    "lui     a5 0x1",
+                    "sub     s6 s6 s8",
+                    "addi    s7 a5 0x10",
+                    "addi    s6 s6 0x10",
+                    "sub     s7 s7 s8",
+                    "add     s4 s6 s4",
+                    "addi    a5 a5 -0x1",
+                    "sub     s7 s7 s4",
+                    "and     s7 s7 a5  {0x0}",
+                    "mv      a1 s7  {0x0}",
+                    "mv      a0 s2",
+                    "jal     _sbrk_r  {0x10f34}",
+                    "addi    a5 zero -0x1",
+                    "beq     a0 a5 data_114a8"
+                ]
+            },
+            {
+                "addr": 69772,
+                "instrs": [
+                    "sraiw   a4 a2 0x2",
+                    "addi    a1 zero 0x1",
+                    "sll     a1 a1 a4",
+                    "bltu    a5 a1 data_10e64"
+                ]
+            },
+            {
+                "addr": 70920,
+                "instrs": [
+                    "addi    a1 zero 0x7f0",
+                    "addi    a3 zero 0x7e",
+                    "j       data_111c0"
+                ]
+            },
+            {
+                "addr": 70880,
+                "instrs": [
+                    "srli    a4 a5 0x12",
+                    "addiw   a1 a4 0x7d",
+                    "slliw   a1 a1 0x1",
+                    "addiw   a3 a4 0x7c",
+                    "slli    a1 a1 0x3",
+                    "j       data_111c0"
+                ]
+            },
+            {
+                "addr": 69836,
+                "instrs": [
+                    "addiw   t1 a2 0x1",
+                    "slliw   t1 t1 0x1",
+                    "slli    t1 t1 0x3",
+                    "addi    t1 t1 -0x10",
+                    "add     t1 s3 t1",
+                    "mv      a0 t1",
+                    "ld      a5 a0 0x18",
+                    "mv      t3 a2"
+                ]
+            },
+            {
+                "addr": 69552,
+                "instrs": [
+                    "addi    a4 gp 0x788",
+                    "ld      a3 a4  {__malloc_max_total_mem}",
+                    "bgeu    a3 a5 data_11300"
+                ]
+            },
+            {
+                "addr": 69548,
+                "instrs": [
+                    "sd      a5 a4  {__malloc_max_sbrked_mem}"
+                ]
+            },
+            {
+                "addr": 69436,
+                "instrs": [
+                    "sub     a0 a0 s6",
+                    "sext.w  a4 s7",
+                    "add     s4 a0 s7"
+                ]
+            },
+            {
+                "addr": 70616,
+                "instrs": [
+                    "j       data_10f48"
+                ]
+            },
+            {
+                "addr": 70824,
+                "instrs": [
+                    "addi    s8 s8 -0x10",
+                    "add     s4 s4 s8",
+                    "sub     s4 s4 s6",
+                    "mv      a4 zero  {0x0}",
+                    "j       data_10f48"
+                ]
+            },
+            {
+                "addr": 70400,
+                "instrs": [
+                    "andi    s4 s4 -0x4",
+                    "sub     a5 s4 s1",
+                    "bltu    s4 s1 data_11314"
+                ]
+            },
+            {
+                "addr": 69564,
+                "instrs": [
+                    "sd      a5 a4  {__malloc_max_total_mem}",
+                    "j       data_11300"
+                ]
+            },
+            {
+                "addr": 70740,
+                "instrs": [
+                    "mv      s0 s6",
+                    "j       data_10fa0"
+                ]
+            },
+            {
+                "addr": 69476,
+                "instrs": [
+                    "addi    a2 zero 0x1f",
+                    "bgeu    a2 s5 data_1145c  {0x1}"
+                ]
+            },
+            {
+                "addr": 69448,
+                "instrs": [
+                    "lw      a5 s9  {__malloc_current_mallinfo}",
+                    "sd      s6 s3 0x10  {0xfffffffffffffefb}",
+                    "ori     s4 s4 0x1",
+                    "addw    a5 a5 a4",
+                    "sw      a5 s9  {__malloc_current_mallinfo}",
+                    "sd      s4 s6 0x8",
+                    "beq     s0 s3 data_11454"
+                ]
+            },
+            {
+                "addr": 70748,
+                "instrs": [
+                    "addi    a5 zero 0x1",
+                    "sd      a5 s6 0x8  {0x1}",
+                    "j       data_11314"
+                ]
+            },
+            {
+                "addr": 69484,
+                "instrs": [
+                    "ld      a3 s0 0x8",
+                    "addi    a4 s5 -0x18",
+                    "andi    a4 a4 -0x10",
+                    "andi    a3 a3 0x1",
+                    "or      a3 a3 a4",
+                    "sd      a3 s0 0x8",
+                    "addi    a1 zero 0x9",
+                    "add     a3 s0 a4",
+                    "sd      a1 a3 0x8  {0x9}",
+                    "sd      a1 a3 0x10  {0x9}",
+                    "bltu    a2 a4 data_114bc"
+                ]
+            },
+            {
+                "addr": 70844,
+                "instrs": [
+                    "addi    a1 s0 0x10",
+                    "mv      a0 s2",
+                    "jal     _free_r  {0x114c8}",
+                    "ld      s0 s3 0x10  {0xfffffffffffffefb}",
+                    "lw      a5 s9  {__malloc_current_mallinfo}",
+                    "ld      s4 s0 0x8",
+                    "j       data_10fa0"
+                ]
+            },
+            {
+                "addr": 69528,
+                "instrs": [
+                    "ld      s4 s6 0x8",
+                    "mv      s0 s6"
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                3
+            ],
+            [
+                1,
+                4
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                5
+            ],
+            [
+                3,
+                12
+            ],
+            [
+                4,
+                3
+            ],
+            [
+                4,
+                6
+            ],
+            [
+                5,
+                13
+            ],
+            [
+                6,
+                9
+            ],
+            [
+                6,
+                10
+            ],
+            [
+                7,
+                8
+            ],
+            [
+                7,
+                11
+            ],
+            [
+                8,
+                73
+            ],
+            [
+                9,
+                13
+            ],
+            [
+                10,
+                14
+            ],
+            [
+                10,
+                15
+            ],
+            [
+                11,
+                16
+            ],
+            [
+                11,
+                17
+            ],
+            [
+                13,
+                7
+            ],
+            [
+                13,
+                8
+            ],
+            [
+                14,
+                18
+            ],
+            [
+                15,
+                19
+            ],
+            [
+                15,
+                20
+            ],
+            [
+                16,
+                21
+            ],
+            [
+                16,
+                22
+            ],
+            [
+                17,
+                23
+            ],
+            [
+                17,
+                24
+            ],
+            [
+                18,
+                11
+            ],
+            [
+                18,
+                25
+            ],
+            [
+                19,
+                26
+            ],
+            [
+                19,
+                27
+            ],
+            [
+                20,
+                18
+            ],
+            [
+                21,
+                28
+            ],
+            [
+                21,
+                29
+            ],
+            [
+                22,
+                30
+            ],
+            [
+                22,
+                31
+            ],
+            [
+                23,
+                12
+            ],
+            [
+                24,
+                32
+            ],
+            [
+                24,
+                33
+            ],
+            [
+                25,
+                34
+            ],
+            [
+                26,
+                18
+            ],
+            [
+                27,
+                35
+            ],
+            [
+                27,
+                36
+            ],
+            [
+                28,
+                102
+            ],
+            [
+                29,
+                28
+            ],
+            [
+                29,
+                39
+            ],
+            [
+                30,
+                40
+            ],
+            [
+                30,
+                41
+            ],
+            [
+                31,
+                42
+            ],
+            [
+                31,
+                30
+            ],
+            [
+                32,
+                12
+            ],
+            [
+                33,
+                43
+            ],
+            [
+                33,
+                44
+            ],
+            [
+                34,
+                45
+            ],
+            [
+                34,
+                46
+            ],
+            [
+                35,
+                47
+            ],
+            [
+                35,
+                48
+            ],
+            [
+                36,
+                18
+            ],
+            [
+                37,
+                49
+            ],
+            [
+                37,
+                50
+            ],
+            [
+                38,
+                51
+            ],
+            [
+                38,
+                52
+            ],
+            [
+                39,
+                39
+            ],
+            [
+                39,
+                28
+            ],
+            [
+                40,
+                53
+            ],
+            [
+                41,
+                53
+            ],
+            [
+                42,
+                12
+            ],
+            [
+                43,
+                56
+            ],
+            [
+                43,
+                57
+            ],
+            [
+                44,
+                99
+            ],
+            [
+                45,
+                58
+            ],
+            [
+                45,
+                59
+            ],
+            [
+                46,
+                17
+            ],
+            [
+                46,
+                16
+            ],
+            [
+                47,
+                60
+            ],
+            [
+                47,
+                61
+            ],
+            [
+                48,
+                18
+            ],
+            [
+                49,
+                62
+            ],
+            [
+                49,
+                63
+            ],
+            [
+                50,
+                64
+            ],
+            [
+                51,
+                12
+            ],
+            [
+                52,
+                64
+            ],
+            [
+                52,
+                65
+            ],
+            [
+                53,
+                54
+            ],
+            [
+                53,
+                55
+            ],
+            [
+                54,
+                108
+            ],
+            [
+                55,
+                68
+            ],
+            [
+                55,
+                69
+            ],
+            [
+                56,
+                70
+            ],
+            [
+                57,
+                71
+            ],
+            [
+                57,
+                72
+            ],
+            [
+                58,
+                73
+            ],
+            [
+                59,
+                11
+            ],
+            [
+                59,
+                34
+            ],
+            [
+                60,
+                18
+            ],
+            [
+                61,
+                18
+            ],
+            [
+                62,
+                74
+            ],
+            [
+                62,
+                49
+            ],
+            [
+                63,
+                83
+            ],
+            [
+                64,
+                37
+            ],
+            [
+                64,
+                38
+            ],
+            [
+                65,
+                12
+            ],
+            [
+                66,
+                12
+            ],
+            [
+                67,
+                42
+            ],
+            [
+                67,
+                66
+            ],
+            [
+                68,
+                76
+            ],
+            [
+                68,
+                54
+            ],
+            [
+                69,
+                77
+            ],
+            [
+                69,
+                78
+            ],
+            [
+                70,
+                79
+            ],
+            [
+                70,
+                80
+            ],
+            [
+                71,
+                81
+            ],
+            [
+                71,
+                82
+            ],
+            [
+                72,
+                70
+            ],
+            [
+                73,
+                12
+            ],
+            [
+                74,
+                83
+            ],
+            [
+                75,
+                22
+            ],
+            [
+                75,
+                84
+            ],
+            [
+                76,
+                78
+            ],
+            [
+                77,
+                78
+            ],
+            [
+                77,
+                85
+            ],
+            [
+                78,
+                86
+            ],
+            [
+                78,
+                87
+            ],
+            [
+                79,
+                88
+            ],
+            [
+                80,
+                89
+            ],
+            [
+                80,
+                90
+            ],
+            [
+                81,
+                91
+            ],
+            [
+                81,
+                92
+            ],
+            [
+                82,
+                70
+            ],
+            [
+                83,
+                22
+            ],
+            [
+                83,
+                75
+            ],
+            [
+                84,
+                93
+            ],
+            [
+                84,
+                94
+            ],
+            [
+                85,
+                95
+            ],
+            [
+                86,
+                96
+            ],
+            [
+                87,
+                96
+            ],
+            [
+                88,
+                99
+            ],
+            [
+                89,
+                88
+            ],
+            [
+                90,
+                80
+            ],
+            [
+                90,
+                89
+            ],
+            [
+                91,
+                100
+            ],
+            [
+                91,
+                101
+            ],
+            [
+                92,
+                70
+            ],
+            [
+                93,
+                102
+            ],
+            [
+                94,
+                94
+            ],
+            [
+                94,
+                93
+            ],
+            [
+                95,
+                103
+            ],
+            [
+                95,
+                104
+            ],
+            [
+                96,
+                97
+            ],
+            [
+                96,
+                98
+            ],
+            [
+                97,
+                105
+            ],
+            [
+                97,
+                106
+            ],
+            [
+                98,
+                107
+            ],
+            [
+                98,
+                105
+            ],
+            [
+                99,
+                22
+            ],
+            [
+                99,
+                21
+            ],
+            [
+                100,
+                70
+            ],
+            [
+                101,
+                70
+            ],
+            [
+                102,
+                64
+            ],
+            [
+                103,
+                108
+            ],
+            [
+                103,
+                109
+            ],
+            [
+                104,
+                103
+            ],
+            [
+                105,
+                112
+            ],
+            [
+                106,
+                112
+            ],
+            [
+                107,
+                112
+            ],
+            [
+                108,
+                66
+            ],
+            [
+                108,
+                67
+            ],
+            [
+                109,
+                108
+            ],
+            [
+                110,
+                95
+            ],
+            [
+                111,
+                113
+            ],
+            [
+                111,
+                114
+            ],
+            [
+                112,
+                110
+            ],
+            [
+                112,
+                111
+            ],
+            [
+                113,
+                66
+            ],
+            [
+                114,
+                115
+            ],
+            [
+                114,
+                116
+            ],
+            [
+                115,
+                95
+            ],
+            [
+                116,
+                95
+            ]
+        ]
+    },
+    "__malloc_lock": {
+        "blocks": [
+            {
+                "addr": 70940,
+                "instrs": [
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": []
+    },
+    "__malloc_unlock": {
+        "blocks": [
+            {
+                "addr": 70944,
+                "instrs": [
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": []
+    },
+    "_sbrk_r": {
+        "blocks": [
+            {
+                "addr": 70948,
+                "instrs": [
+                    "addi    sp sp -0x20",
+                    "sd      s0 sp 0x10 {__saved_s0}",
+                    "sd      s1 sp 0x8 {__saved_s1}",
+                    "mv      s0 a0",
+                    "mv      a0 a1",
+                    "sd      ra sp 0x18 {var_8}",
+                    "sw      zero gp 0x778  {0x0}  {_edata}",
+                    "jal     _sbrk  {0x11544}",
+                    "addi    a5 zero -0x1",
+                    "beq     a0 a5 data_11560"
+                ]
+            },
+            {
+                "addr": 71008,
+                "instrs": [
+                    "lw      a5 gp 0x778  {data_13010}",
+                    "beqz    a5 data_1154c"
+                ]
+            },
+            {
+                "addr": 70988,
+                "instrs": [
+                    "ld      ra sp 0x18",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "addi    sp sp 0x20",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 71016,
+                "instrs": [
+                    "ld      ra sp 0x18",
+                    "sw      a5 s0",
+                    "ld      s0 sp 0x10 {__saved_s0}",
+                    "ld      s1 sp 0x8 {__saved_s1}",
+                    "addi    sp sp 0x20",
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                1,
+                3
+            ]
+        ]
+    },
+    "__register_exitproc": {
+        "blocks": [
+            {
+                "addr": 71040,
+                "instrs": [
+                    "ld      a4 gp 0x750  {data_12fe8}",
+                    "ld      a5 a4 0x1f8",
+                    "beqz    a5 data_115e8"
+                ]
+            },
+            {
+                "addr": 71144,
+                "instrs": [
+                    "addi    a5 a4 0x200",
+                    "sd      a5 a4 0x1f8",
+                    "j       data_1158c"
+                ]
+            },
+            {
+                "addr": 71052,
+                "instrs": [
+                    "lw      a4 a5 0x8",
+                    "addi    a6 zero 0x1f",
+                    "blt     a6 a4 data_11620"
+                ]
+            },
+            {
+                "addr": 71200,
+                "instrs": [
+                    "addi    a0 zero -0x1",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 71064,
+                "instrs": [
+                    "beqz    a0 data_115c8"
+                ]
+            },
+            {
+                "addr": 71112,
+                "instrs": [
+                    "addi    a3 a4 0x2",
+                    "slli    a3 a3 0x3",
+                    "addiw   a4 a4 0x1",
+                    "sw      a4 a5 0x8",
+                    "add     a5 a5 a3",
+                    "sd      a1 a5",
+                    "mv      a0 zero  {0x0}",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 71068,
+                "instrs": [
+                    "slli    a6 a4 0x3",
+                    "add     a6 a5 a6",
+                    "sd      a2 a6 0x110",
+                    "lw      a7 a5 0x310",
+                    "addi    a2 zero 0x1",
+                    "sllw    a2 a2 a4",
+                    "or      a7 a7 a2",
+                    "sw      a7 a5 0x310",
+                    "sd      a3 a6 0x210",
+                    "addi    a3 zero 0x2",
+                    "beq     a0 a3 data_115f4"
+                ]
+            },
+            {
+                "addr": 71156,
+                "instrs": [
+                    "lw      a3 a5 0x314",
+                    "mv      a0 zero  {0x0}",
+                    "or      a3 a3 a2",
+                    "sw      a3 a5 0x314",
+                    "addi    a3 a4 0x2",
+                    "slli    a3 a3 0x3",
+                    "addiw   a4 a4 0x1",
+                    "sw      a4 a5 0x8",
+                    "add     a5 a5 a3",
+                    "sd      a1 a5",
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                4,
+                5
+            ],
+            [
+                4,
+                6
+            ],
+            [
+                6,
+                7
+            ],
+            [
+                6,
+                5
+            ]
+        ]
+    },
+    "_exit": {
+        "blocks": [
+            {
+                "addr": 71208,
+                "instrs": [
+                    "addi    a7 zero 0x5d",
+                    "ecall  ",
+                    "bltz    a0 data_11638"
+                ]
+            },
+            {
+                "addr": 71224,
+                "instrs": [
+                    "addi    sp sp -0x10",
+                    "sd      s0 sp {var_10}",
+                    "mv      s0 a0",
+                    "sd      ra sp 0x8 {var_8}",
+                    "negw    s0 s0",
+                    "jal     __errno  {0x11650}",
+                    "sw      s0 a0"
+                ]
+            },
+            {
+                "addr": 71220,
+                "instrs": [
+                    "j       data_11634"
+                ]
+            },
+            {
+                "addr": 71252,
+                "instrs": [
+                    "j       data_11654"
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                3
+            ],
+            [
+                2,
+                2
+            ],
+            [
+                3,
+                3
+            ]
+        ]
+    },
+    "_open": {
+        "blocks": [
+            {
+                "addr": 71256,
+                "instrs": [
+                    "addi    sp sp -0x10",
+                    "sd      ra sp 0x8 {var_8}",
+                    "sd      s0 sp {__saved_s0}",
+                    "addi    a7 zero 0x400",
+                    "ecall  ",
+                    "mv      s0 a0",
+                    "bltz    a0 data_11688"
+                ]
+            },
+            {
+                "addr": 71304,
+                "instrs": [
+                    "jal     __errno  {0x1168c}",
+                    "negw    s0 s0",
+                    "sw      s0 a0",
+                    "addi    a0 zero -0x1",
+                    "j       data_11678"
+                ]
+            },
+            {
+                "addr": 71284,
+                "instrs": [
+                    "sext.w  a0 a0"
+                ]
+            },
+            {
+                "addr": 71288,
+                "instrs": [
+                    "ld      ra sp 0x8",
+                    "ld      s0 sp {__saved_s0}",
+                    "addi    sp sp 0x10",
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                3
+            ],
+            [
+                2,
+                3
+            ]
+        ]
+    },
+    "_read": {
+        "blocks": [
+            {
+                "addr": 71324,
+                "instrs": [
+                    "addi    sp sp -0x10",
+                    "sd      ra sp 0x8 {var_8}",
+                    "sd      s0 sp {__saved_s0}",
+                    "addi    a7 zero 0x3f",
+                    "ecall  ",
+                    "mv      s0 a0",
+                    "bltz    a0 data_116cc"
+                ]
+            },
+            {
+                "addr": 71372,
+                "instrs": [
+                    "negw    s0 s0",
+                    "jal     __errno  {0x116d4}",
+                    "sw      s0 a0",
+                    "addi    s0 zero -0x1",
+                    "j       data_116b8"
+                ]
+            },
+            {
+                "addr": 71352,
+                "instrs": [
+                    "ld      ra sp 0x8",
+                    "mv      a0 s0",
+                    "ld      s0 sp {__saved_s0}",
+                    "addi    sp sp 0x10",
+                    "ret    "
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ]
+        ]
+    },
+    "_sbrk": {
+        "blocks": [
+            {
+                "addr": 71392,
+                "instrs": [
+                    "addi    a3 gp 0x798",
+                    "ld      a4 a3  {heap_end.0}",
+                    "addi    sp sp -0x10",
+                    "sd      ra sp 0x8 {var_8}",
+                    "mv      a5 a0",
+                    "bnez    a4 data_11714"
+                ]
+            },
+            {
+                "addr": 71444,
+                "instrs": [
+                    "addi    a7 zero 0xd6",
+                    "add     a0 a5 a4",
+                    "ecall  ",
+                    "ld      a4 a3",
+                    "add     a5 a5 a4",
+                    "bne     a0 a5 data_11740"
+                ]
+            },
+            {
+                "addr": 71416,
+                "instrs": [
+                    "addi    a7 zero 0xd6",
+                    "mv      a0 zero  {0x0}",
+                    "ecall  ",
+                    "addi    a2 zero -0x1",
+                    "mv      a4 a0",
+                    "beq     a0 a2 data_11740"
+                ]
+            },
+            {
+                "addr": 71488,
+                "instrs": [
+                    "jal     __errno  {0x11744}",
+                    "ld      ra sp 0x8",
+                    "addi    a5 zero 0xc",
+                    "sw      a5 a0  {0xc}",
+                    "addi    a0 zero -0x1",
+                    "addi    sp sp 0x10",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 71468,
+                "instrs": [
+                    "ld      ra sp 0x8",
+                    "sd      a0 a3",
+                    "mv      a0 a4",
+                    "addi    sp sp 0x10",
+                    "ret    "
+                ]
+            },
+            {
+                "addr": 71440,
+                "instrs": [
+                    "sd      a0 a3"
+                ]
+            }
+        ],
+        "edges": [
+            [
+                0,
+                1
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                3
+            ],
+            [
+                1,
+                4
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                5
+            ],
+            [
+                5,
+                1
+            ]
+        ]
+    },
+    "__errno": {
+        "blocks": [
+            {
+                "addr": 71516,
+                "instrs": [
+                    "ld      a0 gp 0x760  {data_12ff8}",
+                    "ret    "
+                ]
+            }
         ],
         "edges": []
     }

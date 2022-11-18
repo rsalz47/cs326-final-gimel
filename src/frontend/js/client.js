@@ -32,6 +32,11 @@ export async function get_cfg_for_func(func_name) {
     return result.json();
 }
 
+export async function get_hit_blocks() {
+    const result = await fetch("/cfg/hit_blocks");
+    return result.json();
+}
+
 /// Return all the currently existing fuzzer configs
 export async function get_fuzzers() {
 }

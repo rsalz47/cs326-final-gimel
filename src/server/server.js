@@ -6,6 +6,7 @@ import stat from "./routes/stat.js";
 import source from "./routes/source.js";
 import fs from "node:fs";
 import "dotenv/config";
+import {hit_blocks} from "./routes/stat.js";
 
 const app = express();
 app.use(express.json());
@@ -47,6 +48,10 @@ app.post("/cfg/cfg_for_func", (req, res) => {
     }
 
     res.send(JSON.stringify(funcs[func_name]));
+});
+
+app.get("/cfg/hit_blocks", (req, res) => {
+    res.send(hit_blocks);
 });
 
 app.post("/comments/create", (req, res) => {

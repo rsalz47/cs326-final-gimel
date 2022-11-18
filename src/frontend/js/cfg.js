@@ -1,4 +1,4 @@
-import {get_cfg_functions, get_cfg_for_func} from './client.js'
+import {get_cfg_functions, get_cfg_for_func, get_hit_blocks} from './client.js'
 
 /// Clear a div
 function clear_div(element) {
@@ -112,6 +112,11 @@ function function_parse_callback() {
 
 async function draw_function_cfg(func_name) {
     const function_cfg = await get_cfg_for_func(func_name);
+    const hit_blocks = await get_hit_blocks();
+
+    console.log("hit1");
+    console.log(hit_blocks);
+    console.log(function_cfg);
 
     setup_screen(document.getElementById("view2"));
     add_func(func_name);
@@ -122,8 +127,12 @@ digraph {
     node  [style="filled"]
 `
     for (let i = 0; i < function_cfg.blocks.length; i++) {
-        const color = "#ffffff"
-        const block_text = function_cfg.blocks[i].join('\n');
+        let color = "#ffffff"
+        if (hit_blocks.includes(function_cfg.blocks[i].addr)) {
+            console.log(function_cfg.blocks[i].addr + " should be green");
+            color = "#8aff8a"
+        }
+        const block_text = function_cfg.blocks[i].instrs.join('\n');
 
         dotSrc += `    n${i} [id="n${i}" label="${block_text}" fillcolor="${color}", shape="box"]\n`
     }
