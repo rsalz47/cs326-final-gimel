@@ -84,3 +84,5 @@
 2022-11-18 18:13:24.755 EST [18340] FATAL:  database "seal" does not exist
 2022-11-18 18:13:29.110 EST [18356] ERROR:  schema "fizzy" does not exist
 2022-11-18 18:13:29.110 EST [18356] STATEMENT:  DROP SCHEMA fizzy CASCADE;
+2022-11-18 18:45:56.030 EST [8777] LOG:  could not close temporary statistics file "pg_stat_tmp/db_0.tmp": No space left on device
+2022-11-18 18:45:562022-11-18 18:46:36.257 EST [8776] LOG:  using stale statistics instead of current ones because stats collector is not responding
