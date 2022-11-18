@@ -55,7 +55,7 @@ const sfuzz_map = {
     timeouts: "timeouts",
 };
 
-export const hit_blocks = [];
+const hit_blocks = [];
 
 router.post("/", (req, res) => {
     Object.entries(sfuzz_map).forEach(([recv, target]) => {
@@ -68,6 +68,10 @@ router.post("/cov/", (req, res) => {
     const data = req.body;
     data.forEach(e => hit_blocks.push(e));
     res.sendStatus(200);
+});
+
+router.get("/cov/", (req, res) => {
+    res.send(hit_blocks);
 });
 
 export default router;

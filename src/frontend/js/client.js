@@ -33,7 +33,7 @@ export async function get_cfg_for_func(func_name) {
 }
 
 export async function get_hit_blocks() {
-    const result = await fetch("/cfg/hit_blocks");
+    const result = await fetch("/stats/cov");
     return result.json();
 }
 
