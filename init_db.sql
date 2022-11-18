@@ -10,4 +10,4 @@ CREATE TABLE fizzy.project(name text, fuzzer text, target text, input_dir text,
 			   output_dir text, timestamp text);
 
 INSERT INTO fizzy.stats
-VALUES (0, 0, 0, 0, 0);
+VALUES (0, 0, 0, 0, 0, 0, 0, 0);
