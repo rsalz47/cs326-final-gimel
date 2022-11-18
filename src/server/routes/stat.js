@@ -3,8 +3,9 @@ import checkToken from "../logic/checkToken.js";
 import kip from "../logic/kip.js";
 import validateBody from "../logic/validateBody.js";
 
+import {db_get_cur_stats, db_insert_stats} from "../database.js";
+
 const router = Router();
-// Router.use(checkToken);
 
 const startTime = new Date();
 
@@ -19,12 +20,15 @@ const fuzzerStatus = {
     timeouts: 0
 };
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
     const server_run_time = Date.now() - startTime;
+    const cur_stats = await db_get_cur_stats();
+
     const data = {
-        ...fuzzerStatus,
+        ...cur_stats,
         server_run_time,
     };
+
     res.send({
         msg: "Successfully fetched data from socket",
         data,
@@ -61,6 +65,9 @@ router.post("/", (req, res) => {
     Object.entries(sfuzz_map).forEach(([recv, target]) => {
         fuzzerStatus[target] = req.body[recv];
     });
+
+    db_insert_stats(fuzzerStatus);
+
     res.sendStatus(200);
 });
 

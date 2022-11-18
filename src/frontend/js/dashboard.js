@@ -46,6 +46,7 @@ async function populateUser() {
 
 async function populateStat() {
     const {ok, data: statData} = await getStats();
+    console.log(statData);
     const ele = document.getElementById("stat_table");
     ele.innerHTML = "";
     if (!ok) {

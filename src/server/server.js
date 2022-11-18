@@ -7,6 +7,8 @@ import source from "./routes/source.js";
 import fs from "node:fs";
 import "dotenv/config";
 
+import {db_init_project, db_get_projects} from "./database.js";
+
 const app = express();
 app.use(express.json());
 app.use(express.static("."));
@@ -16,6 +18,15 @@ const {Pool} = pkg;
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
+
+const project = {
+    name: "",
+    time_stamp: "",
+    target: "",
+    fuzzer: "",
+    input_dir: "",
+    output_dir: "",
+};
 
 console.log(process.env.DATABASE_URL);
 
@@ -79,12 +90,23 @@ app.post("/comments/delete", (req, res) => {
     console.log(`comment ${index} successfully deleted >:)`);
 });
 
-//app.post("/project/init", (
+app.get("/project/data", async (req, res) => {
+    let rows = await db_get_projects();
+    res.send(rows);
+});
 
-app.get("/db", async (req, res) => {
-    const client = await pool.connect();
-    const result = await client.query("SELECT * FROM users");
-    res.send(result);
+app.post("/project/init", async (req, res) => {
+    const data = req.body;
+
+    project.name       = data.name;
+    project.fuzzer     = data.fuzzer;
+    project.target     = data.target;
+    project.input_dir  = data.input_dir;
+    project.output_dir = data.output_dir;
+    project.time_stamp = data.time_stamp;
+
+    await db_init_project(project);
+    res.sendStatus(200);
 });
 
 app.listen(process.env.PORT || 3001);

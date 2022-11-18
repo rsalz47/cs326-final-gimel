@@ -37,8 +37,21 @@ export async function get_hit_blocks() {
     return result.json();
 }
 
-/// Return all the currently existing fuzzer configs
-export async function get_fuzzers() {
+/// Initialize a new project
+export async function init_project(project) {
+    const resp = await fetch("/project/init", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(project)
+        });
+}
+
+export async function get_project_rows() {
+    const resp = await fetch("/project/data");
+    return resp.json();
 }
 
 export async function getAllComments() {

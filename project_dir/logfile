@@ -1,0 +1,86 @@
+2022-11-18 16:31:59.947 EST [8693] LOG:  starting PostgreSQL 14.5 (Ubuntu 14.5-0ubuntu0.22.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, 64-bit
+2022-11-18 16:31:59.947 EST [8693] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-11-18 16:31:59.952 EST [8693] FATAL:  could not create lock file "/var/run/postgresql/.s.PGSQL.5432.lock": Permission denied
+2022-11-18 16:31:59.954 EST [8693] LOG:  database system is shut down
+2022-11-18 16:32:19.439 EST [8771] LOG:  starting PostgreSQL 14.5 (Ubuntu 14.5-0ubuntu0.22.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, 64-bit
+2022-11-18 16:32:19.439 EST [8771] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-11-18 16:32:19.443 EST [8771] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2022-11-18 16:32:19.454 EST [8772] LOG:  database system was interrupted; last known up at 2022-11-18 15:28:15 EST
+2022-11-18 16:32:19.628 EST [8772] LOG:  database system was not properly shut down; automatic recovery in progress
+2022-11-18 16:32:19.635 EST [8772] LOG:  redo starts at 0/171FD98
+2022-11-18 16:32:19.635 EST [8772] LOG:  invalid record length at 0/171FE80: wanted 24, got 0
+2022-11-18 16:32:19.635 EST [8772] LOG:  redo done at 0/171FE48 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2022-11-18 16:32:19.682 EST [8771] LOG:  database system is ready to accept connections
+2022-11-18 16:32:44.293 EST [8925] ERROR:  syntax error at or near "{" at character 87
+2022-11-18 16:32:44.293 EST [8925] STATEMENT:  INSERT INTO Projects (name, fuzzer, target, input_dir, output_dir, time_stamp)VALUES ({p.name}, {p.fuzzer}, {p.target}, {p.input_dir}, {p.output_dir}, 
+	        {p.time_stamp});
+2022-11-18 16:32:44.307 EST [8925] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 16:33:37.765 EST [8996] ERROR:  relation "projects" already exists
+2022-11-18 16:33:37.765 EST [8996] STATEMENT:  CREATE TABLE Projects(name VARCHAR(255), fuzzer VARCHAR(255), target VARCHAR(255), input_dir VARCHAR(255), output_dir VARCHAR(255), time_stamp VARCHAR(255));
+2022-11-18 16:34:25.226 EST [9052] ERROR:  column "undefined" does not exist at character 87
+2022-11-18 16:34:25.226 EST [9052] STATEMENT:  INSERT INTO Projects (name, fuzzer, target, input_dir, output_dir, time_stamp)VALUES (undefined, undefined, undefined, undefined, undefined, 
+	        11/18/2022);
+2022-11-18 16:35:31.532 EST [9236] ERROR:  column "undefined" does not exist at character 30
+2022-11-18 16:35:31.532 EST [9236] STATEMENT:  INSERT INTO Projects VALUES (undefined, undefined, undefined, undefined, undefined, 
+	        11/18/2022);
+2022-11-18 16:36:02.902 EST [9291] ERROR:  column "undefined" does not exist at character 88
+2022-11-18 16:36:02.902 EST [9291] STATEMENT:  INSERT INTO Projects (name, fuzzer, target, input_dir, output_dir, time_stamp) VALUES (undefined, undefined, undefined, undefined, undefined, 
+	        11/18/2022);
+2022-11-18 16:36:02.911 EST [9291] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 16:37:03.721 EST [9370] ERROR:  unterminated quoted string at or near "'undefined, undefined, undefined, undefined, 
+	        11/18/2022);" at character 100
+2022-11-18 16:37:03.721 EST [9370] STATEMENT:  INSERT INTO Projects (name, fuzzer, target, input_dir, output_dir, time_stamp) VALUES ('undefined','undefined, undefined, undefined, undefined, 
+	        11/18/2022);
+2022-11-18 17:47:52.176 EST [13559] ERROR:  syntax error at or near "select" at character 24
+2022-11-18 17:47:52.176 EST [13559] STATEMENT:  select * from Projects
+	select * from Projects;
+2022-11-18 17:48:06.295 EST [13559] ERROR:  relation "stats" does not exist at character 15
+2022-11-18 17:48:06.295 EST [13559] STATEMENT:  select * from Stats
+	;
+2022-11-18 17:49:17.696 EST [13559] ERROR:  syntax error at or near ")" at character 167
+2022-11-18 17:49:17.696 EST [13559] STATEMENT:  Create Table Stats(cases_total bigint, crash_total bigint, crash_unique bigint, run_time bigint, coverage bigint, cmp_cov bigint, instr_count bigint, timeouts bigint));
+2022-11-18 17:49:40.356 EST [13682] ERROR:  syntax error at or near "1" at character 12
+2022-11-18 17:49:40.356 EST [13682] STATEMENT:  SELECT TOP 1 * FROM Stats ORDER BY run_time DESC
+2022-11-18 17:49:40.364 EST [13682] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 17:50:00.966 EST [13762] ERROR:  syntax error at or near "1" at character 12
+2022-11-18 17:50:00.966 EST [13762] STATEMENT:  SELECT TOP 1 * FROM Stats ORDER BY run_time DESC
+2022-11-18 17:50:00.983 EST [13763] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 17:50:47.041 EST [13827] ERROR:  syntax error at or near "1" at character 12
+2022-11-18 17:50:47.041 EST [13827] STATEMENT:  SELECT TOP 1 * FROM Stats ORDER BY run_time DESC
+2022-11-18 17:51:41.173 EST [13937] ERROR:  syntax error at or near "1" at character 12
+2022-11-18 17:51:41.173 EST [13937] STATEMENT:  SELECT TOP 1 * FROM Stats ORDER BY run_time DESC
+2022-11-18 17:52:14.783 EST [13998] ERROR:  syntax error at or near "1" at character 12
+2022-11-18 17:52:14.783 EST [13998] STATEMENT:  SELECT TOP 1 * FROM Stats ORDER BY run_time DESC
+2022-11-18 17:52:35.808 EST [14043] ERROR:  syntax error at or near "1" at character 12
+2022-11-18 17:52:35.808 EST [14043] STATEMENT:  SELECT TOP 1 * FROM Stats ORDER BY run_time DESC
+2022-11-18 17:53:41.831 EST [14149] ERROR:  syntax error at or near "1" at character 12
+2022-11-18 17:53:41.831 EST [14149] STATEMENT:  SELECT TOP 1 * FROM Stats ORDER BY run_time DESC
+2022-11-18 17:54:01.190 EST [14208] ERROR:  syntax error at or near "1" at character 12
+2022-11-18 17:54:01.190 EST [14208] STATEMENT:  SELECT TOP 1 * FROM Stats ORDER BY run_time DESC
+2022-11-18 17:54:01.202 EST [14209] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 17:54:01.202 EST [14208] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 17:56:09.489 EST [14280] ERROR:  syntax error at or near "0" at character 19
+2022-11-18 17:56:09.489 EST [14280] STATEMENT:  INSERT INTO STATS 0, 0, 0, 0, 0, 0, 0, 0, 0
+	SELECT * FROM Stats;
+2022-11-18 17:56:25.914 EST [14280] ERROR:  syntax error at or near "VALUE" at character 19
+2022-11-18 17:56:25.914 EST [14280] STATEMENT:  INSERT INTO STATS VALUE(0, 0, 0, 0, 0, 0, 0, 0, 0);
+2022-11-18 17:56:42.335 EST [14280] ERROR:  INSERT has more expressions than target columns at character 51
+2022-11-18 17:56:42.335 EST [14280] STATEMENT:  INSERT INTO STATS VALUES (0, 0, 0, 0, 0, 0, 0, 0, 0);
+2022-11-18 17:57:58.810 EST [14280] ERROR:  INSERT has more expressions than target columns at character 51
+2022-11-18 17:57:58.810 EST [14280] STATEMENT:  INSERT INTO STATS VALUES (0, 0, 0, 0, 0, 0, 0, 0, 0);
+2022-11-18 17:58:29.028 EST [14632] ERROR:  syntax error at or near "1" at character 12
+2022-11-18 17:58:29.028 EST [14632] STATEMENT:  SELECT TOP 1 * FROM Stats ORDER BY run_time DESC
+2022-11-18 17:58:29.039 EST [14632] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 18:09:22.555 EST [17095] ERROR:  syntax error at or near "*" at character 8
+2022-11-18 18:09:22.555 EST [17095] STATEMENT:  DELETE * From Stats
+	;
+2022-11-18 18:12:47.941 EST [18239] FATAL:  database "seal" does not exist
+2022-11-18 18:12:48.038 EST [18249] FATAL:  database "seal" does not exist
+2022-11-18 18:12:48.116 EST [18259] FATAL:  database "seal" does not exist
+2022-11-18 18:12:48.955 EST [18270] FATAL:  database "seal" does not exist
+2022-11-18 18:12:49.048 EST [18280] FATAL:  database "seal" does not exist
+2022-11-18 18:12:49.128 EST [18290] FATAL:  database "seal" does not exist
+2022-11-18 18:13:15.248 EST [18324] FATAL:  role "postgres" does not exist
+2022-11-18 18:13:24.755 EST [18340] FATAL:  database "seal" does not exist
+2022-11-18 18:13:29.110 EST [18356] ERROR:  schema "fizzy" does not exist
+2022-11-18 18:13:29.110 EST [18356] STATEMENT:  DROP SCHEMA fizzy CASCADE;

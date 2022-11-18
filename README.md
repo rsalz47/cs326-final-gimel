@@ -28,3 +28,10 @@
 -   [Ideas](docs/ideas.md)
 -   [Milestone 1](docs/milestone1.md)
 -   [Milestone 2](docs/milestone2.md)
+
+
+#### Setup:
+```
+sudo apt install postgresql
+/usr/lib/postgresql/14/bin/pg_ctl -D ./project_dir/db -l logfile start
+```

@@ -54,28 +54,57 @@
               <br>
               <br>
 
-              <table class="table table-hover">
+              <table class="table table-hover" id="project_table">
                 <thead>
                   <tr>
                     <th scope="col">Project</th>
                     <th scope="col">Fuzzer</th>
-                    <th scope="col">Binary abs path</th>
-                    <th scope="col">Input Dir</th>
+                    <th scope="col">Target</th>
+                    <th scope="col">Input_Dir</th>
+                    <th scope="col">Output_Dir</th>
+                    <th scope="col">Timestamp</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <td>UMassCTF</td>
-                  <td>American Fuzzy Lop</td>
-                  <td>dev/null/a.out</td>
-                  <td>~/fuzzy_bunny/inputs/</td>
-                </tbody>
-                <tbody>
-                  <td>Illegal Gov Ops</td>
-                  <td>sfuzz</td>
-                  <td>umass/elnux7/my_first_project</td>
-                  <td>umass/fuzzer_inputs/</td>
-                </tbody>
-              </table>  
+                <script type="module">
+                  import {get_project_rows} from "./src/frontend/js/client.js";
+                    const my_tables = await get_project_rows();
+                    my_tables.forEach(project => {
+                        const table = document.getElementById("project_table");
+                        const tr = table.insertRow();
+                        tr.insertCell().appendChild(document.createTextNode(project.name));
+                        tr.insertCell().appendChild(document.createTextNode(project.fuzzer));
+                        tr.insertCell().appendChild(document.createTextNode(project.target));
+                        tr.insertCell().appendChild(document.createTextNode(project.input_dir));
+                        tr.insertCell().appendChild(document.createTextNode(project.output_dir));
+                        tr.insertCell().appendChild(document.createTextNode(project.time_stamp));
+                    });
+                </script>
+              </table>
+              <input type="text" id="project_name" placeholder="project-name">
+              <input type="text" id="fuzzer_name" placeholder="fuzzer-name">
+              <input type="text" id="bin_path" placeholder="target-binary-path">
+              <input type="text" id="in_dir" placeholder="fuzzer-input-dir">
+              <input type="text" id="out_dir" placeholder="fuzzer-output-dir">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" 
+                  id="project_submit">Submit</button>
+
+                <script type="module">
+                  import {init_project} from "./src/frontend/js/client.js";
+                  /// Register event listener to add a project when submit button is hit
+                  document.getElementById("project_submit").addEventListener("click", () => {
+                    let project = {};
+                    const ts = new Date();
+
+                    project.name       = document.getElementById("project_name").value;
+                    project.fuzzer     = document.getElementById("fuzzer_name").value;
+                    project.target     = document.getElementById("bin_path").value;
+                    project.input_dir  = document.getElementById("in_dir").value;
+                    project.output_dir = document.getElementById("out_dir").value;
+                    project.time_stamp = ts.toLocaleDateString();
+
+                    init_project(project);
+                  });
+              </script>
             </div>
 
             <div class="col-md-2" id="view2">
@@ -93,7 +122,6 @@
           import {getAllComments} from "./src/frontend/js/client.js";
           function loadHomepage() {
             document.getElementById("notes").innerHTML = '';
-            console.log("fetching all comments")
             getAllComments();
           }
           loadHomepage()
