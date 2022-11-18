@@ -114,10 +114,6 @@ async function draw_function_cfg(func_name) {
     const function_cfg = await get_cfg_for_func(func_name);
     const hit_blocks = await get_hit_blocks();
 
-    console.log("hit1");
-    console.log(hit_blocks);
-    console.log(function_cfg);
-
     setup_screen(document.getElementById("view2"));
     add_func(func_name);
 
@@ -129,7 +125,6 @@ digraph {
     for (let i = 0; i < function_cfg.blocks.length; i++) {
         let color = "#ffffff"
         if (hit_blocks.includes(function_cfg.blocks[i].addr)) {
-            console.log(function_cfg.blocks[i].addr + " should be green");
             color = "#8aff8a"
         }
         const block_text = function_cfg.blocks[i].instrs.join('\n');
