@@ -18,6 +18,7 @@ const logarithmicScale = {myScale: {
     type: "logarithmic",
     position: "right"
 }};
+
 // Default scale for graph drawing
 const defaultScale = {
     yAxes: [{
