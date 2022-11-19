@@ -1,5 +1,6 @@
 // eslint warning disablers
 /* eslint-disable prefer-arrow-callback */
+import {getStats} from "./client.js";
 
 // Various variables
 // First checkbox on LHS of graph page, used to show/hide graph1
@@ -42,9 +43,7 @@ const lineData = {
     }]
 };
 
-// EventListeners()
-// draw or delete graph1
-toggle1.addEventListener("change", function () {
+async function drawGraph() {
     const covg = document.getElementById("coverage-graph");
 
     // Draw a new graph
@@ -52,16 +51,8 @@ toggle1.addEventListener("change", function () {
         document.getElementById("toggle2").removeAttribute("hidden");
         document.getElementById("label-toggle2").removeAttribute("hidden");
         // eslint-disable-next-line no-undef
-        chart1 = new Chart(covg, {
-            type: "line",
-            data: lineData,
-            options: {
-                scales: currScale,
-                legend: {
-                    display: false
-                }
-            }
-        });
+        const fuzzerData = await getStats();
+        console.log(fuzzerData);
     } else {
         // This is so incredibly sloppy :)
         document.getElementById("toggle2").setAttribute("hidden"); // Sub-checkbox
@@ -73,7 +64,11 @@ toggle1.addEventListener("change", function () {
             chart1 = null;
         }
     }
-});
+}
+
+// EventListeners()
+// draw or delete graph1
+toggle1.addEventListener("change", );
 
 // Un/set scale to logarithmic
 toggle2.addEventListener("change", function () {
