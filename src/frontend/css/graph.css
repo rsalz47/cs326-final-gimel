@@ -1,5 +1,5 @@
-.solid-black-border-right {
-    border-right: thin solid black;
+.my_border {
+    border-right: solid black
 }
 
 .list-style-none {
