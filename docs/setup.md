@@ -39,9 +39,8 @@ npm start
 
 #### Run Fuzzer
 ```
-The fuzzer is compatible with windows and linux (We do not have the ability to test for macs.
-
-To run it simply execute win\_run\_fuzzer or lin\_run\_fuzzer depending on your respective platform.
-Both scripts are located in the project\_dir directory.
+The fuzzer is compatible with linux.
+To run it simply execute project_dir/run_fuzzer. We will have a demo of 
+this for the final submission.
 ```
 
