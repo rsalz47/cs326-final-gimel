@@ -1,36 +1,17 @@
 import "dotenv/config";
+import {MiniCrypt} from "./logic/miniCrypt.js";
 import pkg from "pg";
 
 const {Pool} = pkg;
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
+const mc = new MiniCrypt();
 
 // Temporary data entries
 // Express.js could have been better to handle these
+
 const authTokens = ["SAMPLE_TOKEN"];
-const userlist = [
-    {
-        first: "Ronan",
-        role: "A",
-        handle: "rsalz47",
-    },
-    {
-        first: "Dung",
-        role: "U",
-        handle: "dungwinux",
-    },
-    {
-        first: "Gilbert",
-        role: "U",
-        handle: "seal9055",
-    },
-    {
-        first: "Emery Berger",
-        role: "A",
-        handle: "emeryberger",
-    },
-];
 
 export async function tokenGet(user) {
     return authTokens[0];
@@ -41,38 +22,79 @@ export async function tokenVerify(token) {
 }
 
 export async function userVerify(username, {password}) {
-    return (
-        username
-        && userlist.filter(({handle}) => handle === username).length === 1
-    );
-}
-
-export async function userAdd(username, {password}) {
-    if (
-        username
-        && userlist.filter(({handle}) => handle === username).length === 0
-    ) {
-        userlist.push({
-            first: "John Doe",
-            role: "U",
-            handle: username,
-        });
-        return true;
+    const cli = await pool.connect();
+    const result = await cli.query(`
+    SELECT id FROM fizzy.users
+    WHERE handle='${username}';
+    `);
+    const userId = result.rows[0]?.id;
+    if (!userId) {
+        return false;
     }
 
-    return false;
+    const hashQ = await cli.query(`
+    SELECT hash, salt FROM fizzy.credentials
+    WHERE id=${userId};
+    `);
+    const {hash, salt} = await hashQ.rows[0];
+    cli.release();
+
+    return mc.check(password, salt, hash);
+}
+
+async function userExist(username) {
+    const cli = await pool.connect();
+    const result = await cli.query(`
+    SELECT id FROM fizzy.users
+    WHERE handle='${username}'
+    `);
+    cli.release();
+    return result.rowCount === 1;
+}
+
+export async function userAdd(username, {password, role, name}) {
+    if (username && !(await userExist(username))) {
+        const cli = await pool.connect();
+        const result = await cli.query(`
+            INSERT INTO fizzy.users(name, role, handle)
+            VALUES('${name}', '${role}', '${username}')
+            RETURNING id;
+        `);
+
+        const newId = result.rows[0]?.id;
+        if (!newId) {
+            throw new Error("Cannot create new user in database.");
+        }
+
+        const [salt, hash] = mc.hash(password);
+        const credential = await cli.query(`
+            INSERT INTO fizzy.credentials(id, hash, salt)
+            VALUES(${newId}, '${hash}', '${salt}')
+            RETURNING id;
+        `);
+        cli.release();
+
+        return credential.rows[0]?.id;
+    }
+
+    return null;
 }
 
 export async function userGetById(id) {
-    if (id >= userlist.length) {
-        return null;
-    }
-
-    return userlist[id];
+    const cli = await pool.connect();
+    const result = await cli.query(`
+        SELECT id, name, handle FROM fizzy.users
+        WHERE ID=${id};`);
+    cli.release();
+    return result.rows[0] ?? null;
 }
 
 export async function userGetAll() {
-    return userlist;
+    const cli = await pool.connect();
+    const result = await cli.query(`
+        SELECT id, name, handle, role FROM fizzy.users;`);
+    cli.release();
+    return result.rows ?? null;
 }
 
 export async function commentCreate({timestamp, user, msg}) {
@@ -119,7 +141,7 @@ export async function commentDelete({idToDelete}) {
 
 export async function db_init_project(p) {
     const client = await pool.connect();
-    let my_query = "INSERT INTO fizzy.Project (name, fuzzer, target, input_dir, output_dir, time_stamp)";
+    let my_query = "INSERT INTO fizzy.Projects (name, fuzzer, target, input_dir, output_dir, time_stamp)";
     my_query += ` VALUES ('${p.name}','${p.fuzzer}', '${p.target}', '${p.input_dir}', 
         '${p.output_dir}', '${p.time_stamp}');`;
 
@@ -129,7 +151,7 @@ export async function db_init_project(p) {
 
 export async function db_get_projects() {
     const client = await pool.connect();
-    let my_query = "select * from fizzy.Project";
+    let my_query = "select * from fizzy.Projects";
     const result = await client.query(my_query);
     client.release();
     return result.rows;

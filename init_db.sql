@@ -7,8 +7,12 @@ CREATE TABLE fizzy.stats(cases_total bigint, crash_total bigint,
 			crash_unique bigint, run_time bigint, coverage bigint, 
 			cmp_cov bigint, instr_count bigint, timeouts bigint);
 CREATE TABLE fizzy.projects(name text, fuzzer text, target text, input_dir text, 
-			   output_dir text, timestamp text);
-CREATE TABLE fizzy.credentials(id integer, hash char(128), salt char(128));
+			   output_dir text, time_stamp text);
+CREATE TABLE fizzy.credentials(id integer, hash char(128), salt char(32));
+
+-- Sample data
+INSERT INTO fizzy.users ("name", "role", handle)
+VALUES ('Admin', 'A', 'admin');
 INSERT INTO fizzy.stats
 VALUES (0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO fizzy.comments (name, comment, timestamp)

@@ -52,7 +52,7 @@ router.post("/verify", async (req, res) => {
 
 router.post("/register", async (req, res) => {
     const {username, password} = req.body;
-    if (await userAdd(username, {password})) {
+    if (await userAdd(username, {password, role: "U", name: "John Doe"})) {
         res.send({
             msg: "New user registered",
         });

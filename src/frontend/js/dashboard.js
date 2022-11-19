@@ -15,7 +15,7 @@ async function populateUser() {
         return;
     }
 
-    userData.forEach(({role, handle, first}) => {
+    userData?.forEach(({role, handle, name}) => {
         // <tr class="table-info">
         //     <th scope="row"><b>A</b></th>
         //     <td>Ronan</td>
@@ -34,7 +34,7 @@ async function populateUser() {
         node.appendChild(roleA);
 
         const nameA = document.createElement("td");
-        nameA.textContent = first;
+        nameA.textContent = name;
         node.appendChild(nameA);
 
         const handleA = document.createElement("td");
