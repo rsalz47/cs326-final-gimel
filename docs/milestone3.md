@@ -2,7 +2,7 @@
 
 #### 1. Database Implementation
 
-##### > Relational Database's (stored in project\_dir/db)
+##### > Relational Databases (stored in project\_dir/db)
 > Comments
 ```
                        Table "fizzy.comments"
@@ -53,7 +53,7 @@
  handle | character varying(255) | Public Handle used to identify user     |
 ```
 
-##### > Other persistent storage in-use
+##### > Other persistent storage in use
 > project\_dir/simple\_test.c & project\_dir/simple\_test.s
 ```
 Source files used to populate our source-code and assembly views 
@@ -69,7 +69,7 @@ It is compiled for the RISCV architecture to be compatible with the fuzzer in us
 
 > project\_dir/cfg.json & decompiler\_script.py
 ```
-cfg.json is a control-flow graph that was generate using decompiler_script and 
+cfg.json is a control-flow graph that was generate using decompiler_script.py and 
 the api of a decompiler. The format of it is described below.
 {
     "function_name": {
