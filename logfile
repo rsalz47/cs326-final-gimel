@@ -34,3 +34,16 @@
 				   output_dir text, timestamp text);
 2022-11-18 19:13:52.240 EST [9840] ERROR:  syntax error at or near ">>>>>>>" at character 1
 2022-11-18 19:13:52.240 EST [9840] STATEMENT:  >>>>>>> 63712fc1db537e75f1de3fd3446f71a6e58a7c02
+2022-11-18 20:13:14.650 EST [16747] ERROR:  relation "stats" does not exist at character 15
+2022-11-18 20:13:14.650 EST [16747] STATEMENT:  SELECT * FROM Stats ORDER BY run_time DESC LIMIT 1
+2022-11-18 20:13:14.650 EST [16748] ERROR:  relation "projects" does not exist at character 15
+2022-11-18 20:13:14.650 EST [16748] STATEMENT:  select * from Projects
+2022-11-18 20:13:14.665 EST [16747] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 20:13:14.665 EST [16748] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 20:13:42.896 EST [16817] ERROR:  relation "projects" does not exist at character 15
+2022-11-18 20:13:42.896 EST [16817] STATEMENT:  select * from Projects
+2022-11-18 20:13:42.896 EST [16816] ERROR:  relation "stats" does not exist at character 15
+2022-11-18 20:13:42.896 EST [16816] STATEMENT:  SELECT * FROM Stats ORDER BY run_time DESC LIMIT 1
+2022-11-18 20:13:42.909 EST [16816] LOG:  could not receive data from client: Connection reset by peer
+2022-11-18 20:13:49.881 EST [16867] ERROR:  relation "stats" does not exist at character 15
+2022-11-18 20:13:49.881 EST [16867] STATEMENT:  SELECT * FROM Stats ORDER BY run_time DESC LIMIT 1
