@@ -75,6 +75,48 @@ export async function userGetAll() {
     return userlist;
 }
 
+export async function commentCreate({timestamp, user, msg}) {
+    const cli = await pool.connect();
+    const result = await cli.query(`
+    INSERT INTO fizzy.comments(timestamp, name, comment)
+    VALUES ('${timestamp}', '${user}', '${msg}');
+    `);
+    cli.release();
+    return result.rowCount === 1;
+}
+
+export async function commentRead() {
+    const cli = await pool.connect();
+    const result = await cli.query(`
+    SELECT * FROM fizzy.comments
+    ORDER BY id DESC
+    LIMIT 5;
+    `);
+    cli.release();
+    return result.rows.reverse();
+}
+
+export async function commentUpdate({idToUpdate, newText}) {
+    const cli = await pool.connect();
+    const result = await cli.query(`
+    UPDATE fizzy.comments
+    SET comment='${newText}'
+    WHERE id=${idToUpdate};
+    `);
+    cli.release();
+    return result.rowCount === 1;
+}
+
+export async function commentDelete({idToDelete}) {
+    const cli = await pool.connect();
+    const result = await cli.query(`
+    DELETE FROM fizzy.comments
+    WHERE id=${idToDelete};
+    `);
+    cli.release();
+    return result.rowCount === 1;
+}
+
 export async function db_init_project(p) {
     const client = await pool.connect();
     let my_query = "INSERT INTO Projects (name, fuzzer, target, input_dir, output_dir, time_stamp)";
