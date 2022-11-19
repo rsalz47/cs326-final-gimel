@@ -5,7 +5,7 @@ const baseFolder = "project_dir";
 
 export async function getFileList() {
     const files = await readdir(baseFolder, {withFileTypes: true});
-    const fileTypeMask = /\.(c|cpp|asm|s)$/;
+    const fileTypeMask = /\.(c|cpp|asm|s)$/i;
     const typeFilter = ext =>
         ext === "c" || ext === "cpp" || ext === "asm" ? ext
             : ext === "s" ? "asm"
@@ -15,7 +15,7 @@ export async function getFileList() {
         .map(({name}) => ({
             name,
             path: `${name}`,
-            type: typeFilter(name.match(fileTypeMask)[1]),
+            type: typeFilter(name.toLowerCase().match(fileTypeMask)[1]),
         }));
 }
 
