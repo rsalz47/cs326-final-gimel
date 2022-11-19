@@ -20,23 +20,30 @@
 
     <div class="row">
         <div class="col-md-3 my_border" id="view1">
-          <input type="checkbox" id="toggle1">
-          <label for="toggle1" id="label-toggle1"><b>Show Graph 1</b></label>
-          <ul class="list-style-none"> <!-- ? -->
-            <li>
-              <input type="checkbox" id="toggle2">
-              <label for="toggle2" id="label-toggle2" hidden><b>Logarithmic Scale</b></label>
-            </li>
+          <button class="btn btn-lg small-border" id="cases_time">Cases/Time</button>
+          <button class="btn btn-lg small-border" id="cases_time_log">Log-Scale</button>
+          </ul>
+          <button class="btn btn-lg small-border" id="coverage_time">Coverage/Time</button>
+          <button class="btn btn-lg small-border" id="coverage_time_log">Log-Scale</button>
+          </ul>
+          <button class="btn btn-lg small-border" id="coverage_total">Coverage/Cases</button>
+          <button class="btn btn-lg small-border" id="coverage_total_log">Log-Scale</button>
+          </ul>
+          <button class="btn btn-lg small-border" id="crashu_time">Uniq-Crashes/Time</button>
+          <button class="btn btn-lg small-border" id="crashu_time_log">Log-Scale</button>
+          </ul>
+          <button class="btn btn-lg small-border" id="crashu_total">Uniq-Crashes/Cases</button>
+          <button class="btn btn-lg small-border" id="crashu_total_log">Log-Scale</button>
           </ul>
         </div>
 
         <div class="col-md-6" id="view2">
           <br>
-          <canvas id="coverage-graph"></canvas>
+          <canvas id="this_graph"></canvas>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" defer></script>  
-    <script src="js/graph.js" defer></script>
+    <script type="module" src="js/graph.js" defer></script>
   </body>
 </html>

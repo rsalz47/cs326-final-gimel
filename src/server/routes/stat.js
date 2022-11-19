@@ -3,7 +3,7 @@ import checkToken from "../logic/checkToken.js";
 import kip from "../logic/kip.js";
 import validateBody from "../logic/validateBody.js";
 
-import {db_get_cur_stats, db_insert_stats} from "../database.js";
+import {db_get_all_stats, db_get_cur_stats, db_insert_stats} from "../database.js";
 
 const router = Router();
 
@@ -28,6 +28,15 @@ router.get("/", async (req, res) => {
         ...cur_stats,
         server_run_time,
     };
+
+    res.send({
+        msg: "Successfully fetched data from socket",
+        data,
+    });
+});
+
+router.get("/all", async (req, res) => {
+    const data = await db_get_all_stats();
 
     res.send({
         msg: "Successfully fetched data from socket",

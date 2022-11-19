@@ -6,7 +6,7 @@ CREATE TABLE fizzy.comments(id SERIAL PRIMARY KEY, comment text, timestamp text,
 CREATE TABLE fizzy.stats(cases_total bigint, crash_total bigint, 
 			crash_unique bigint, run_time bigint, coverage bigint, 
 			cmp_cov bigint, instr_count bigint, timeouts bigint);
-CREATE TABLE fizzy.projects(name text, fuzzer text, target text, input_dir text, 
+CREATE TABLE fizzy.project(name text, fuzzer text, target text, input_dir text, 
 			   output_dir text, timestamp text);
 CREATE TABLE fizzy.credentials(id integer, hash char(128), salt char(128));
 INSERT INTO fizzy.stats

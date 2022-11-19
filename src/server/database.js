@@ -157,3 +157,13 @@ export async function db_get_cur_stats() {
 
     return res.rows[0];
 }
+
+export async function db_get_all_stats() {
+    const client = await pool.connect();
+    const my_query = `SELECT * FROM fizzy.Stats ORDER BY run_time DESC`;
+    const res = await client.query(my_query);
+
+    client.release();
+
+    return res.rows;
+}

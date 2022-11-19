@@ -134,6 +134,19 @@ export async function getStats() {
     };
 }
 
+export async function getAllStats() {
+    const res = await fetch("/stats/all", {
+        method: "GET",
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        }
+    });
+    return {
+        ok: res.ok,
+        ...await res.json()
+    };
+}
+
 export async function getFileList() {
     const res = await fetch("/sources/list", {
         method: "GET",
