@@ -10,7 +10,7 @@ async function deleteEventListener(parentID) {
             "Accept": "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({idToDelete: parentID})
+        body: JSON.stringify({idToDelete: parseInt(parentID.slice(4), 10)})
     });
 }
 
@@ -23,7 +23,7 @@ async function editEventListener(parentID) {
             "Accept": "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({idToUpdate: parentID, newText: inp.value})
+        body: JSON.stringify({idToUpdate: parseInt(parentID.slice(4), 10), newText: inp.value})
     });
     inp.value = "";
 }
@@ -66,7 +66,6 @@ function send_note(id) {
     const msg = document.getElementById("cur_note").value;
     const ts = new Date();
     const timestamp = ts.toLocaleDateString() + " : " + ts.toLocaleTimeString();
-    insert_note("sample_user", msg, timestamp, id);
     addComment(msg, "sample_user", timestamp, id);
     document.getElementById("cur_note").value = "";
 }
