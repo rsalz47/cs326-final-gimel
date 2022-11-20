@@ -16,7 +16,7 @@
 
 > Project
 ```
-               Table "fizzy.project"
+               Table "fizzy.projects"
    Column   | Type |             Description                 |
 ------------+------+-----------------------------------------+
  name       | text | Unique name of the current Project      |
@@ -51,6 +51,16 @@
  name   | character varying(255) | Username                                |
  role   | character varying(1)   | Role of this user ('A'=Admin, 'U'=User) |
  handle | character varying(255) | Public Handle used to identify user     |
+```
+
+> Users credential
+```
+                Table "fizzy.credentials"
+ Column |      Type      |            Description             |
+--------+----------------+------------------------------------+
+ id     | integer        | Unique user id                     |
+ hash   | character(128) | Computed hash for salted password  |
+ salt   | character(32)  | Salt used for the password         |
 ```
 
 ##### > Other persistent storage in use
