@@ -33,8 +33,20 @@ IF ERROR (FATAL:  could not create lock file "/var/run/postgresql/.s.PGSQL.5432.
 
 #### Run Webapp
 ```
+If you are hosting the project locally, you must point the webapp to the database before starting the webapp.
+Simply create an enivronment variable `DATABASE_URL` with value set to your database location
+(i.e: postgresql://localhost:5432/postgres)
+Alternatively, at the root of webapp, create an `.env` file, and add the following line:
+DATABASE_URL=<Your database URL>
+
+To install necessary dependencies and start the webapp, do:
 npm i
 npm start
+```
+
+#### Account Creation in Webapp
+```
+Interaction with our Account Creation functionality can be found at localhost:3001/src/frontend/login.html. 
 ```
 
 #### Run Fuzzer
