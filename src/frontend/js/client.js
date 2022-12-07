@@ -173,7 +173,7 @@ export async function getFile(path) {
 
 /// Delete a user
 export async function delete_user(user) {
-    const resp = await fetch(`/user/handle/${user}`, {
+    const resp = await fetch(`/users/handle/${user}`, {
             method: "DELETE",
             headers: {
                 "Accept": "application/json",
