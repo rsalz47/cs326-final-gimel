@@ -34,14 +34,14 @@ async function userExist(username) {
     const cli = await pool.connect();
     const result = await cli.query(`
         SELECT id FROM fizzy.users
-        WHERE handle=$1
+        WHERE handle = $1
     `, [username]);
     cli.release();
     return result.rowCount === 1;
 }
 
 export async function userAdd(username, {password, role, name}) {
-    if (username && !(await userExist(username))) {
+    if (!(await userExist(username))) {
         const cli = await pool.connect();
         const result = await cli.query(`
             INSERT INTO fizzy.users(name, role, handle)
@@ -57,7 +57,7 @@ export async function userAdd(username, {password, role, name}) {
         const [salt, hash] = mc.hash(password);
         const credential = await cli.query(`
             INSERT INTO fizzy.credentials(id, hash, salt)
-            VALUES($1, $1, $1)
+            VALUES($1, $2, $3)
             RETURNING id;
         `, [newId, hash, salt]);
         cli.release();
