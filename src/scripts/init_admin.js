@@ -1,2 +1,2 @@
-import {userAdd} from "../server/database";
-await userAdd("admin", {password: "admin"}, {roles: "A"});
+import {userAdd} from "../server/database.js";
+await userAdd("admin", {password: "admin", role: "A"});

@@ -54,14 +54,14 @@ router.get("/:id", async (req, res) => {
     const {id} = req.params;
     const nid = parseInt(id, 10);
     if (!id || isFinite(nid)) {
-        res.status(400).send({
+        return res.status(400).send({
             msg: "Invalid ID",
         });
     }
 
     const data = await userGetById(nid);
     if (!data) {
-        res.status(404).send({
+        return res.status(404).send({
             msg: "No user found",
         });
     }
@@ -74,7 +74,7 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
     if (req.user?.id !== "A") {
-        res.status(401).send({
+        return res.status(401).send({
             msg: "Unauthorized",
         });
     }
@@ -82,14 +82,14 @@ router.delete("/:id", async (req, res) => {
     const {id} = req.params;
     const nid = parseInt(id, 10);
     if (!id || isFinite(nid)) {
-        res.status(400).send({
+        return res.status(400).send({
             msg: "Invalid ID",
         });
     }
 
     const data = await userDeleteById(nid);
     if (!data) {
-        res.status(404).send({
+        return res.status(404).send({
             msg: "No user found",
         });
     }
@@ -105,7 +105,7 @@ router.get("/handle/:handle", async (req, res) => {
     const {handle} = req.params;
     const data = await userGet(handle);
     if (!data) {
-        res.status(404).send({
+        return res.status(404).send({
             msg: "No user found",
         });
     }
@@ -118,7 +118,7 @@ router.get("/handle/:handle", async (req, res) => {
 
 router.delete("/handle/:handle", async (req, res) => {
     if (req.user?.id !== "A") {
-        res.status(401).send({
+        return res.status(401).send({
             msg: "Unauthorized",
         });
     }
@@ -126,7 +126,7 @@ router.delete("/handle/:handle", async (req, res) => {
     const {handle} = req.params;
     const data = await userDelete(handle);
     if (!data) {
-        res.status(404).send({
+        return res.status(404).send({
             msg: "No user found",
         });
     }
