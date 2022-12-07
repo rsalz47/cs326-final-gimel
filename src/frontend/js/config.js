@@ -1,10 +1,12 @@
+import {getUsers} from "./client.js";
+
 /// Clear a div
 function clear_div(element) {
     element.textContent = '';
 }
 
 /// Add the table used to manage users to the page
-function manage_users() {
+export async function manage_users() {
     const view = document.getElementById("view2");
     clear_div(view);
 
@@ -13,10 +15,10 @@ function manage_users() {
         const headers = ["Name", "Role", "Action"];
         const thead = table.createTHead();
         const row = thead.insertRow();
-        for (header of headers) {
+        for (let i = 0; i < headers.length; i++) {
             let th = document.createElement("th");
             th.scope = "col";
-            let text = document.createTextNode(header);
+            let text = document.createTextNode(headers[i]);
             th.appendChild(text);
             row.appendChild(th);
         }
@@ -25,13 +27,17 @@ function manage_users() {
     /// Generate a table using provided data and add button to remove users
     function generate_table(table, data) {
         const tbody = table.createTBody();
-        for (element of data) {
+        for (let i = 0; i < data.length; i++) {
+            let element = data[i];
             const row = tbody.insertRow();
-            for (key in element) {
-                let cell = row.insertCell();
-                let text = document.createTextNode(element[key]);
-                cell.appendChild(text);
-            }
+
+            let cell = row.insertCell();
+            let text = document.createTextNode(element["handle"]);
+            cell.appendChild(text);
+
+            cell = row.insertCell();
+            text = document.createTextNode(element["role"]);
+            cell.appendChild(text);
 
             // Create button to remove users
             let btn = document.createElement('button');
@@ -39,7 +45,10 @@ function manage_users() {
             btn.style.background = "red";
             btn.style.margin = "10px";
             btn.onclick = function() {
-                // TODO remove user
+                console.log("Removing user: ");
+                // TODO1: Check currently logged in session and verify its admin
+
+                // TODO2: Remove appropriate user
             };
             row.appendChild(btn);
         }
@@ -49,16 +58,13 @@ function manage_users() {
     table.classList.add("table");
     table.classList.add("table-hover");
 
-    // TEMP: Will be replaced with sql queries once setup
-    const data = [
-        { name: "Ronan", role: "Admin" },
-        { name: "Gilbert", role: "User" },
-        { name: "Dung", role: "User" },
-        { name: "Emery", role: "Admin" },
-    ];
+    const result = await getUsers();
+    const userData = result.data;
 
     generate_table_head(table);
-    generate_table(table, data);
+    generate_table(table, userData);
 
     view.appendChild(table);
 }
+
+window.manage_users = manage_users;

@@ -20,7 +20,6 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/verify", auth, (req, res) => {
-    console.log("Verified");
     return res.send({
         msg: "Valid credential",
         data: req.body.username,
