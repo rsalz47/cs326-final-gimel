@@ -11,8 +11,8 @@ CREATE TABLE fizzy.projects(name text, fuzzer text, target text, input_dir text,
 CREATE TABLE fizzy.credentials(id integer, hash char(128), salt char(32));
 
 -- Sample data
-INSERT INTO fizzy.users ("name", "role", handle)
-VALUES ('Admin', 'A', 'admin');
+-- INSERT INTO fizzy.users ("name", "role", handle)
+-- VALUES ('Admin', 'A', 'admin');
 
 INSERT INTO fizzy.stats
 VALUES (0, 0, 0, 0, 0, 0, 0, 0);
