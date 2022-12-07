@@ -9,6 +9,7 @@ const pool = new Pool({
 const mc = new MiniCrypt();
 
 export async function userVerify(username, {password}) {
+    const failed = null;
     const cli = await pool.connect();
     const result = await cli.query(`
     SELECT id FROM fizzy.users
@@ -16,7 +17,7 @@ export async function userVerify(username, {password}) {
     `);
     const userId = result.rows[0]?.id;
     if (!userId) {
-        return false;
+        return failed;
     }
 
     const hashQ = await cli.query(`
@@ -26,7 +27,7 @@ export async function userVerify(username, {password}) {
     const {hash, salt} = hashQ.rows[0] ?? {};
     cli.release();
 
-    return mc.check(password, salt, hash) ? userId : null;
+    return mc.check(password, salt, hash) ? userId : failed;
 }
 
 async function userExist(username) {

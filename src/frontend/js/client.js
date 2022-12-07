@@ -91,15 +91,13 @@ export async function verify_user(username, password) {
 }
 
 export async function create_user(username, password) {
-    console.log(username);
-    console.log(password);
     const res = await fetch("/users/register", {
         method: "POST",
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({username, password})
+        body: JSON.stringify({username, password, name: "John Doe"})
     });
 
     return {

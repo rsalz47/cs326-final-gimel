@@ -11,10 +11,10 @@ import stat from "./routes/stat.js";
 import source from "./routes/source.js";
 import fs from "node:fs";
 import { commentCreate, commentDelete, commentRead, commentUpdate, db_init_project, db_get_projects} from "./database.js";
+import path from "node:path";
 
 const app = express();
 app.use(express.json());
-app.use(express.static("."));
 
 const sessionLimit = 86400000;
 app.use(session({
@@ -102,6 +102,55 @@ app.post("/project/init", async (req, res) => {
 
     await db_init_project(project);
     res.sendStatus(200);
+});
+
+const loginPath = "/src/frontend/login.html";
+
+const forceLogin = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect(loginPath);
+    }
+
+    return next();
+};
+
+app.use("/src/frontend/css/", express.static("src/frontend/css", {
+    setHeaders(res, path, stat) {
+        res.type("css");
+    }
+}));
+app.use("/src/frontend/js/", express.static("src/frontend/js", {
+    setHeaders(res, path, stat) {
+        res.type("js");
+    }
+}));
+
+app.use("/imgs/", express.static("imgs"));
+
+app.use(loginPath, express.static(loginPath));
+
+app.use((req, res, next) => {
+    if (req.path === loginPath) {
+        return res.sendFile("login.html", {
+            root: path.join(path.resolve(), "src/frontend"),
+        });
+    }
+
+    if (req.path === "/src/frontend/nav.html") {
+        return res.sendFile("nav.html", {
+            root: path.join(path.resolve(), "src/frontend"),
+        });
+    }
+
+    return next();
+});
+
+app.use(forceLogin);
+app.use("/src/frontend", express.static("src/frontend"));
+app.use("/", (req, res) => {
+    res.sendFile("index.html", {
+        root: path.resolve(),
+    });
 });
 
 app.listen(process.env.PORT || 3001);

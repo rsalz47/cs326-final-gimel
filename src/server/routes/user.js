@@ -6,14 +6,15 @@ import checkToken from "../logic/checkToken.js";
 const router = Router();
 
 router.post("/register", async (req, res) => {
-    const {username, password} = req.body;
-    if (await userAdd(username, {password, role: "U", name: "John Doe"})) {
+    const {username, password, name} = req.body;
+    const validate = Boolean(username) && Boolean(password) && Boolean(name);
+    if (validate && await userAdd(username, {password, role: "U", name})) {
         res.send({
             msg: "New user registered",
         });
     } else {
         res.status(400).send({
-            msg: "Username has been taken",
+            msg: "Failed to register",
         });
     }
 });
