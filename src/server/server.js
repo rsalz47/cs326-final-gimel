@@ -79,7 +79,6 @@ app.post("/comments/update", async (req, res) => {
 
 app.post("/comments/delete", async (req, res) => {
     await commentDelete(req.body);
-    console.log(`comment ${req.body.idToDelete} successfully deleted >:)`);
 });
 
 app.use("/project", checkToken);

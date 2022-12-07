@@ -74,8 +74,6 @@ export async function getAllComments() {
 }
 
 export async function verify_user(username, password) {
-    console.log(username);
-    console.log(password);
     const res = await fetch("/users/verify", {
         method: "POST",
         headers: {

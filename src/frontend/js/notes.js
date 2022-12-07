@@ -3,7 +3,6 @@
 import {addComment} from "./client.js";
 
 async function deleteEventListener(parentID) {
-    console.log(`deleting message ${parentID}`);
     const resp = await fetch("/comments/delete", {
         method: "POST",
         headers: {
@@ -16,7 +15,6 @@ async function deleteEventListener(parentID) {
 
 async function editEventListener(parentID) {
     const inp = document.getElementById("cur_note");
-    console.log(`editing message ${parentID}`);
     const resp = await fetch("/comments/update", {
         method: "POST",
         headers: {
@@ -62,7 +60,7 @@ export function insert_note(user, text, timestamp, id) {
 
 /// Read the cur_note field and save the note to the database-notes listing before clearing the
 /// field
-function send_note(id) {
+export function send_note(id) {
     const msg = document.getElementById("cur_note").value;
     const ts = new Date();
     const timestamp = ts.toLocaleDateString() + " : " + ts.toLocaleTimeString();

@@ -57,7 +57,6 @@ async function drawGraph(x, y, log_scale) {
 
     res = await getAllStats();
     const all_data = res.data;
-    console.log(all_data);
     const y_axis = all_data.map(e => e[y]);
 
     const lineData = {
