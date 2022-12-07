@@ -62,7 +62,7 @@ export function insert_note(user, text, timestamp, id) {
 
 /// Read the cur_note field and save the note to the database-notes listing before clearing the
 /// field
-function send_note(id) {
+export function send_note(id) {
     const msg = document.getElementById("cur_note").value;
     const ts = new Date();
     const timestamp = ts.toLocaleDateString() + " : " + ts.toLocaleTimeString();
