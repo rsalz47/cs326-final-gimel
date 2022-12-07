@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 
 import {addComment} from "./client.js";
 
@@ -6,7 +5,7 @@ async function deleteEventListener(parentID) {
     const resp = await fetch("/comments/delete", {
         method: "POST",
         headers: {
-            "Accept": "application/json",
+            Accept: "application/json",
             "Content-Type": "application/json"
         },
         body: JSON.stringify({idToDelete: parseInt(parentID.slice(4), 10)})
@@ -18,7 +17,7 @@ async function editEventListener(parentID) {
     const resp = await fetch("/comments/update", {
         method: "POST",
         headers: {
-            "Accept": "application/json",
+            Accept: "application/json",
             "Content-Type": "application/json"
         },
         body: JSON.stringify({idToUpdate: parseInt(parentID.slice(4), 10), newText: inp.value})

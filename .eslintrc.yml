@@ -43,3 +43,5 @@ rules:
     - { code: 100 }
   no-unused-expressions: warn
   no-unused-vars: warn
+  camelcase: off
+  new-cap: off

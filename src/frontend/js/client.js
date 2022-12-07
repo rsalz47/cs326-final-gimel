@@ -1,5 +1,4 @@
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable camelcase */
+
 /* eslint-disable quote-props */
 import {insert_note} from "./notes.js";
 
@@ -44,13 +43,13 @@ export async function get_hit_blocks() {
 /// Initialize a new project
 export async function init_project(project) {
     const resp = await fetch("/project/init", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(project)
-        });
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(project)
+    });
 }
 
 export async function get_project_rows() {
@@ -174,10 +173,10 @@ export async function getFile(path) {
 /// Delete a user
 export async function delete_user(user) {
     const resp = await fetch(`/users/handle/${user}`, {
-            method: "DELETE",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-        });
+        method: "DELETE",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+    });
 }

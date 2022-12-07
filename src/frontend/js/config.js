@@ -2,7 +2,7 @@ import {getUsers, delete_user} from "./client.js";
 
 /// Clear a div
 function clear_div(element) {
-    element.textContent = '';
+    element.textContent = "";
 }
 
 /// Add the table used to manage users to the page
@@ -16,9 +16,9 @@ export async function manage_users() {
         const thead = table.createTHead();
         const row = thead.insertRow();
         for (let i = 0; i < headers.length; i++) {
-            let th = document.createElement("th");
+            const th = document.createElement("th");
             th.scope = "col";
-            let text = document.createTextNode(headers[i]);
+            const text = document.createTextNode(headers[i]);
             th.appendChild(text);
             row.appendChild(th);
         }
@@ -28,25 +28,26 @@ export async function manage_users() {
     function generate_table(table, data) {
         const tbody = table.createTBody();
         for (let i = 0; i < data.length; i++) {
-            let element = data[i];
+            const element = data[i];
             const row = tbody.insertRow();
 
             let cell = row.insertCell();
-            let text = document.createTextNode(element["handle"]);
+            let text = document.createTextNode(element.handle);
             cell.appendChild(text);
 
             cell = row.insertCell();
-            text = document.createTextNode(element["role"]);
+            text = document.createTextNode(element.role);
             cell.appendChild(text);
 
             // Create button to remove users
-            let btn = document.createElement('button');
+            const btn = document.createElement("button");
             btn.innerHTML = "Remove";
             btn.style.background = "red";
             btn.style.margin = "10px";
-            btn.onclick = function() {
-                delete_user(element["handle"]);
+            btn.onclick = function () {
+                delete_user(element.handle);
             };
+
             row.appendChild(btn);
         }
     }

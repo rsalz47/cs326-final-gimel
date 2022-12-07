@@ -1,4 +1,4 @@
-import { create_user, verify_user } from "./client.js";
+import {create_user, verify_user} from "./client.js";
 
 async function user_login() {
     const username = document.getElementById("username").value;
@@ -33,7 +33,6 @@ async function user_register() {
         ele.classList.remove("alert-success");
         ele.classList.add("alert-danger");
     }
-
 }
 
 document.getElementById("user_login").addEventListener("click", user_login);

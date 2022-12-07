@@ -1,7 +1,6 @@
 import {Router} from "express";
 import checkToken from "../logic/checkToken.js";
 import kip from "../logic/kip.js";
-import validateBody from "../logic/validateBody.js";
 
 import {db_get_all_stats, db_get_cur_stats, db_insert_stats} from "../database.js";
 
