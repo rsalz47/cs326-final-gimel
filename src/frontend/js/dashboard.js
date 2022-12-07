@@ -2,14 +2,14 @@ import {getStats, getUsers} from "./client.js";
 import timefmt from "./logic/timefmt.js";
 
 async function populateUser() {
-    const {ok, data: userData} = await getUsers();
+    const {ok, msg, data: userData} = await getUsers();
     const ele = document.getElementById("user_table");
     ele.innerHTML = "";
     if (!ok) {
         const info = document.createElement("tr");
         info.classList.add("alert", "alert-danger");
         const text = document.createElement("i");
-        text.textContent = "Cannot get users";
+        text.textContent = `Cannot get users: ${msg}`;
         info.appendChild(text);
         ele.appendChild(info);
         return;
@@ -45,14 +45,15 @@ async function populateUser() {
 }
 
 async function populateStat() {
-    const {ok, data: statData} = await getStats();
+    const {ok, msg, data: statData} = await getStats();
+    console.log(statData);
     const ele = document.getElementById("stat_table");
     ele.innerHTML = "";
     if (!ok) {
         const info = document.createElement("tbody");
         info.classList.add("alert", "alert-danger");
         const text = document.createElement("i");
-        text.textContent = "Cannot get statistics";
+        text.textContent = `Cannot get statistics: ${msg}`;
         info.appendChild(text);
         ele.appendChild(info);
         return;
@@ -63,8 +64,12 @@ async function populateStat() {
         cases_per_sec: "Cases Per Second",
         run_time: "Runtime",
         crash_total: "Total Crashes",
-        crash_uniq: "Unique Crashes",
+        crash_unique: "Unique Crashes",
         server_run_time: "Server Runtime",
+        coverage: "Coverage",
+        cmp_cov: "Comparisons Coverage",
+        instr_count: "Instructions Count",
+        timeouts: "Timeouts",
     };
 
     Object.entries(statData).forEach(([key, value]) => {

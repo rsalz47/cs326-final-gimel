@@ -95,7 +95,7 @@ export async function create_user(username, password) {
             "Accept": "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({username, password})
+        body: JSON.stringify({username, password, name: "John Doe"})
     });
 
     return {

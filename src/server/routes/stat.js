@@ -7,6 +7,8 @@ import {db_get_all_stats, db_get_cur_stats, db_insert_stats} from "../database.j
 
 const router = Router();
 
+router.use(checkToken);
+
 const startTime = new Date();
 
 const fuzzerStatus = {

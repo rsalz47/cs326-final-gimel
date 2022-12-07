@@ -1,10 +1,35 @@
 import {Router} from "express";
-import {tokenGet, userAdd, userGetById, userVerify, userGetAll} from "../database.js";
+import {userAdd, userGetById, userGetAll} from "../database.js";
+import auth from "../logic/auth.js";
 import checkToken from "../logic/checkToken.js";
 
 const router = Router();
 
-router.get("/", checkToken, async (req, res) => {
+router.post("/register", async (req, res) => {
+    const {username, password, name} = req.body;
+    const validate = Boolean(username) && Boolean(password) && Boolean(name);
+    if (validate && await userAdd(username, {password, role: "U", name})) {
+        res.send({
+            msg: "New user registered",
+        });
+    } else {
+        res.status(400).send({
+            msg: "Failed to register",
+        });
+    }
+});
+
+router.post("/verify", auth, (req, res) => {
+    console.log("Verified");
+    return res.send({
+        msg: "Valid credential",
+        data: req.body.username,
+    });
+});
+
+router.use(checkToken);
+
+router.get("/", async (req, res) => {
     const data = await userGetAll();
     res.send({
         msg: "Success",
@@ -12,15 +37,19 @@ router.get("/", checkToken, async (req, res) => {
     });
 });
 
-router.get("/:id", checkToken, async (req, res) => {
+router.get("/:id", async (req, res) => {
     const {id} = req.params;
     if (!id) {
-        res.status(400).send("Invalid ID");
+        res.status(400).send({
+            msg: "Invalid ID",
+        });
     }
 
     const data = await userGetById(id);
     if (!data) {
-        res.status(404).send("No user found");
+        res.status(404).send({
+            msg: "No user found",
+        });
     }
 
     res.send({
@@ -34,33 +63,6 @@ router.delete("/:id", async (req, res) => {
 });
 router.put("/:id", async (req, res) => {
     res.sendStatus(501);
-});
-
-router.post("/verify", async (req, res) => {
-    const {username, password} = req.body;
-    if (await userVerify(username, {password})) {
-        res.send({
-            msg: "Valid credential",
-            data: await tokenGet(username),
-        });
-    } else {
-        res.status(400).send({
-            msg: "Invalid credential",
-        });
-    }
-});
-
-router.post("/register", async (req, res) => {
-    const {username, password} = req.body;
-    if (await userAdd(username, {password, role: "U", name: "John Doe"})) {
-        res.send({
-            msg: "New user registered",
-        });
-    } else {
-        res.status(400).send({
-            msg: "Username has been taken",
-        });
-    }
 });
 
 export default router;
