@@ -12,6 +12,7 @@ import source from "./routes/source.js";
 import fs from "node:fs";
 import { commentCreate, commentDelete, commentRead, commentUpdate, db_init_project, db_get_projects} from "./database.js";
 import path from "node:path";
+import checkToken from "./logic/checkToken.js";
 
 const app = express();
 app.use(express.json());
@@ -37,6 +38,8 @@ app.use("/sources/", source);
 
 const json_file = "./project_dir/cfg.json";
 
+app.use("/cfg", checkToken);
+
 app.get("/cfg/function_list", (req, res) => {
     // Parse cfg file if it hasn't been previously parsed
     if (funcs === null) {
@@ -57,6 +60,8 @@ app.post("/cfg/cfg_for_func", (req, res) => {
     res.send(JSON.stringify(funcs[func_name]));
 });
 
+app.use("/comments", checkToken);
+
 app.post("/comments/create", async (req, res) => {
     await commentCreate(req.body);
 
@@ -76,6 +81,8 @@ app.post("/comments/delete", async (req, res) => {
     await commentDelete(req.body);
     console.log(`comment ${req.body.idToDelete} successfully deleted >:)`);
 });
+
+app.use("/project", checkToken);
 
 app.get("/project/data", async (req, res) => {
     let rows = await db_get_projects();
