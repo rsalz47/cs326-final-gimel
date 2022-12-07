@@ -8,17 +8,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script type="module" src="src/frontend/js/dashboard.js"></script>
+    <base href="/src/frontend/" />
+    <script type="module" src="js/dashboard.js"></script>
 	</head>
     
 	<body>
-        <script id="navbar" src="src/frontend/js/nav.js"></script>
-        <script type = "text/javascript">insert_nav("src/frontend/");</script>
+        <script id="navbar" src="js/nav.js"></script>
 
         <div class="row">
-            <link rel="stylesheet" href="src/frontend/css/notes.css">
+            <link rel="stylesheet" href="css/notes.css">
             
-            <script type="module" id="notes_script" src="src/frontend/js/notes.js"></script>
+            <script type="module" id="notes_script" src="js/notes.js"></script>
 
 
             <div class="col-md-3 solid-black-border-right" id="view1">
@@ -66,7 +66,7 @@
                   </tr>
                 </thead>
                 <script type="module">
-                  import {get_project_rows} from "./src/frontend/js/client.js";
+                  import {get_project_rows} from "./js/client.js";
                     const my_tables = await get_project_rows();
                     my_tables.forEach(project => {
                         const table = document.getElementById("project_table");
@@ -89,7 +89,7 @@
                   id="project_submit">Submit</button>
 
                 <script type="module">
-                  import {init_project} from "./src/frontend/js/client.js";
+                  import {init_project} from "./js/client.js";
                   /// Register event listener to add a project when submit button is hit
                   document.getElementById("project_submit").addEventListener("click", () => {
                     let project = {};
@@ -119,7 +119,7 @@
             </div>
         </div>
         <script type="module">
-          import {getAllComments} from "./src/frontend/js/client.js";
+          import {getAllComments} from "./js/client.js";
           function loadHomepage() {
             document.getElementById("notes").innerHTML = '';
             getAllComments();
