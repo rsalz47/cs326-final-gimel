@@ -1,4 +1,4 @@
-import {getUsers} from "./client.js";
+import {getUsers, delete_user} from "./client.js";
 
 /// Clear a div
 function clear_div(element) {
