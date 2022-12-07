@@ -3,7 +3,6 @@
 import {addComment} from "./client.js";
 
 async function deleteEventListener(parentID) {
-    console.log(`deleting message ${parentID}`);
     const resp = await fetch("/comments/delete", {
         method: "POST",
         headers: {
@@ -16,7 +15,6 @@ async function deleteEventListener(parentID) {
 
 async function editEventListener(parentID) {
     const inp = document.getElementById("cur_note");
-    console.log(`editing message ${parentID}`);
     const resp = await fetch("/comments/update", {
         method: "POST",
         headers: {

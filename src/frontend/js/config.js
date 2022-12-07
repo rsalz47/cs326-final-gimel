@@ -114,7 +114,7 @@ function manage_users() {
             btn.style.background = "red";
             btn.style.margin = "10px";
             btn.onclick = function() {
-                console.log("Removed user");
+                // TODO remove user
             };
             row.appendChild(btn);
         }
