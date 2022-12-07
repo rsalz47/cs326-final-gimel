@@ -181,7 +181,7 @@ export async function db_init_project(p) {
 
 export async function db_get_projects() {
     const client = await pool.connect();
-    let my_query = "select * from fizzy.Projects";
+    const my_query = "select * from fizzy.Projects";
     const result = await client.query(my_query);
     client.release();
     return result.rows;
@@ -211,7 +211,7 @@ export async function db_insert_stats(s) {
 
 export async function db_get_cur_stats() {
     const client = await pool.connect();
-    const my_query = `SELECT * FROM fizzy.Stats ORDER BY run_time DESC LIMIT 1`;
+    const my_query = "SELECT * FROM fizzy.Stats ORDER BY run_time DESC LIMIT 1";
     const res = await client.query(my_query);
 
     client.release();
@@ -221,7 +221,7 @@ export async function db_get_cur_stats() {
 
 export async function db_get_all_stats() {
     const client = await pool.connect();
-    const my_query = `SELECT * FROM fizzy.Stats ORDER BY run_time DESC`;
+    const my_query = "SELECT * FROM fizzy.Stats ORDER BY run_time DESC";
     const res = await client.query(my_query);
 
     client.release();

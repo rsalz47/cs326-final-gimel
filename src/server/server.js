@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable camelcase */
+
 import express from "express";
 import session from "express-session";
 import createMemoryStore from "memorystore";
@@ -10,7 +10,7 @@ import user from "./routes/user.js";
 import stat from "./routes/stat.js";
 import source from "./routes/source.js";
 import fs from "node:fs";
-import { commentCreate, commentDelete, commentRead, commentUpdate, db_init_project, db_get_projects} from "./database.js";
+import {commentCreate, commentDelete, commentRead, commentUpdate, db_init_project, db_get_projects} from "./database.js";
 import path from "node:path";
 import checkToken from "./logic/checkToken.js";
 
@@ -84,7 +84,7 @@ app.post("/comments/delete", async (req, res) => {
 app.use("/project", checkToken);
 
 app.get("/project/data", async (req, res) => {
-    let rows = await db_get_projects();
+    const rows = await db_get_projects();
     res.send(rows);
 });
 
@@ -99,10 +99,10 @@ app.post("/project/init", async (req, res) => {
         output_dir: "",
     };
 
-    project.name       = data.name;
-    project.fuzzer     = data.fuzzer;
-    project.target     = data.target;
-    project.input_dir  = data.input_dir;
+    project.name = data.name;
+    project.fuzzer = data.fuzzer;
+    project.target = data.target;
+    project.input_dir = data.input_dir;
     project.output_dir = data.output_dir;
     project.time_stamp = data.time_stamp;
 

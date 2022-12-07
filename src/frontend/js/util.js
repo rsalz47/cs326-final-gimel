@@ -21,13 +21,13 @@ my_tables.forEach(project => {
 
 /// Register event listener to add a project when submit button is hit
 document.getElementById("project_submit").addEventListener("click", () => {
-    let project = {};
+    const project = {};
     const ts = new Date();
 
-    project.name       = document.getElementById("project_name").value;
-    project.fuzzer     = document.getElementById("fuzzer_name").value;
-    project.target     = document.getElementById("bin_path").value;
-    project.input_dir  = document.getElementById("in_dir").value;
+    project.name = document.getElementById("project_name").value;
+    project.fuzzer = document.getElementById("fuzzer_name").value;
+    project.target = document.getElementById("bin_path").value;
+    project.input_dir = document.getElementById("in_dir").value;
     project.output_dir = document.getElementById("out_dir").value;
     project.time_stamp = ts.toLocaleDateString();
 

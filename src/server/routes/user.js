@@ -26,12 +26,10 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.post("/verify", auth, (req, res) => {
-    return res.send({
-        msg: "Valid credential",
-        data: req.body.username,
-    });
-});
+router.post("/verify", auth, (req, res) => res.send({
+    msg: "Valid credential",
+    data: req.body.username,
+}));
 
 router.get("/logout", (req, res) => {
     req.logout();
@@ -99,7 +97,6 @@ router.delete("/:id", async (req, res) => {
         data,
     });
 });
-
 
 router.get("/handle/:handle", async (req, res) => {
     const {handle} = req.params;

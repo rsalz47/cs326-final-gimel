@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /*
   DISCLAIMER
   Implementing cryptographically sound behavior in software is both very important and very hard.
@@ -11,15 +11,15 @@
   If you'd like to learn more about the theory and maths behind cryptography, then take 466 next semester. Great professor.
 */
 
-import * as c from 'crypto';
-//const c = require('crypto');
+import * as c from "crypto";
+// Const c = require('crypto');
 /**
   @module miniCrypt
   @desc A tiny crypto lib for the 326 kids.
 */
 
 class MiniCrypt {
-  /**
+    /**
     @constructor
     @arg {number} its - The number of iterations to be performed; higher iterations means more security but slower speed.
     @arg {number} keyL - The length of the result in bytes.
@@ -27,14 +27,14 @@ class MiniCrypt {
     @arg {string} saltL - The digest (i.e. hash) algorithm to use.
     @desc Creates a new `MiniCrypt` instance.
    */
-  constructor(its = 1e5, keyL = 64, saltL = 16, digest = 'sha256') {
-    this.its = its;
-    this.keyL = keyL;
-    this.saltL = saltL;
-    this.digest = digest;
-  }
+    constructor(its = 1e5, keyL = 64, saltL = 16, digest = "sha256") {
+        this.its = its;
+        this.keyL = keyL;
+        this.saltL = saltL;
+        this.digest = digest;
+    }
 
-  /**
+    /**
     @public
     @memberof MiniCrypt
     @arg {string} pw - The plain-text user password to be hashed.
@@ -42,12 +42,12 @@ class MiniCrypt {
     @desc Hash a user password.
    */
     hash(pw) {
-	const salt = c.randomBytes(this.saltL).toString('hex'), // get our new salt for this pw
-        hash = c.pbkdf2Sync(pw, salt, this.its, this.keyL, this.digest).toString('hex'); // hash the pw
-	return [salt, hash]; // return the pair for safe storage
-  };
+        const salt = c.randomBytes(this.saltL).toString("hex"); // Get our new salt for this pw
+        const hash = c.pbkdf2Sync(pw, salt, this.its, this.keyL, this.digest).toString("hex"); // Hash the pw
+        return [salt, hash]; // Return the pair for safe storage
+    }
 
-  /**
+    /**
     @public
     @memberof MiniCrypt
     @arg {string} pw - The plain-text user password to be checked.
@@ -57,8 +57,8 @@ class MiniCrypt {
     @desc Validate a user password.
    */
     check(pw, salt, hash) {
-    return c.timingSafeEqual(c.pbkdf2Sync(pw, salt, this.its, this.keyL, this.digest), Buffer.from(hash, 'hex'));
-  };
+        return c.timingSafeEqual(c.pbkdf2Sync(pw, salt, this.its, this.keyL, this.digest), Buffer.from(hash, "hex"));
+    }
 }
 
-export { MiniCrypt };
+export {MiniCrypt};
