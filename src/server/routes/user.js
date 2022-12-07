@@ -1,5 +1,12 @@
 import {Router} from "express";
-import {userAdd, userGetById, userGetAll} from "../database.js";
+import {
+    userAdd,
+    userGetById,
+    userGetAll,
+    userGet,
+    userDelete,
+    userDeleteById,
+} from "../database.js";
 import auth from "../logic/auth.js";
 import checkToken from "../logic/checkToken.js";
 
@@ -7,8 +14,8 @@ const router = Router();
 
 router.post("/register", async (req, res) => {
     const {username, password, name} = req.body;
-    const validate = Boolean(username) && Boolean(password) && Boolean(name);
-    if (validate && await userAdd(username, {password, role: "U", name})) {
+    const validate = username !== "" && password !== "" && name !== "";
+    if (validate && (await userAdd(username, {password, role: "U", name}))) {
         res.send({
             msg: "New user registered",
         });
@@ -27,6 +34,13 @@ router.post("/verify", auth, (req, res) => {
     });
 });
 
+router.get("/logout", (req, res) => {
+    req.logout();
+    res.send({
+        msg: "Logout successfull"
+    });
+});
+
 router.use(checkToken);
 
 router.get("/", async (req, res) => {
@@ -39,13 +53,14 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const {id} = req.params;
-    if (!id) {
+    const nid = parseInt(id, 10);
+    if (!id || isFinite(nid)) {
         res.status(400).send({
             msg: "Invalid ID",
         });
     }
 
-    const data = await userGetById(id);
+    const data = await userGetById(nid);
     if (!data) {
         res.status(404).send({
             msg: "No user found",
@@ -59,10 +74,56 @@ router.get("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-    res.sendStatus(501);
+    const {id} = req.params;
+    const nid = parseInt(id, 10);
+    if (!id || isFinite(nid)) {
+        res.status(400).send({
+            msg: "Invalid ID",
+        });
+    }
+
+    const data = await userDeleteById(nid);
+    if (!data) {
+        res.status(404).send({
+            msg: "No user found",
+        });
+    }
+
+    res.send({
+        msg: "Success",
+        data,
+    });
 });
-router.put("/:id", async (req, res) => {
-    res.sendStatus(501);
+
+
+router.get("/handle/:handle", async (req, res) => {
+    const {handle} = req.params;
+    const data = await userGet(handle);
+    if (!data) {
+        res.status(404).send({
+            msg: "No user found",
+        });
+    }
+
+    res.send({
+        msg: "Success",
+        data,
+    });
+});
+
+router.delete("/handle/:handle", async (req, res) => {
+    const {handle} = req.params;
+    const data = await userDelete(handle);
+    if (!data) {
+        res.status(404).send({
+            msg: "No user found",
+        });
+    }
+
+    res.send({
+        msg: "Success",
+        data,
+    });
 });
 
 export default router;

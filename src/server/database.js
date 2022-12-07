@@ -78,6 +78,17 @@ export async function userGetById(id) {
     return result.rows[0] ?? null;
 }
 
+export async function userDeleteById(username) {
+    const cli = await pool.connect();
+    const result = await cli.query(`
+        DELETE FROM fizzy.users
+        WHERE id=$1
+        RETURNING id;
+    `, [username]);
+    cli.release();
+    return result.rows[0] ?? null;
+}
+
 export async function userGetAll() {
     const cli = await pool.connect();
     const result = await cli.query(`
@@ -85,6 +96,27 @@ export async function userGetAll() {
     `);
     cli.release();
     return result.rows ?? null;
+}
+
+export async function userGet(username) {
+    const cli = await pool.connect();
+    const result = await cli.query(`
+        SELECT id, name, handle, role FROM fizzy.users
+        WHERE handle=$1;
+    `, [username]);
+    cli.release();
+    return result.rows[0] ?? null;
+}
+
+export async function userDelete(username) {
+    const cli = await pool.connect();
+    const result = await cli.query(`
+        DELETE FROM fizzy.users
+        WHERE handle=$1
+        RETURNING id;
+    `, [username]);
+    cli.release();
+    return result.rows[0] ?? null;
 }
 
 export async function commentCreate({timestamp, user, msg}) {
