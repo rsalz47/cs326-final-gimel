@@ -8,19 +8,6 @@ const pool = new Pool({
 });
 const mc = new MiniCrypt();
 
-// Temporary data entries
-// Express.js could have been better to handle these
-
-const authTokens = ["SAMPLE_TOKEN"];
-
-export async function tokenGet(user) {
-    return authTokens[0];
-}
-
-export async function tokenVerify(token) {
-    return authTokens.includes(token);
-}
-
 export async function userVerify(username, {password}) {
     const cli = await pool.connect();
     const result = await cli.query(`
@@ -36,10 +23,10 @@ export async function userVerify(username, {password}) {
     SELECT hash, salt FROM fizzy.credentials
     WHERE id=${userId};
     `);
-    const {hash, salt} = await hashQ.rows[0];
+    const {hash, salt} = hashQ.rows[0] ?? {};
     cli.release();
 
-    return mc.check(password, salt, hash);
+    return mc.check(password, salt, hash) ? userId : null;
 }
 
 async function userExist(username) {
@@ -84,7 +71,7 @@ export async function userGetById(id) {
     const cli = await pool.connect();
     const result = await cli.query(`
         SELECT id, name, handle FROM fizzy.users
-        WHERE ID=${id};`);
+        WHERE id=$1;`, [id]);
     cli.release();
     return result.rows[0] ?? null;
 }

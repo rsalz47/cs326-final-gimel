@@ -1,5 +1,3 @@
-import {tokenVerify} from "../database.js";
-
 /**
  * Check if token is valid
  * @param {Request} req
@@ -7,11 +5,12 @@ import {tokenVerify} from "../database.js";
  * @param {} next
  */
 export default async function checkToken(req, res, next) {
-    if (await tokenVerify(req.headers.authorization)) {
+    // Already handled by passport.js
+    // We only reuse the object
+    if (req.isAuthenticated()) {
         next();
     } else {
         res.status(401).send({
-            ok: false,
             msg: "Invalid token",
         });
     }

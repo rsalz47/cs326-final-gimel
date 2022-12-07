@@ -1,6 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import express from "express";
+import session from "express-session";
+import createMemoryStore from "memorystore";
+const MemoryStore = createMemoryStore(session);
+import passport from "passport";
+
 import user from "./routes/user.js";
 import stat from "./routes/stat.js";
 import source from "./routes/source.js";
@@ -10,6 +15,18 @@ import { commentCreate, commentDelete, commentRead, commentUpdate, db_init_proje
 const app = express();
 app.use(express.json());
 app.use(express.static("."));
+
+const sessionLimit = 86400000;
+app.use(session({
+    secret: "hahahaha",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {maxAge: sessionLimit},
+    store: new MemoryStore({
+        checkPeriod: sessionLimit
+    }),
+}));
+app.use(passport.session());
 
 let funcs = null;
 // This will be the database, eventually
