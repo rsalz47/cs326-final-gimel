@@ -13,7 +13,9 @@ CREATE TABLE fizzy.credentials(id integer, hash char(128), salt char(32));
 -- Sample data
 INSERT INTO fizzy.users ("name", "role", handle)
 VALUES ('Admin', 'A', 'admin');
+
 INSERT INTO fizzy.stats
 VALUES (0, 0, 0, 0, 0, 0, 0, 0);
+
 INSERT INTO fizzy.comments (name, comment, timestamp)
 VALUES ('sample_user', 'I would love a hug', 'Wed Dec 31 1969 19:00:00 GMT-0500 (Eastern Standard Time)');
