@@ -74,6 +74,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
+    if (req.user?.id !== "A") {
+        res.status(401).send({
+            msg: "Unauthorized",
+        });
+    }
+
     const {id} = req.params;
     const nid = parseInt(id, 10);
     if (!id || isFinite(nid)) {
@@ -112,6 +118,12 @@ router.get("/handle/:handle", async (req, res) => {
 });
 
 router.delete("/handle/:handle", async (req, res) => {
+    if (req.user?.id !== "A") {
+        res.status(401).send({
+            msg: "Unauthorized",
+        });
+    }
+
     const {handle} = req.params;
     const data = await userDelete(handle);
     if (!data) {
