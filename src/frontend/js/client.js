@@ -170,3 +170,14 @@ export async function getFile(path) {
         ...await res.json()
     };
 }
+
+/// Delete a user
+export async function delete_user(user) {
+    const resp = await fetch(`/user/handle/${user}`, {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+        });
+}

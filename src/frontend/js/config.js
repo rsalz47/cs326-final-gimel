@@ -45,10 +45,7 @@ export async function manage_users() {
             btn.style.background = "red";
             btn.style.margin = "10px";
             btn.onclick = function() {
-                console.log("Removing user: ");
-                // TODO1: Check currently logged in session and verify its admin
-
-                // TODO2: Remove appropriate user
+                delete_user(element["handle"]);
             };
             row.appendChild(btn);
         }
