@@ -31,21 +31,21 @@ const defaultScale = {
 let chart1 = null;
 const currScale = defaultScale;
 
-async function drawGraph(x, y, log_scale) {
+async function drawGraph(x, y, log_scale, divide_x_by) {
     const graph = document.getElementById("this_graph");
     let res = await getStats();
     const {data} = res;
-    console.log(data);
-    const num_x_slices = 10;
-    const x_data = data[x];
-    const x_axis = [];
 
+    const num_x_slices = 10;
+    let x_data = data[x];
+    const x_axis = [];
+    x_data = x_data.map((e) => e / divide_x_by);
     if (log_scale) {
         const base = 2;
         let i = 0;
         while (true) {
             x_axis.push((base ** i).toPrecision(4));
-            if (x_data / base ** i <= 0) {
+            if (x_data / (base ** i) <= 0) {
                 break;
             }
 
@@ -86,40 +86,40 @@ async function drawGraph(x, y, log_scale) {
 
 // Graph for cases_total / time
 cases_time.addEventListener("click", () => {
-    drawGraph("run_time", "cases_total", false);
+    drawGraph("run_time", "cases_total", false, 1000);
 });
 cases_time_log.addEventListener("click", () => {
-    drawGraph("run_time", "cases_total", true);
+    drawGraph("run_time", "cases_total", true, 1000);
 });
 
 // Graph for coverage / time
 coverage_time.addEventListener("click", () => {
-    drawGraph("run_time", "coverage", false);
+    drawGraph("run_time", "coverage", false, 1000);
 });
 coverage_time_log.addEventListener("click", () => {
-    drawGraph("run_time", "coverage", true);
+    drawGraph("run_time", "coverage", true, 1000);
 });
 
 // Graph for coverage / total_cases
 coverage_total.addEventListener("click", () => {
-    drawGraph("cases_total", "coverage", false);
+    drawGraph("cases_total", "coverage", false, 1);
 });
 coverage_total_log.addEventListener("click", () => {
-    drawGraph("cases_total", "coverage", true);
+    drawGraph("cases_total", "coverage", true, 1);
 });
 
 // Graph for unique crashes / time
 crashu_time.addEventListener("click", () => {
-    drawGraph("run_time", "crash_unique", false);
+    drawGraph("run_time", "crash_unique", false, 1000);
 });
 crashu_time_log.addEventListener("click", () => {
-    drawGraph("run_time", "crash_unique", true);
+    drawGraph("run_time", "crash_unique", true, 1000);
 });
 
 // Graph for unique crashes / total_cases
 crashu_total.addEventListener("click", () => {
-    drawGraph("cases_total", "crash_unique", false);
+    drawGraph("cases_total", "crash_unique", false, 1);
 });
 crashu_total_log.addEventListener("click", () => {
-    drawGraph("cases_total", "crash_unique", true);
+    drawGraph("cases_total", "crash_unique", true, 1);
 });
