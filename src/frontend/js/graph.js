@@ -35,6 +35,7 @@ async function drawGraph(x, y, log_scale) {
     const graph = document.getElementById("this_graph");
     let res = await getStats();
     const {data} = res;
+    console.log(data);
     const num_x_slices = 10;
     const x_data = data[x];
     const x_axis = [];
