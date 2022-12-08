@@ -40,6 +40,10 @@ export async function get_hit_blocks() {
     return result.json();
 }
 
+export async function logout() {
+    await fetch("/users/logout");
+}
+
 /// Initialize a new project
 export async function init_project(project) {
     const resp = await fetch("/project/init", {

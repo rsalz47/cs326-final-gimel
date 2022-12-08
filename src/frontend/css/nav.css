@@ -9,3 +9,8 @@
 .grayish-background {
     background-color: #5C5852;
 }
+
+.right_pos {
+    position: absolute;
+    right: 0;
+}
