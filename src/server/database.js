@@ -71,7 +71,7 @@ export async function userAdd(username, {password, role, name}) {
 export async function userGetById(id) {
     const cli = await pool.connect();
     const result = await cli.query(`
-        SELECT id, name, handle FROM fizzy.users
+        SELECT id, name, handle, role FROM fizzy.users
         WHERE id=$1;
     `, [id]);
     cli.release();
