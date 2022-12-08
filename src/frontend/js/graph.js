@@ -31,40 +31,13 @@ const defaultScale = {
 let chart1 = null;
 const currScale = defaultScale;
 
-async function drawGraph(x, y, log_scale, divide_x_by) {
+async function drawGraph(x_axis, y_axis, x_name, y_name) {
     const graph = document.getElementById("this_graph");
-    let res = await getStats();
-    const {data} = res;
-
-    const num_x_slices = 10;
-    let x_data = data[x];
-    const x_axis = [];
-    x_data = x_data.map((e) => e / divide_x_by);
-    if (log_scale) {
-        const base = 2;
-        let i = 0;
-        while (true) {
-            x_axis.push((base ** i).toPrecision(4));
-            if (x_data / (base ** i) <= 0) {
-                break;
-            }
-
-            i++;
-        }
-    } else {
-        for (let i = 0; i < num_x_slices; i++) {
-            x_axis.push((x_data / num_x_slices) * i);
-        }
-    }
-
-    res = await getAllStats();
-    const all_data = res.data;
-    const y_axis = all_data.map(e => e[y]);
 
     const lineData = {
         labels: x_axis,
         datasets: [{
-            label: x + " / " + y,
+            label: x_name + " / " + y_name,
             data: y_axis,
             fill: false,
             borderColor: "rgb(75, 192, 192)",
@@ -82,44 +55,120 @@ async function drawGraph(x, y, log_scale, divide_x_by) {
             }
         }
     });
+
 }
 
-// Graph for cases_total / time
-cases_time.addEventListener("click", () => {
-    drawGraph("run_time", "cases_total", false, 1000);
-});
-cases_time_log.addEventListener("click", () => {
-    drawGraph("run_time", "cases_total", true, 1000);
-});
+async function setup_x_axis(value_to_read, log_scale, divident) {
+    let res = await getStats();
+    const {data} = res;
+    const num_x_slices = 10;
+    const x_data = data[value_to_read] / divident;
+    const x_axis = [];
 
-// Graph for coverage / time
-coverage_time.addEventListener("click", () => {
-    drawGraph("run_time", "coverage", false, 1000);
-});
-coverage_time_log.addEventListener("click", () => {
-    drawGraph("run_time", "coverage", true, 1000);
-});
+    if (log_scale) {
+        const base = 2;
+        let i = 0;
+        while (true) {
+            x_axis.push(Math.floor(base ** i));
+            if (x_data / (base ** i) <= 0) {
+                break;
+            }
 
-// Graph for coverage / total_cases
-coverage_total.addEventListener("click", () => {
-    drawGraph("cases_total", "coverage", false, 1);
-});
-coverage_total_log.addEventListener("click", () => {
-    drawGraph("cases_total", "coverage", true, 1);
-});
+            i++;
+        }
+    } else {
+        for (let i = 0; i < num_x_slices; i++) {
+            x_axis.push(Math.floor((x_data / num_x_slices) * i));
+        }
+    }
+    return x_axis;
+}
 
-// Graph for unique crashes / time
-crashu_time.addEventListener("click", () => {
-    drawGraph("run_time", "crash_unique", false, 1000);
-});
-crashu_time_log.addEventListener("click", () => {
-    drawGraph("run_time", "crash_unique", true, 1000);
-});
+// Fuzz cases per second (x=time, y=fcps)
+{
+    cases_time.addEventListener("click", async () => {
+        const x_axis = await setup_x_axis("run_time", false, 1000);
+        const res = await getAllStats();
+        const all_data = res.data;
+        const y_axis = all_data.map(e => 
+            ({ [e["run_time"]]: (e["cases_total"] / (e["run_time"] / 1000))}));
+        let y_axis_final = [];
+        for (let i = 0; i < x_axis.length; i++) {
+            y_axis_final.push(y_axis[x_axis[i]]);
+        }
+        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+        drawGraph(x_axis, y_axis_final, "fcps", "run_time");
+    });
 
-// Graph for unique crashes / total_cases
-crashu_total.addEventListener("click", () => {
-    drawGraph("cases_total", "crash_unique", false, 1);
-});
-crashu_total_log.addEventListener("click", () => {
-    drawGraph("cases_total", "crash_unique", true, 1);
-});
+    cases_time_log.addEventListener("click", async () => {
+        const x_axis = await setup_x_axis("run_time", true, 1000);
+        const res = await getAllStats();
+        const all_data = res.data;
+        const y_axis = all_data.map(e => 
+            ({ [e["run_time"]]: (e["cases_total"] / (e["run_time"] / 1000))}));
+        let y_axis_final = [];
+        for (let i = 0; i < x_axis.length; i++) {
+            y_axis_final.push(y_axis[x_axis[i]]);
+        }
+        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+        drawGraph(x_axis, y_axis_final, "fcps", "run_time");
+    });
+}
+
+// Coverage per second
+{
+    coverage_time.addEventListener("click", async () => {
+        const x_axis = await setup_x_axis("run_time", false, 1000);
+        const res = await getAllStats();
+        const all_data = res.data;
+        const y_axis = all_data.map(e => ({ [e["run_time"]]: (e["coverage"] )}));
+        let y_axis_final = [];
+        for (let i = 0; i < x_axis.length; i++) {
+            y_axis_final.push(y_axis[x_axis[i]]);
+        }
+        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+        drawGraph(x_axis, y_axis_final, "coverage", "run_time");
+    });
+
+    coverage_time_log.addEventListener("click", async () => {
+        const x_axis = await setup_x_axis("run_time", true, 1000);
+        const res = await getAllStats();
+        const all_data = res.data;
+        const y_axis = all_data.map(e => ({ [e["run_time"]]: (e["coverage"] )}));
+        let y_axis_final = [];
+        for (let i = 0; i < x_axis.length; i++) {
+            y_axis_final.push(y_axis[x_axis[i]]);
+        }
+        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+        drawGraph(x_axis, y_axis_final, "coverage", "run_time");
+    });
+}
+
+// Unique crashes per second
+{
+    crashu_time.addEventListener("click", async () => {
+        const x_axis = await setup_x_axis("run_time", false, 1000);
+        const res = await getAllStats();
+        const all_data = res.data;
+        const y_axis = all_data.map(e => ({ [e["run_time"]]: (e["crash_unique"] )}));
+        let y_axis_final = [];
+        for (let i = 0; i < x_axis.length; i++) {
+            y_axis_final.push(y_axis[x_axis[i]]);
+        }
+        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+        drawGraph(x_axis, y_axis_final, "unique crashes", "run_time");
+    });
+
+    crashu_time_log.addEventListener("click", async () => {
+        const x_axis = await setup_x_axis("run_time", true, 1000);
+        const res = await getAllStats();
+        const all_data = res.data;
+        const y_axis = all_data.map(e => ({ [e["run_time"]]: (e["crash_unique"] )}));
+        let y_axis_final = [];
+        for (let i = 0; i < x_axis.length; i++) {
+            y_axis_final.push(y_axis[x_axis[i]]);
+        }
+        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+        drawGraph(x_axis, y_axis_final, "unique crashes", "run_time");
+    });
+}
