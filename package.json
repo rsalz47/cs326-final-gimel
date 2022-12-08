@@ -6,9 +6,10 @@
   "directories": {
     "doc": "docs"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server/server.js"
+  "scripts": {    
+    "start": "node src/server/server.js",
+    "lint": "eslint src/**.js --fix",
+    "initadmin": "node src/scripts/init_admin.js"
   },
   "type": "module",
   "repository": {
