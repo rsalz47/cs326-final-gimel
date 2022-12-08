@@ -77,6 +77,7 @@ router.post("/", (req, res) => {
     });
 
     db_insert_stats(fuzzerStatus);
+    console.log(fuzzerStatus);
 
     res.sendStatus(200);
 });
