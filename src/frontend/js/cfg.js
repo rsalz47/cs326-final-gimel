@@ -25,12 +25,14 @@ function setup_screen(view) {
     // Initial setup to create div that holds to arrow-buttons to navigate back and forth through
     // the graphs
     const nav_div = document.createElement("div");
+    nav_div.id = "nav_div"; 
     const btn1 = document.createElement("button");
     btn1.innerHTML = "<";
     btn1.onclick = function () {
         if (function_buffer.length >= 2) {
             function_buffer.pop();
-            window[function_buffer.pop()]();
+            draw_function_cfg(function_buffer[function_buffer.length-1]);
+
         }
     };
 
@@ -51,15 +53,16 @@ function setup_screen(view) {
 /// making sure it exists in our data-base, and if so it creates a drop-down that lets the user
 /// select which of the functions in this node he meant to click. Once selected, the user can hit
 /// the 'go' button to open up the cfg of the function.
-function function_parse_callback() {
-    const available_funcs = get_cfg_functions();
+async function function_parse_callback() {
+    const available_funcs = await get_cfg_functions();
     const view = document.getElementById("view2");
 
     const nodes = d3.selectAll(".node,.edge");
     nodes.on("click", function () {
-        // Regex for parsing function names (source below):
-        // https://stackoverflow.com/questions/47663648/javascript-regex-getting-function-name-from-string
-        const functions = this.innerHTML.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g);
+        const textOnly = [...this.children].map(x => x.textContent).reduce((a, b) => a + "\n" + b);
+        let functions = textOnly.matchAll(/j(al)?\s+(\w+)/g);
+        functions = [...functions].map(f => f[f.length-1]);
+
         const found_funcs = [];
         if (functions === null) {
             return;
@@ -79,12 +82,18 @@ function function_parse_callback() {
             }
         }
 
+        // If the buttons already exist, remove them
+        try {
+            document.getElementById("go_button").outerHTML = "";
+            document.getElementById("func_name").outerHTML = "";
+        } catch {};
+
         // Create a dropdown button to select one of the functions listed in the pressed node
-        const div = document.createElement("div");
-        div.id = "func_selection";
         const select = document.createElement("select");
         select.id = "func_name";
         select.style.margin = "20px";
+
+        const nav_div = document.getElementById("nav_div");
 
         // Create an option for each function
         for (let i = 0; i < found_funcs.length; i++) {
@@ -93,20 +102,18 @@ function function_parse_callback() {
             option.text = found_funcs[i];
             select.appendChild(option);
         }
-
-        div.appendChild(select);
+        nav_div.appendChild(select);
 
         // Create a button that will let the user select a function from the drop-down and open
         // it up in the graphview
         const btn = document.createElement("button");
+        btn.id = "go_button";
         btn.innerHTML = "Go";
         btn.onclick = function () {
             const func = document.getElementById("func_name").value;
-            window[func]();
+            draw_function_cfg(func)
         };
-
-        div.appendChild(btn);
-        view.appendChild(div);
+        nav_div.appendChild(btn);
     });
 }
 
