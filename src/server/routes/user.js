@@ -32,9 +32,14 @@ router.post("/verify", auth, (req, res) => res.send({
 }));
 
 router.get("/logout", (req, res) => {
-    req.logout();
-    res.send({
-        msg: "Logout successfull"
+    req.logout(err => {
+        if (err) {
+            res.status(500).send("Cannot log out user");
+        }
+
+        res.send({
+            msg: "Logout successfull",
+        });
     });
 });
 
@@ -71,7 +76,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-    if (req.user?.id !== "A") {
+    if (req.user?.role !== "A") {
         return res.status(401).send({
             msg: "Unauthorized",
         });
@@ -114,7 +119,7 @@ router.get("/handle/:handle", async (req, res) => {
 });
 
 router.delete("/handle/:handle", async (req, res) => {
-    if (req.user?.id !== "A") {
+    if (req.user?.role !== "A") {
         return res.status(401).send({
             msg: "Unauthorized",
         });
