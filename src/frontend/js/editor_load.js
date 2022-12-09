@@ -103,10 +103,7 @@ require(["vs/editor/editor.main"], async () => {
                     marginClassName: "markup-1",
                     className: "markup-1",
                     hoverMessage: {
-                        value:
-                            Date() + "\n\n"
-                            + "By [_dungwinux_](https://github.com/dungwinux/):\n\n"
-                            + data,
+                        value: Date() + "\n\n" + data,
                     },
                 },
             },
@@ -139,6 +136,7 @@ require(["vs/editor/editor.main"], async () => {
                 };
 
                 submitBtn?.addEventListener("click", submit, {once: true});
+                /* global $ */
                 $(modal).modal("toggle");
             }
         },
