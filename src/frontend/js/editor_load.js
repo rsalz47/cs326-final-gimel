@@ -110,21 +110,25 @@ require(["vs/editor/editor.main"], async () => {
         // We will create new ones in case it was not handled by monaco
 
         if (ok) {
+            const oldModel = monaco.editor.getModel(path);
             const model
-                = monaco.editor.getModel(path)
+                = oldModel
                 ?? monaco.editor.createModel(data.content, data.type ?? "", path);
             editor.setModel(model);
 
-            getHl()
-                ?.filter(hl => path === hl.path)
-                .forEach(({path, data, start, end}) =>
-                    highlightRanges(
-                        monaco.editor.getModel(path),
-                        data,
-                        start,
-                        end
-                    )
-                );
+            if (oldModel === null) {
+                getHl()
+                    ?.filter(hl => path === hl.path)
+                    .forEach(({path, data, start, end}) =>
+                        highlightRanges(
+                            monaco.editor.getModel(path),
+                            data,
+                            start,
+                            end
+                        )
+                    );
+            }
+
             if (line) {
                 const lineNumber = Number(line ?? 0);
                 const column = Number(col ?? 0);
