@@ -1,4 +1,4 @@
-####Fizzy: A Fuzzing Visualizing Tool
+#### Fizzy: A Fuzzing Visualizing Tool
 This project is a tool for data visualization. The application is targeted at small groups of power-users (such as vulnerability researchers) that are interested in a shared data visualization instance. This application is meant to be ran as a private instance being hosted locally by the respective teams.
 
 The application enables multiple users to review and annotate the displayed data. Users will be provided with multiple formats of data visualization to best suit their needs.
