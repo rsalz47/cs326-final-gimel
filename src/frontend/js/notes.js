@@ -1,6 +1,6 @@
 
 import {addComment} from "./client.js";
-import { reloadMessageWindow } from "./util.js";
+import {reloadMessageWindow} from "./util.js";
 
 async function deleteEventListener(parentID) {
     const resp = await fetch("/comments/delete", {

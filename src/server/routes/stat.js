@@ -69,8 +69,12 @@ router.post("/", (req, res) => {
 
 router.post("/cov/", (req, res) => {
     const data = req.body;
-    hit_blocks.push(...data);
-    res.sendStatus(200);
+    try {
+        hit_blocks.push(...data);
+        res.sendStatus(200);
+    } catch {
+        res.sendStatus(400);
+    }
 });
 
 router.get("/cov/", (req, res) => {
