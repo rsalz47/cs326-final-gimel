@@ -44,9 +44,10 @@ export async function manage_users() {
             btn.innerHTML = "Remove";
             btn.style.background = "red";
             btn.style.margin = "10px";
-            btn.onclick = function () {
-                delete_user(element.handle);
-            };
+            btn.addEventListener("click", async () => {
+                await delete_user(element.handle);
+                window.location.reload();
+            });
 
             row.appendChild(btn);
         }
