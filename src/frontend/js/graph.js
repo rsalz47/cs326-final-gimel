@@ -53,6 +53,7 @@ async function drawGraph(x_axis, y_axis, x_name, y_name) {
         });
     } else {
         // Incremental update instead
+        chart1.data.labels = x_axis;
         chart1.data.datasets = [genDataset()];
         chart1.update();
     }
