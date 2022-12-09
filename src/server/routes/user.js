@@ -45,15 +45,15 @@ router.get("/clear", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-    if (req.accepts("json")) {
-        return res.redirect("/clear");
+    if (req.accepts("html")) {
+        return res.status(301).send(`
+            <body onload='setTimeout(() => {window.location = "/"}, 500)'>
+                <b>Log Out Successful</b>
+            </body>
+        `);
     }
 
-    res.status(301).send(`
-    <body onload='setTimeout(() => {window.location = "/"}, 500)'>
-        <b>Log Out Successful</b>
-    </body>
-    `);
+    return res.redirect("./clear");
 });
 
 router.use(checkToken);
