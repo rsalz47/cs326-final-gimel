@@ -1,5 +1,8 @@
 # cs326-final-gimel
-:)
+
+### Demo
+
+![Functions demo](/imgs/demo.gif)
 
 ### 4 types of Data:
 
@@ -28,10 +31,5 @@
 -   [Ideas](docs/ideas.md)
 -   [Milestone 1](docs/milestone1.md)
 -   [Milestone 2](docs/milestone2.md)
-
-
-#### Setup:
-```
-sudo apt install postgresql
-/usr/lib/postgresql/14/bin/pg_ctl -D ./project_dir/db -l logfile start
-```
+-   [Milestone 3](docs/milestone3.md)
+-   [Setup](docs/setup.md)
