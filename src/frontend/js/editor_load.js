@@ -1,5 +1,28 @@
 import {getFile, getFileList} from "./client.js";
 
+const hlStorageKey = "highlights";
+const hlStorage = [];
+/**
+ * @returns {[]?}
+ */
+function getHl() {
+    const raw = localStorage.getItem(hlStorageKey);
+    try {
+        return JSON.parse(raw);
+    } catch {
+        return [];
+    }
+}
+
+function saveHl() {
+    localStorage.setItem(hlStorageKey, JSON.stringify(hlStorage));
+}
+
+function pushHl(...value) {
+    hlStorage.push(...value);
+    saveHl();
+}
+
 async function updateFileList(loadFileFn) {
     const {data: fileList} = await getFileList();
     const listEntry = ({name, path}) => {
@@ -60,35 +83,6 @@ require(["vs/editor/editor.main"], async () => {
         })
     );
 
-    const loadFile = async (path, line, col) => {
-        const {ok, data} = await getFile(path);
-        // Turns out, monaco has its own models handler.
-        // We will create new ones in case it was not handled by monaco
-
-        if (ok) {
-            const model
-                = monaco.editor.getModel(path)
-                ?? monaco.editor.createModel(data.content, data.type ?? "", path);
-            editor.setModel(model);
-            if (line) {
-                const lineNumber = Number(line ?? 0);
-                const column = Number(col ?? 0);
-                editor.revealLineInCenter(lineNumber);
-                editor.setPosition({column, lineNumber});
-            }
-        }
-    };
-
-    const goto = () => {
-        const [file, line, col] = location.hash.slice(1).split(":");
-        if (file) {
-            loadFile(file, line, col);
-        }
-    };
-
-    window.addEventListener("hashchange", goto);
-    goto();
-
     const highlightRanges = (model, data, start, end) => {
         model.deltaDecorations(model.getAllDecorations(), [
             {
@@ -110,6 +104,46 @@ require(["vs/editor/editor.main"], async () => {
         ]);
     };
 
+    const loadFile = async (path, line, col) => {
+        const {ok, data} = await getFile(path);
+        // Turns out, monaco has its own models handler.
+        // We will create new ones in case it was not handled by monaco
+
+        if (ok) {
+            const model
+                = monaco.editor.getModel(path)
+                ?? monaco.editor.createModel(data.content, data.type ?? "", path);
+            editor.setModel(model);
+
+            getHl()
+                ?.filter(hl => path === hl.path)
+                .forEach(({path, data, start, end}) =>
+                    highlightRanges(
+                        monaco.editor.getModel(path),
+                        data,
+                        start,
+                        end
+                    )
+                );
+            if (line) {
+                const lineNumber = Number(line ?? 0);
+                const column = Number(col ?? 0);
+                editor.revealLineInCenter(lineNumber);
+                editor.setPosition({column, lineNumber});
+            }
+        }
+    };
+
+    const goto = () => {
+        const [file, line, col] = location.hash.slice(1).split(":");
+        if (file) {
+            loadFile(file, line, col);
+        }
+    };
+
+    window.addEventListener("hashchange", goto);
+    goto();
+
     editor.addAction({
         id: "write-comment",
         label: "Write a comment",
@@ -121,13 +155,14 @@ require(["vs/editor/editor.main"], async () => {
                 // Ask for comment
                 document.getElementById("modal-title").textContent = "Add a comment";
                 const modal = document.getElementById("editor-modal");
-                const callback = data =>
-                    highlightRanges(
-                        ed.getModel(),
-                        data,
-                        range.getStartPosition(),
-                        range.getEndPosition()
-                    );
+                const callback = data => {
+                    const model = ed.getModel();
+                    const start = range.getStartPosition();
+                    const end = range.getEndPosition();
+                    pushHl({path: model.uri, data, start, end});
+                    highlightRanges(model, data, start, end);
+                };
+
                 const submitBtn = document.getElementById("modal-submit");
                 const submit = () => {
                     const modalData = document.getElementById("modal-data");
