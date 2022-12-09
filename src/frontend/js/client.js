@@ -109,9 +109,7 @@ export async function create_user(username, password) {
 export async function getUsers() {
     const res = await fetch("/users", {
         method: "GET",
-        headers: {
-            Authorization: localStorage.getItem("token"),
-        }
+        headers: getProperHeader(),
     });
     return {
         ok: res.ok,
@@ -122,9 +120,7 @@ export async function getUsers() {
 export async function getStats() {
     const res = await fetch("/stats", {
         method: "GET",
-        headers: {
-            Authorization: localStorage.getItem("token"),
-        }
+        headers: getProperHeader(),
     });
     return {
         ok: res.ok,
