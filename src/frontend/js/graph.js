@@ -70,7 +70,7 @@ async function setup_x_axis(value_to_read, log_scale, divident) {
         let i = 0;
         while (true) {
             x_axis.push(Math.floor(base ** i));
-            if (x_data / (base ** i) <= 0) {
+            if (x_data - (base ** i) <= 0) {
                 break;
             }
 

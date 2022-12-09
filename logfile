@@ -5,3 +5,17 @@
 2022-12-08 17:51:07.163 EST [41701] LOG:  database system is ready to accept connections
 2022-12-08 17:51:10.685 EST [41751] ERROR:  schema "fizzy" does not exist
 2022-12-08 17:51:10.685 EST [41751] STATEMENT:  DROP SCHEMA fizzy CASCADE;
+2022-12-08 18:57:23.002 EST [41701] LOG:  received SIGHUP, reloading configuration files
+2022-12-08 18:57:23.014 EST [41701] LOG:  received smart shutdown request
+2022-12-08 18:57:23.031 EST [41701] LOG:  background worker "logical replication launcher" (PID 41708) exited with exit code 1
+2022-12-08 18:57:23.032 EST [41703] LOG:  shutting down
+2022-12-08 18:57:23.069 EST [41701] LOG:  database system is shut down
+2022-12-08 19:06:43.935 EST [7931] LOG:  starting PostgreSQL 14.5 (Ubuntu 14.5-0ubuntu0.22.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, 64-bit
+2022-12-08 19:06:43.936 EST [7931] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-12-08 19:06:43.940 EST [7931] FATAL:  could not create lock file "/var/run/postgresql/.s.PGSQL.5432.lock": Permission denied
+2022-12-08 19:06:43.942 EST [7931] LOG:  database system is shut down
+2022-12-08 19:06:49.270 EST [7991] LOG:  starting PostgreSQL 14.5 (Ubuntu 14.5-0ubuntu0.22.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, 64-bit
+2022-12-08 19:06:49.270 EST [7991] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-12-08 19:06:49.275 EST [7991] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2022-12-08 19:06:49.287 EST [7992] LOG:  database system was shut down at 2022-12-08 18:57:23 EST
+2022-12-08 19:06:49.329 EST [7991] LOG:  database system is ready to accept connections
