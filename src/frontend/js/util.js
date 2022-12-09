@@ -20,7 +20,7 @@ my_tables.forEach(project => {
 });
 
 /// Register event listener to add a project when submit button is hit
-document.getElementById("project_submit").addEventListener("click", () => {
+document.getElementById("project_submit").addEventListener("click", async () => {
     const project = {};
     const ts = new Date();
 
@@ -31,7 +31,8 @@ document.getElementById("project_submit").addEventListener("click", () => {
     project.output_dir = document.getElementById("out_dir").value;
     project.time_stamp = ts.toLocaleDateString();
 
-    init_project(project);
+    await init_project(project);
+    window.location.reload();
 });
 
 function loadHomepage() {
