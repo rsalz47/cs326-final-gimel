@@ -119,13 +119,8 @@ require(["vs/editor/editor.main"], async () => {
             if (oldModel === null) {
                 getHl()
                     ?.filter(hl => path === hl.path)
-                    .forEach(({path, data, start, end}) =>
-                        highlightRanges(
-                            monaco.editor.getModel(path),
-                            data,
-                            start,
-                            end
-                        )
+                    .forEach(({data, start, end}) =>
+                        highlightRanges(model, data, start, end)
                     );
             }
 
