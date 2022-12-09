@@ -111,7 +111,9 @@ async function function_parse_callback() {
         btn.innerHTML = "Go";
         btn.onclick = function () {
             const func = document.getElementById("func_name").value;
-            draw_function_cfg(func)
+            if (func.length !== 0) {
+                draw_function_cfg(func)
+            }
         };
         nav_div.appendChild(btn);
     });
