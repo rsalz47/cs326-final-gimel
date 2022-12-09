@@ -4,10 +4,6 @@ import {getFile, getFileList} from "../storage.js";
 
 const router = Router();
 
-const pick
-    = (...keys) => obj =>
-        keys.map(key => ({[key]: obj[key]})).reduce(Object.assign, {});
-
 router.use(checkToken);
 
 router.get("/list", async (req, res) => {

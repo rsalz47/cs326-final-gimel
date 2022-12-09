@@ -1,6 +1,5 @@
 import {Router} from "express";
 import checkToken from "../logic/checkToken.js";
-import kip from "../logic/kip.js";
 
 import {db_get_all_stats, db_get_cur_stats, db_insert_stats} from "../database.js";
 
@@ -45,19 +44,6 @@ router.get("/all", async (req, res) => {
     });
 });
 
-const sfuzz_schema = kip
-    .object({
-        total_cases: kip.number(),
-        crashes: kip.number(),
-        ucrashes: kip.number(),
-        coverage: kip.number(),
-        cmpcov: kip.number(),
-        exec_time: kip.number(),
-        instr_count: kip.number(),
-        timeouts: kip.number(),
-    })
-    .strict();
-
 const sfuzz_map = {
     total_cases: "cases_total",
     crashes: "crash_total",
@@ -77,14 +63,13 @@ router.post("/", (req, res) => {
     });
 
     db_insert_stats(fuzzerStatus);
-    console.log(fuzzerStatus);
 
     res.sendStatus(200);
 });
 
 router.post("/cov/", (req, res) => {
     const data = req.body;
-    data.forEach(e => hit_blocks.push(e));
+    hit_blocks.push(...data);
     res.sendStatus(200);
 });
 
