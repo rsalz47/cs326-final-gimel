@@ -35,7 +35,9 @@ router.get("/clear", (req, res) => {
     // Clear credential
     req.logout(err => {
         if (err) {
-            res.status(500).send("Cannot log out user");
+            return res.status(500).send({
+                msg: "Cannot log out user",
+            });
         }
 
         res.send({
@@ -46,11 +48,17 @@ router.get("/clear", (req, res) => {
 
 router.get("/logout", (req, res) => {
     if (req.accepts("html")) {
-        return res.status(301).send(`
-            <body onload='setTimeout(() => {window.location = "/"}, 500)'>
-                <b>Log Out Successful</b>
-            </body>
-        `);
+        return req.logout(err => {
+            if (err) {
+                return res.status(500).send("Cannot log out user");
+            }
+
+            res.status(301).send(`
+                <body onload='setTimeout(() => {window.location = "/"}, 500)'>
+                    <b>Log Out Successful</b>
+                </body>
+            `);
+        });
     }
 
     return res.redirect("./clear");
