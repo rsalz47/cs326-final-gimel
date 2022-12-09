@@ -2,21 +2,13 @@
 
 import {getStats, getAllStats} from "./client.js";
 
-// Various variables
-// First checkbox on LHS of graph page, used to show/hide graph1
-// Second checkbox on LHS of graph page, used to un/set logarithmic scale
+// Different graphs to be displayed
 const cases_time = document.getElementById("cases_time");
 const cases_time_log = document.getElementById("cases_time_log");
-
-// Left pane of webpage
-// eslint-disable-next-line no-unused-vars
-const leftPane = document.getElementById("view1");
-
-// Logarithmic scale for graph drawing
-const logarithmicScale = {myScale: {
-    type: "logarithmic",
-    position: "right"
-}};
+const coverage_time = document.getElementById("coverage_time");
+const coverage_time_log = document.getElementById("coverage_time_log");
+const crashu_time = document.getElementById("crashu_time");
+const crashu_time_log = document.getElementById("crashu_time_log");
 
 // Default scale for graph drawig
 const defaultScale = {
@@ -90,13 +82,16 @@ async function setup_x_axis(value_to_read, log_scale, divident) {
         const x_axis = await setup_x_axis("run_time", false, 1000);
         const res = await getAllStats();
         const all_data = res.data;
-        const y_axis = all_data.map(e => 
-            ({ [e["run_time"]]: (e["cases_total"] / (e["run_time"] / 1000))}));
+        const y_axis = Object.fromEntries(
+            all_data.map(e => [e["run_time"]/1000, (e["cases_total"] / (e["run_time"]/1000))]));
+
         let y_axis_final = [];
         for (let i = 0; i < x_axis.length; i++) {
-            y_axis_final.push(y_axis[x_axis[i]]);
+            let x = x_axis[i];
+            while (y_axis[x] == undefined){ x--; };
+            y_axis_final.push(y_axis[x]);
         }
-        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+
         drawGraph(x_axis, y_axis_final, "fcps", "run_time");
     });
 
@@ -104,13 +99,16 @@ async function setup_x_axis(value_to_read, log_scale, divident) {
         const x_axis = await setup_x_axis("run_time", true, 1000);
         const res = await getAllStats();
         const all_data = res.data;
-        const y_axis = all_data.map(e => 
-            ({ [e["run_time"]]: (e["cases_total"] / (e["run_time"] / 1000))}));
+        const y_axis = Object.fromEntries(
+            all_data.map(e => [e["run_time"]/1000, (e["cases_total"] / (e["run_time"]/1000))]));
+
         let y_axis_final = [];
         for (let i = 0; i < x_axis.length; i++) {
-            y_axis_final.push(y_axis[x_axis[i]]);
+            let x = x_axis[i];
+            while (y_axis[x] == undefined){ x--; };
+            y_axis_final.push(y_axis[x]);
         }
-        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+
         drawGraph(x_axis, y_axis_final, "fcps", "run_time");
     });
 }
@@ -121,12 +119,16 @@ async function setup_x_axis(value_to_read, log_scale, divident) {
         const x_axis = await setup_x_axis("run_time", false, 1000);
         const res = await getAllStats();
         const all_data = res.data;
-        const y_axis = all_data.map(e => ({ [e["run_time"]]: (e["coverage"] )}));
+        const y_axis = 
+            Object.fromEntries(all_data.map(e => [e["run_time"]/1000, e["coverage"]]));
+
         let y_axis_final = [];
         for (let i = 0; i < x_axis.length; i++) {
-            y_axis_final.push(y_axis[x_axis[i]]);
+            let x = x_axis[i];
+            while (y_axis[x] == undefined){ x--; };
+            y_axis_final.push(y_axis[x]);
         }
-        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+
         drawGraph(x_axis, y_axis_final, "coverage", "run_time");
     });
 
@@ -134,12 +136,16 @@ async function setup_x_axis(value_to_read, log_scale, divident) {
         const x_axis = await setup_x_axis("run_time", true, 1000);
         const res = await getAllStats();
         const all_data = res.data;
-        const y_axis = all_data.map(e => ({ [e["run_time"]]: (e["coverage"] )}));
+        const y_axis = 
+            Object.fromEntries(all_data.map(e => [e["run_time"]/1000, e["coverage"]]));
+
         let y_axis_final = [];
         for (let i = 0; i < x_axis.length; i++) {
-            y_axis_final.push(y_axis[x_axis[i]]);
+            let x = x_axis[i];
+            while (y_axis[x] == undefined){ x--; };
+            y_axis_final.push(y_axis[x]);
         }
-        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
+
         drawGraph(x_axis, y_axis_final, "coverage", "run_time");
     });
 }
@@ -150,12 +156,15 @@ async function setup_x_axis(value_to_read, log_scale, divident) {
         const x_axis = await setup_x_axis("run_time", false, 1000);
         const res = await getAllStats();
         const all_data = res.data;
-        const y_axis = all_data.map(e => ({ [e["run_time"]]: (e["crash_unique"] )}));
+        const y_axis = 
+            Object.fromEntries(all_data.map(e => [e["run_time"]/1000, e["crash_unique"]]));
+
         let y_axis_final = [];
         for (let i = 0; i < x_axis.length; i++) {
-            y_axis_final.push(y_axis[x_axis[i]]);
+            let x = x_axis[i];
+            while (y_axis[x] == undefined){ x--; };
+            y_axis_final.push(y_axis[x]);
         }
-        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
         drawGraph(x_axis, y_axis_final, "unique crashes", "run_time");
     });
 
@@ -163,12 +172,15 @@ async function setup_x_axis(value_to_read, log_scale, divident) {
         const x_axis = await setup_x_axis("run_time", true, 1000);
         const res = await getAllStats();
         const all_data = res.data;
-        const y_axis = all_data.map(e => ({ [e["run_time"]]: (e["crash_unique"] )}));
+        const y_axis = 
+            Object.fromEntries(all_data.map(e => [e["run_time"]/1000, e["crash_unique"]]));
+
         let y_axis_final = [];
         for (let i = 0; i < x_axis.length; i++) {
-            y_axis_final.push(y_axis[x_axis[i]]);
+            let x = x_axis[i];
+            while (y_axis[x] == undefined) { x--; };
+            y_axis_final.push(y_axis[x]);
         }
-        y_axis_final = y_axis_final.map(e => e != undefined ? Object.values(e)[0] : 0 ).reverse();
         drawGraph(x_axis, y_axis_final, "unique crashes", "run_time");
     });
 }
