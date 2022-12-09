@@ -108,8 +108,3 @@ populateUser();
 populateStat();
 
 setInterval(populateStat, 1000);
-// Automatically set token
-// TODO: Remove this when login is public
-if (localStorage.getItem("token") === null) {
-    localStorage.setItem("token", "SAMPLE_TOKEN");
-}

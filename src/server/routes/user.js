@@ -15,15 +15,28 @@ const router = Router();
 router.post("/register", async (req, res) => {
     const {username, password, name} = req.body;
     const validate = username !== "" && password !== "" && name !== "";
-    if (validate && (await userAdd(username, {password, role: "U", name}))) {
-        res.send({
-            msg: "New user registered",
-        });
-    } else {
-        res.status(400).send({
-            msg: "Failed to register",
-        });
+    if (validate) {
+        try {
+            const id = await userAdd(username, {password, role: "U", name});
+            if (id) {
+                res.send({
+                    msg: "New user registered",
+                });
+            } else {
+                res.status(409).send({msg: "User handle existed"});
+            }
+        } catch {
+            res.status(500).send({
+                msg: "Your account cannot be registered at this time",
+            });
+        }
+
+        return;
     }
+
+    res.status(400).send({
+        msg: "Failed to register",
+    });
 });
 
 router.post("/verify", auth, (req, res) => res.send({
@@ -48,7 +61,8 @@ router.get("/clear", (req, res) => {
 
 router.get("/logout", (req, res) => {
     if (req.accepts("html")) {
-        return req.logout(err => {
+        res.set("Cache-Control", "no-store");
+        req.logout(err => {
             if (err) {
                 return res.status(500).send("Cannot log out user");
             }
@@ -59,9 +73,9 @@ router.get("/logout", (req, res) => {
                 </body>
             `);
         });
+    } else {
+        res.redirect("clear");
     }
-
-    return res.redirect("./clear");
 });
 
 router.use(checkToken);

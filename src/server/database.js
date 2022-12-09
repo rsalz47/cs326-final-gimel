@@ -140,13 +140,13 @@ export async function commentRead() {
     return result.rows.reverse();
 }
 
-export async function commentUpdate({idToUpdate, newText}) {
+export async function commentUpdate({idToUpdate, newText, user}) {
     const cli = await pool.connect();
     const result = await cli.query(`
         UPDATE fizzy.comments
-        SET comment=$1
-        WHERE id=$2;
-    `, [newText, idToUpdate]);
+        SET comment=$1, name=$2
+        WHERE id=$3;
+    `, [newText, user, idToUpdate]);
     cli.release();
     return result.rowCount === 1;
 }

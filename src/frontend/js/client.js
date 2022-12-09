@@ -1,34 +1,30 @@
+function getProperHeader() {
+    return {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    };
+}
 
-/* eslint-disable quote-props */
-import {insert_note} from "./notes.js";
-
-export async function addComment(text, user, timestamp) {
+export async function addComment(msg) {
     await fetch("/comments/create", {
         method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            msg: text,
-            user,
-            timestamp,
-        }),
+        headers: getProperHeader(),
+        body: JSON.stringify({msg}),
     });
 }
 
 export async function get_cfg_functions() {
-    const result = await fetch("/cfg/function_list");
+    const result = await fetch("/cfg/function_list", {
+        method: "GET",
+        headers: getProperHeader(),
+    });
     return result.json();
 }
 
 export async function get_cfg_for_func(func_name) {
     const result = await fetch("/cfg/cfg_for_func", {
         method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
+        headers: getProperHeader(),
         body: JSON.stringify({func_name}),
     });
 
@@ -36,53 +32,53 @@ export async function get_cfg_for_func(func_name) {
 }
 
 export async function get_hit_blocks() {
-    const result = await fetch("/stats/cov");
+    const result = await fetch("/stats/cov", {
+        method: "GET",
+        headers: getProperHeader(),
+    });
     return result.json();
 }
 
 export async function logout() {
-    await fetch("/users/logout");
+    await fetch("/users/clear", {
+        method: "GET",
+        headers: getProperHeader(),
+    });
 }
 
 /// Initialize a new project
 export async function init_project(project) {
     const resp = await fetch("/project/init", {
         method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
+        headers: getProperHeader(),
         body: JSON.stringify(project)
     });
+    return resp.ok;
 }
 
 export async function get_project_rows() {
-    const resp = await fetch("/project/data");
+    const resp = await fetch("/project/data", {
+        method: "GET",
+        headers: getProperHeader(),
+    });
     return resp.json();
 }
 
 export async function getAllComments() {
     const resp = await fetch("/comments/read", {
         method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: ""
+        headers: getProperHeader(),
     });
-    const messages = await resp.json();
-    messages.forEach(({name, comment, timestamp, id}) => {
-        insert_note(name, comment, timestamp, id);
-    });
+    return {
+        ok: resp.ok,
+        ...await resp.json(),
+    };
 }
 
 export async function verify_user(username, password) {
     const res = await fetch("/users/verify", {
         method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
+        headers: getProperHeader(),
         body: JSON.stringify({username, password})
     });
     return {
@@ -94,10 +90,7 @@ export async function verify_user(username, password) {
 export async function create_user(username, password) {
     const res = await fetch("/users/register", {
         method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
+        headers: getProperHeader(),
         body: JSON.stringify({username, password, name: "John Doe"})
     });
 
@@ -110,9 +103,7 @@ export async function create_user(username, password) {
 export async function getUsers() {
     const res = await fetch("/users", {
         method: "GET",
-        headers: {
-            Authorization: localStorage.getItem("token"),
-        }
+        headers: getProperHeader(),
     });
     return {
         ok: res.ok,
@@ -123,9 +114,7 @@ export async function getUsers() {
 export async function getStats() {
     const res = await fetch("/stats", {
         method: "GET",
-        headers: {
-            Authorization: localStorage.getItem("token"),
-        }
+        headers: getProperHeader(),
     });
     return {
         ok: res.ok,
@@ -136,9 +125,7 @@ export async function getStats() {
 export async function getAllStats() {
     const res = await fetch("/stats/all", {
         method: "GET",
-        headers: {
-            Authorization: localStorage.getItem("token"),
-        }
+        headers: getProperHeader(),
     });
     return {
         ok: res.ok,
@@ -149,9 +136,7 @@ export async function getAllStats() {
 export async function getFileList() {
     const res = await fetch("/sources/list", {
         method: "GET",
-        headers: {
-            Authorization: localStorage.getItem("token"),
-        }
+        headers: getProperHeader(),
     });
     return {
         ok: res.ok,
@@ -162,12 +147,13 @@ export async function getFileList() {
 export async function getFile(path) {
     const endpoint = "/sources/file";
     const params = {path};
-    const res = await fetch(endpoint + "?" + new URLSearchParams(params).toString(), {
-        method: "GET",
-        headers: {
-            Authorization: localStorage.getItem("token"),
-        },
-    });
+    const res = await fetch(
+        endpoint + "?" + new URLSearchParams(params).toString(),
+        {
+            method: "GET",
+            headers: getProperHeader(),
+        }
+    );
     return {
         ok: res.ok,
         ...await res.json()
@@ -176,11 +162,13 @@ export async function getFile(path) {
 
 /// Delete a user
 export async function delete_user(user) {
-    const resp = await fetch(`/users/handle/${user}`, {
+    const res = await fetch(`/users/handle/${user}`, {
         method: "DELETE",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
+        headers: getProperHeader(),
     });
+
+    return {
+        ok: res.ok,
+        ...await res.json()
+    };
 }

@@ -45,3 +45,7 @@ rules:
   no-unused-vars: warn
   camelcase: off
   new-cap: off
+  quote-props: off
+  no-constant-condition:
+    - error
+    - { checkLoops: false }

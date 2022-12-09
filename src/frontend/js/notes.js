@@ -1,5 +1,6 @@
 
 import {addComment} from "./client.js";
+import {reloadMessageWindow} from "./util.js";
 
 async function deleteEventListener(parentID) {
     const resp = await fetch("/comments/delete", {
@@ -33,7 +34,7 @@ export function insert_note(user, text, timestamp, id) {
     li.classList.add("note");
     li.setAttribute("id", "note" + id);
 
-    li.appendChild(document.createTextNode(timestamp));
+    li.appendChild(document.createTextNode((new Date(timestamp)).toLocaleString()));
     li.appendChild(document.createElement("br"));
     li.appendChild(document.createTextNode(text));
     li.appendChild(document.createElement("br"));
@@ -59,12 +60,11 @@ export function insert_note(user, text, timestamp, id) {
 
 /// Read the cur_note field and save the note to the database-notes listing before clearing the
 /// field
-export function send_note(id) {
+export function send_note() {
     const msg = document.getElementById("cur_note").value;
-    const ts = new Date();
-    const timestamp = ts.toLocaleDateString() + " : " + ts.toLocaleTimeString();
-    addComment(msg, "sample_user", timestamp, id);
+    addComment(msg);
     document.getElementById("cur_note").value = "";
+    reloadMessageWindow();
 }
 
 window.send_note = send_note;
