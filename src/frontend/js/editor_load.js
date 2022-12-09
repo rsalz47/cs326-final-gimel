@@ -137,6 +137,9 @@ require(["vs/editor/editor.main"], async () => {
 
                 submitBtn?.addEventListener("click", submit, {once: true});
                 /* global $ */
+                $(modal).on("hide.bs.modal", () => {
+                    submitBtn?.removeEventListener("click", submit);
+                });
                 $(modal).modal("toggle");
             }
         },
