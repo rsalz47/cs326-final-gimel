@@ -10,7 +10,14 @@ import user from "./routes/user.js";
 import stat from "./routes/stat.js";
 import source from "./routes/source.js";
 import fs from "node:fs";
-import {commentCreate, commentDelete, commentRead, commentUpdate, db_init_project, db_get_projects} from "./database.js";
+import {
+    commentCreate,
+    commentDelete,
+    commentRead,
+    commentUpdate,
+    db_init_project,
+    db_get_projects,
+} from "./database.js";
 import path from "node:path";
 import checkToken from "./logic/checkToken.js";
 
@@ -63,17 +70,31 @@ app.post("/cfg/cfg_for_func", (req, res) => {
 app.use("/comments", checkToken);
 
 app.post("/comments/create", async (req, res) => {
-    await commentCreate(req.body);
+    const user = req.user?.handle;
+    if (!user) {
+        res.status(401).send({msg: "Not logged in"});
+    }
 
-    res.json({ret: "comment successfully created :)"});
+    await commentCreate({...req.body, user, timestamp: new Date().toJSON()});
+
+    res.json({msg: "comment successfully created :)"});
 });
 
 app.post("/comments/read", async (req, res) => {
-    res.send(await commentRead());
+    const data = await commentRead();
+    res.send({
+        msg: `Success! Returned ${data.length} row(s).`,
+        data,
+    });
 });
 
 app.post("/comments/update", async (req, res) => {
-    await commentUpdate(req.body);
+    const user = req.user?.handle;
+    if (!user) {
+        res.status(401).send({msg: "Not logged in"});
+    }
+
+    await commentUpdate({...req.body, user});
     res.send({ret: "comment updated"});
 });
 

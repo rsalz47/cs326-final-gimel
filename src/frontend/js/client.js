@@ -1,5 +1,3 @@
-import {insert_note} from "./notes.js";
-
 function getProperHeader() {
     return {
         "Accept": "application/json",
@@ -7,15 +5,11 @@ function getProperHeader() {
     };
 }
 
-export async function addComment(text, user, timestamp) {
+export async function addComment(msg) {
     await fetch("/comments/create", {
         method: "POST",
         headers: getProperHeader(),
-        body: JSON.stringify({
-            msg: text,
-            user,
-            timestamp,
-        }),
+        body: JSON.stringify({msg}),
     });
 }
 
@@ -39,7 +33,7 @@ export async function get_cfg_for_func(func_name) {
 
 export async function get_hit_blocks() {
     const result = await fetch("/stats/cov", {
-        method: "POST",
+        method: "GET",
         headers: getProperHeader(),
     });
     return result.json();
@@ -75,10 +69,10 @@ export async function getAllComments() {
         method: "POST",
         headers: getProperHeader(),
     });
-    const messages = await resp.json();
-    messages.forEach(({name, comment, timestamp, id}) => {
-        insert_note(name, comment, timestamp, id);
-    });
+    return {
+        ok: resp.ok,
+        ...await resp.json(),
+    };
 }
 
 export async function verify_user(username, password) {

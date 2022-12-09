@@ -1,8 +1,17 @@
-import {send_note} from "./notes.js";
+import {insert_note, send_note} from "./notes.js";
 import {get_project_rows, init_project, getAllComments} from "./client.js";
 
+export async function reloadMessageWindow() {
+    const {ok, data} = await getAllComments();
+    if (ok) {
+        data?.forEach(({name, comment, timestamp, id}) => {
+            insert_note(name, comment, timestamp, id);
+        });
+    }
+}
+
 document.getElementById("cur_note").addEventListener("keydown", event => {
-    if (event.keyCode === 13) {
+    if (event.code === "Enter") {
         send_note();
     }
 });
@@ -37,7 +46,7 @@ document.getElementById("project_submit").addEventListener("click", async () => 
 
 function loadHomepage() {
     document.getElementById("notes").innerHTML = "";
-    getAllComments();
+    reloadMessageWindow();
 }
 
 loadHomepage();
