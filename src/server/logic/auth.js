@@ -25,10 +25,10 @@ export default [
     passport.authenticate("local", {
         failWithError: true,
     }),
-    function (req, res, next) {
+    function authSuccess(_req, _res, next) {
         next();
     },
-    function (err, req, res, next) {
+    function authFailure(err, _req, res, _next) {
         console.error(err.stack);
         res.status(401).send({
             msg: "Invalid credential",

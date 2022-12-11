@@ -22,7 +22,6 @@ rules:
   no-unreachable: error
   no-constant-binary-expression: error
   no-unreachable-loop: error
-  no-use-before-define: error
   no-constructor-return: error
   no-await-in-loop: error
   array-callback-return: error
@@ -49,3 +48,9 @@ rules:
   no-constant-condition:
     - error
     - { checkLoops: false }
+  func-names:
+    - warn
+    - as-needed
+  no-use-before-define:
+    - error
+    - { functions: false }

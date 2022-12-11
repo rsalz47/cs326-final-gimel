@@ -175,7 +175,7 @@ export async function db_init_project(p) {
         p.output_dir,
         p.time_stamp,
     ];
-    const result = await client.query(query, values);
+    await client.query(query, values);
     client.release();
 }
 

@@ -3,7 +3,7 @@ import {addComment} from "./client.js";
 import {reloadMessageWindow} from "./util.js";
 
 async function deleteEventListener(parentID) {
-    const resp = await fetch("/comments/delete", {
+    await fetch("/comments/delete", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -15,7 +15,7 @@ async function deleteEventListener(parentID) {
 
 async function editEventListener(parentID) {
     const inp = document.getElementById("cur_note");
-    const resp = await fetch("/comments/update", {
+    await fetch("/comments/update", {
         method: "POST",
         headers: {
             Accept: "application/json",

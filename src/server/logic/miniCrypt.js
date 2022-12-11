@@ -3,12 +3,15 @@
   DISCLAIMER
   Implementing cryptographically sound behavior in software is both very important and very hard.
   As such, in practice you should take great caution and be extra certain of what you're doing.
-  Given this, it's best to rely on existing code that has been battle-tested and vetted by those knowledgeable.
+  Given this, it's best to rely on existing code that has been battle-tested and vetted by those
+  knowledgeable.
 
   Node.js provides a native cryptography module, by the name 'crypto'.
-  This is essentially a JS wrapper around OpenSSL, a widely used and longstanding library written primarily in C that provides a vast array of cryptographic functions.
+  This is essentially a JS wrapper around OpenSSL, a widely used and longstanding library written
+  primarily in C that provides a vast array of cryptographic functions.
 
-  If you'd like to learn more about the theory and maths behind cryptography, then take 466 next semester. Great professor.
+  If you'd like to learn more about the theory and maths behind cryptography, then take 466 next
+  semester. Great professor.
 */
 
 import * as c from "crypto";
@@ -21,7 +24,8 @@ import * as c from "crypto";
 class MiniCrypt {
     /**
     @constructor
-    @arg {number} its - The number of iterations to be performed; higher iterations means more security but slower speed.
+    @arg {number} its - The number of iterations to be performed; higher iterations means more
+    security but slower speed.
     @arg {number} keyL - The length of the result in bytes.
     @arg {number} saltL - The amount of salt in bytes.
     @arg {string} saltL - The digest (i.e. hash) algorithm to use.
@@ -38,12 +42,15 @@ class MiniCrypt {
     @public
     @memberof MiniCrypt
     @arg {string} pw - The plain-text user password to be hashed.
-    @returns {[string, string]} - An array containing (1) the salt used to hash the specified password, and (2) the hash itself.
+    @returns {[string, string]} - An array containing (1) the salt used to hash the specified
+    password, and (2) the hash itself.
     @desc Hash a user password.
    */
     hash(pw) {
         const salt = c.randomBytes(this.saltL).toString("hex"); // Get our new salt for this pw
-        const hash = c.pbkdf2Sync(pw, salt, this.its, this.keyL, this.digest).toString("hex"); // Hash the pw
+        const hash = c
+            .pbkdf2Sync(pw, salt, this.its, this.keyL, this.digest)
+            .toString("hex"); // Hash the pw
         return [salt, hash]; // Return the pair for safe storage
     }
 
@@ -57,7 +64,10 @@ class MiniCrypt {
     @desc Validate a user password.
    */
     check(pw, salt, hash) {
-        return c.timingSafeEqual(c.pbkdf2Sync(pw, salt, this.its, this.keyL, this.digest), Buffer.from(hash, "hex"));
+        return c.timingSafeEqual(
+            c.pbkdf2Sync(pw, salt, this.its, this.keyL, this.digest),
+            Buffer.from(hash, "hex")
+        );
     }
 }
 
