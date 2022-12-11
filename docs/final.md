@@ -51,12 +51,11 @@ the buttons on the left view describe what the given graph will represent. A log
 also available for each graph.
 ![line-graphs](../imgs/line-graph-1.png)
 
-- This screenshot showcases the 'Manage Users' tab. As the name describes it just allows for some
-simple user management.
-![config2](../imgs/config2.png)
+- This screenshot showcases the 'Manage Users' tab. As the name describes it allows for some
+simple user management. The "Remove User"" functionality is only available to admin users.
+![config2](../imgs/config.png)
 
-- This is the login window. It is currently not routed to yet, but it can be accessed at
-'/login.html' and is the view that a user will use to log into the application.
+- This is the login window. It is the view that a user will use to register an account and log into the application.
 ![login](../imgs/login.png)
 
 - The source code and assembly tabs share the same structure and view.
@@ -68,7 +67,7 @@ marking comments submitted by users collaborating on the project.
 ![source_code](../imgs/source_code.png)
 
 
-#### API-Documentation
+#### API Documentation
 Usage examples for these API's are in `src/frontend/js/client.js`
 
 ##### server/server.js
@@ -338,20 +337,18 @@ session redirects to login.html
 
 #### Division of Labor
 Throughout our entire project, we had a very consistent workflow. For every milestone, we met
-together for two-ish nights and had 6-10 hour sprints to complete the relevant work. During
-this time,
-we were all located in the same room, sitting at the same desk, working on the same repo (on
-different branches, of course). We sincerely do not believe it possible to have our work distributed
-more evenly amongst the three of us, as every aspect of our process was grounded in collaboration
-and was peer programmed.
+together for one or two nights and had 6-10 hour sprints to complete the relevant work. During
+this time, we were all located in the same room, sitting at the same table, working on the same repo (on
+different branches, of course). While there was the odd commit here and there that one team member did individually,
+we all consider this project to be done by all three of us in exactly equal parts.
 
 #### Conclusion
 The most tangible conclusion our group can take away from this project is that none of us are
 particularly inclined to front end work. We found the most difficulty present at the first milestone
 of the project: HTML/CSS formatting, learning how to incorporate Bootstrap library elements into our
-code, abiding by the "Seperation of Concerns," and so on. We found ourselves wishing the more
+code, abiding by the "Seperation of Concerns," and so on. We found ourselves wishing these more
 advanced elements of front end, such as more sophisticated CSS features and external library calls,
-that is, how to interact with bootstrap and such.
+had come up more in the course through lab exercises.
 
 This is not to say that the experience wasn't valuable, far from it: as we progressed further 
 "backward" in our web app, into the realm of
