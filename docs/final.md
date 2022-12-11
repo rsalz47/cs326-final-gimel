@@ -21,15 +21,12 @@ are configured with that in mind.
 This tool is innovative because such specialized data visualization tools are rare and aren't
 commonly used for the most part.
 
-To that end we provide the following functionalities:
-
-
 #### Team Members
 - Gilbert Hoermann - seal9055
 - Dung Nguyen - dungwinux
 - Ronan Salz - rsalz47
 
-#### User Interaface
+#### User Interface
 - This is the initial Dashboard displayed when the site is first opened by a logged in user. It
 displays a window with notes shared between team members (these can be edited here too), a table
 describing the users currently on this project, and 2 tables displaying various high level
@@ -358,10 +355,8 @@ assigned for these milestones. We did encounter some last minute difficulties pe
 Heroku's free tier cancellation, though we acknowledge that this was something far beyond the
 control of course staff.
 
-In sum, our group found this entire experience gratifying. Through all the trials and
-tribulations we laughed, we cried, and altogether grew closer as a team. We learned patience, we
-learned anger management, and we learned to fix more merge conflicts than we thought possible. 
-We found the end product to be immensely satisfying, and were ecstatic to see a working front end 
-visualize sophisticated data relevant to our own individual passions: reverse engineering and 
-vulnerability research.
+Despite the hardships listed above, we found the end product to be immensely satisfying. 
+We were ecstatic to see a working front end visualize sophisticated data relevant to our own 
+individual passions, being vulnerability research, and thought this project provided a unique
+outlet to pursue these interests.
 
