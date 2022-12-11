@@ -1,16 +1,16 @@
 import {getFile, getFileList} from "./client.js";
 
 const hlStorageKey = "highlights";
-const hlStorage = [];
+let hlStorage = [];
 /**
  * @returns {[]?}
  */
 function getHl() {
     const raw = localStorage.getItem(hlStorageKey);
     try {
-        return JSON.parse(raw);
+        return hlStorage = JSON.parse(raw);
     } catch {
-        return [];
+        return hlStorage = [];
     }
 }
 
