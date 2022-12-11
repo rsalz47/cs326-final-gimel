@@ -183,7 +183,7 @@ app.use(
             return next();
         }
 
-        return res.sendFile("404.html", {
+        return res.sendFile("special/404.html", {
             root: path.join(path.resolve(), "src/frontend"),
         });
     },
