@@ -173,9 +173,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/src/frontend", forceLogin, express.static("src/frontend"));
-app.use("/shutdown", forceLogin, () => {
-    process.exit();
-});
 app.use(
     "/",
     (req, res, next) => {
