@@ -18,21 +18,20 @@ function add_func(name) {
 function setup_screen(view) {
     clear_div(view);
     const func_div = document.getElementById("func_selection");
-    if (func_div != null) {
+    if (func_div !== null) {
         func_div.remove();
     }
 
     // Initial setup to create div that holds to arrow-buttons to navigate back and forth through
     // the graphs
     const nav_div = document.createElement("div");
-    nav_div.id = "nav_div"; 
+    nav_div.id = "nav_div";
     const btn1 = document.createElement("button");
     btn1.innerHTML = "<";
-    btn1.onclick = function () {
+    btn1.onclick = function onclick() {
         if (function_buffer.length >= 2) {
             function_buffer.pop();
-            draw_function_cfg(function_buffer[function_buffer.length-1]);
-
+            draw_function_cfg(function_buffer[function_buffer.length - 1]);
         }
     };
 
@@ -55,13 +54,12 @@ function setup_screen(view) {
 /// the 'go' button to open up the cfg of the function.
 async function function_parse_callback() {
     const available_funcs = await get_cfg_functions();
-    const view = document.getElementById("view2");
 
     const nodes = d3.selectAll(".node,.edge");
-    nodes.on("click", function () {
+    nodes.on("click", function node_handleClick() {
         const textOnly = [...this.children].map(x => x.textContent).reduce((a, b) => a + "\n" + b);
         let functions = textOnly.matchAll(/j(al)?\s+(\w+)/g);
-        functions = [...functions].map(f => f[f.length-1]);
+        functions = [...functions].map(f => f[f.length - 1]);
 
         const found_funcs = [];
         if (functions === null) {
@@ -70,7 +68,7 @@ async function function_parse_callback() {
 
         // Remove possible previous instances of this div created by this callback
         const func_div = document.getElementById("func_selection");
-        if (func_div != null) {
+        if (func_div !== null) {
             func_div.remove();
         }
 
@@ -86,7 +84,7 @@ async function function_parse_callback() {
         try {
             document.getElementById("go_button").outerHTML = "";
             document.getElementById("func_name").outerHTML = "";
-        } catch {};
+        } catch {}
 
         // Create a dropdown button to select one of the functions listed in the pressed node
         const select = document.createElement("select");
@@ -102,6 +100,7 @@ async function function_parse_callback() {
             option.text = found_funcs[i];
             select.appendChild(option);
         }
+
         nav_div.appendChild(select);
 
         // Create a button that will let the user select a function from the drop-down and open
@@ -109,12 +108,13 @@ async function function_parse_callback() {
         const btn = document.createElement("button");
         btn.id = "go_button";
         btn.innerHTML = "Go";
-        btn.onclick = function () {
+        btn.onclick = function onclick() {
             const func = document.getElementById("func_name").value;
             if (func.length !== 0) {
-                draw_function_cfg(func)
+                draw_function_cfg(func);
             }
         };
+
         nav_div.appendChild(btn);
     });
 }
@@ -139,7 +139,7 @@ digraph {
 
         const block_text = function_cfg.blocks[i].instrs.join("\n");
 
-        dotSrc += `    n${i} [id="n${i}" label="${block_text}" fillcolor="${color}", shape="box"]\n`;
+        dotSrc += ` n${i} [id="n${i}" label="${block_text}" fillcolor="${color}", shape="box"]\n`;
     }
 
     dotSrc += "\n";
@@ -151,6 +151,7 @@ digraph {
 
     dotSrc += "}";
 
+    /* global d3 */
     const graphviz = d3.select("#graph").graphviz();
     graphviz.renderDot(dotSrc).on("end", function_parse_callback);
 }
@@ -162,7 +163,7 @@ for (let i = 0; i < functions.length; i++) {
     const btn = document.createElement("button");
     btn.innerHTML = functions[i];
     btn.classList.add("option");
-    btn.onclick = function () {
+    btn.onclick = function onclick() {
         draw_function_cfg(functions[i]);
     };
 

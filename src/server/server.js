@@ -26,7 +26,7 @@ app.use(express.json());
 
 const sessionLimit = 86400000;
 app.use(session({
-    secret: "hahahaha",
+    secret: process.env.COOKIESECRET ?? "hahahaha",
     resave: false,
     saveUninitialized: false,
     cookie: {maxAge: sessionLimit},
@@ -172,12 +172,24 @@ app.use((req, res, next) => {
     return next();
 });
 
-app.use(forceLogin);
-app.use("/src/frontend", express.static("src/frontend"));
-app.use("/", (req, res) => {
-    res.sendFile("index.html", {
-        root: path.resolve(),
-    });
-});
+app.use("/src/frontend", forceLogin, express.static("src/frontend"));
+app.use(
+    "/",
+    (req, res, next) => {
+        if (req.path === "/") {
+            return next();
+        }
+
+        return res.sendFile("special/404.html", {
+            root: path.join(path.resolve(), "src/frontend"),
+        });
+    },
+    forceLogin,
+    (req, res) => {
+        res.sendFile("index.html", {
+            root: path.resolve(),
+        });
+    }
+);
 
 app.listen(process.env.PORT || 3001);
