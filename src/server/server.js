@@ -176,7 +176,7 @@ app.use("/src/frontend", forceLogin, express.static("src/frontend"));
 app.use(
     "/",
     (req, res, next) => {
-        if (req.path === "/") {
+        if (req.path === "/" || req.path === "/index.html") {
             return next();
         }
 
