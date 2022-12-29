@@ -18,4 +18,4 @@ INSERT INTO fizzy.stats
 VALUES (0, 0, 0, 0, 0, 0, 0, 0);
 
 INSERT INTO fizzy.comments (name, comment, timestamp)
-VALUES ('sample_user', 'I would love a hug', '2022-12-09T16:47:20.849Z');
+VALUES ('sample_user', 'Sample message', '2022-12-09T16:47:20.849Z');

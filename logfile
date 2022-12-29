@@ -1,0 +1,21 @@
+2022-12-29 11:49:04.143 EST [6408] LOG:  starting PostgreSQL 14.5 (Ubuntu 14.5-0ubuntu0.22.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, 64-bit
+2022-12-29 11:49:04.144 EST [6408] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2022-12-29 11:49:04.144 EST [6408] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2022-12-29 11:49:04.144 EST [6408] WARNING:  could not create listen socket for "localhost"
+2022-12-29 11:49:04.144 EST [6408] FATAL:  could not create any TCP/IP sockets
+2022-12-29 11:49:04.146 EST [6408] LOG:  database system is shut down
+2022-12-29 11:49:52.402 EST [6489] LOG:  starting PostgreSQL 14.5 (Ubuntu 14.5-0ubuntu0.22.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, 64-bit
+2022-12-29 11:49:52.402 EST [6489] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-12-29 11:49:52.408 EST [6489] FATAL:  could not create lock file "/var/run/postgresql/.s.PGSQL.5432.lock": Permission denied
+2022-12-29 11:49:52.415 EST [6489] LOG:  database system is shut down
+2022-12-29 11:50:00.675 EST [6566] LOG:  starting PostgreSQL 14.5 (Ubuntu 14.5-0ubuntu0.22.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, 64-bit
+2022-12-29 11:50:00.675 EST [6566] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-12-29 11:50:00.679 EST [6566] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2022-12-29 11:50:00.689 EST [6567] LOG:  database system was shut down at 2022-12-29 11:45:51 EST
+2022-12-29 11:50:00.697 EST [6566] LOG:  database system is ready to accept connections
+2022-12-29 11:50:18.696 EST [6592] ERROR:  schema "fizzy" does not exist
+2022-12-29 11:50:18.696 EST [6592] STATEMENT:  DROP SCHEMA fizzy CASCADE;
+2022-12-29 11:53:08.580 EST [6830] FATAL:  database "seal" does not exist
+2022-12-29 11:53:09.718 EST [6831] FATAL:  database "seal" does not exist
+2022-12-29 11:53:15.931 EST [6832] FATAL:  database "seal" does not exist
+2022-12-29 11:53:17.100 EST [6833] FATAL:  database "seal" does not exist
