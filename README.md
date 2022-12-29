@@ -3,7 +3,7 @@ Start Date: Oct, 2022
 
 This is a webapp focused on data visualization for binary analysis tools such as fuzzers or tracing
 tools. It exposes a simple api to record data from a given tool, and displays it in various forms
-that may be useful for manual analysis.
+that may be useful for manual analysis. View demo video below for demonstration of capabilities.
 
 #### Features
 - Controlflow graph colored based on fuzzer coverage information
