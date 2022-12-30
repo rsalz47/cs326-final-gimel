@@ -27,6 +27,9 @@ cd fizzy
 echo "DATABASE_URL=postgresql://localhost:5432/postgres" > .env
 npm i
 npm start
+
+# Extra: Create admin account
+npm run initadmin
 ```
 
 > Client Setup (Fuzzer & Target)
